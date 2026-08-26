@@ -18,7 +18,7 @@ pandaData 提供基于 NATS 的 A股 数据通道：行情、资金流、DDX、A
 ```python
 from panda_stock import PandaStock
 
-ps = PandaStock(phone="your_phone", nid="your_nid")
+ps = PandaStock(phone="pandastock", nid="pandastock")
 ps.connect_server()
 ```
 
@@ -48,5 +48,5 @@ ps.connect_server()
 
 ## 注意
 
-- 公共 phone/nid 限频、限接口；正式/高频请申请专属 phone/nid。
+- 公共测试账号：`phone="pandastock"` / `nid="pandastock"`，按 IP 限频、限接口；正式/高频请申请专属 phone/nid。
 - 计费、配额、接口开放范围由 pandaData 服务端（NATS 网关）统一管控。

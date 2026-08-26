@@ -22,8 +22,8 @@ pip install nats-py==2.14.0
 ```python
 from panda_stock import PandaStock
 
-# 用你申请到的 phone / nid 初始化（见下方"免费试用"）
-ps = PandaStock(phone="your_phone", nid="your_nid")
+# 公共测试账号（见下方"免费试用"），可直接试玩
+ps = PandaStock(phone="pandastock", nid="pandastock")
 ps.connect_server()
 
 # 获取股票列表
@@ -54,13 +54,19 @@ print(ps.get_ch_concept_real())
 print(ps.get_ch_industry_real())
 ```
 
-## 🎁 免费试用（申请方式待定）
+## 🎁 免费试用（公共测试账号）
 
-> 公共测试账号的**每日额度 / 调用频率 / 开放接口范围**由服务端统一配置。
-> 申请入口：[待补充——申请链接或加微信/邮件]
+> 开放一个**公共测试账号**，无需申请即可直接试玩：
 
-- 公共 phone/nid 仅供试玩，限频、限接口
-- 正式 / 高频 / 实时数据，请申请**专属 phone/nid**
+| 字段 | 值 |
+|---|---|
+| phone | `pandastock` |
+| nid | `pandastock` |
+
+> 公共账号**按来源 IP 限频、限接口、含全局日上限**，仅供评估试玩。
+> 正式 / 高频 / 全量接口，请申请**专属 phone/nid**：[待补充——申请链接或加微信/邮件]
+
+- 初始化示例：`PandaStock(phone="pandastock", nid="pandastock")`（与专属账号同一套服务端鉴权，仅配额不同）
 
 ## 🔑 当前开放的 22 个接口
 
@@ -97,13 +103,26 @@ print(ps.get_ch_industry_real())
 
 ## 🧩 MCP 接入（本地 stdio）
 
+安装
+```bash
+pip install pandastock-mcp
+```
+
+更新
+```bash
+pip install --upgrade pandastock-mcp
+```
+
+Agent 配置
 ```json
 {
   "mcpServers": {
-    "pandaData": {
-      "command": "python",
-      "args": ["mcp/server.py"],
-      "env": { "PANDA_PHONE": "your_phone", "PANDA_NID": "your_nid" }
+    "panda-stock": {
+      "command": "pandastock-mcp",
+      "env": {
+        "PANDA_PHONE": "pandastock",
+        "PANDA_NID": "pandastock"
+      }
     }
   }
 }

@@ -4,9 +4,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from panda_stock import PandaStock
 
-# 替换为你申请到的 phone / nid（见 README"免费试用"）
-PHONE = "your_phone"
-NID = "your_nid"
+# 公共测试账号（见 README"免费试用"），可直接试玩
+PHONE = "pandastock"
+NID = "pandastock"
 
 ps = PandaStock(phone=PHONE, nid=NID)
 ps.connect_server()

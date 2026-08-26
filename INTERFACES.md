@@ -1,6 +1,6 @@
 # pandaData 接口清单（全部 176 个）
 
-> **图例**：✅ 可测试 = 已对公开 key 开放（免费试用可用，按来源 IP 限频）；— 暂未开放 = 需专属 key / 付费后使用。
+> **图例**：✅ 可测试 = 已对公开 key 开放（免费试用可用，按来源 IP 限频）；— 暂未开放 = 需专属 key / 付费后使用。公共测试账号：`phone="pandastock"` / `nid="pandastock"`。
 
 > 接口定义来源 `apis.json`（服务端 176 个接口）。其中 `get_ch_stock_ddx_data()` 已在 SDK 实现并开放，但未收录于 `apis.json`，于文末单独列出。
 
