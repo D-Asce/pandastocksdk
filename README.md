@@ -64,7 +64,7 @@ print(ps.get_ch_industry_real())
 | nid | `pandastock` |
 
 > 公共账号**按来源 IP 限频、限接口、含全局日上限**，仅供评估试玩。
-> 正式 / 高频 / 全量接口，请申请**专属 phone/nid**：[待补充——申请链接或加微信/邮件]
+> 正式 / 高频 / 全量接口，请申请**专属 phone/nid**：加微信 onestock188 或 pandastock888
 
 - 初始化示例：`PandaStock(phone="pandastock", nid="pandastock")`（与专属账号同一套服务端鉴权，仅配额不同）
 
