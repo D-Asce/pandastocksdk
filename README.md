@@ -70,7 +70,7 @@ print(ps.get_ch_industry_real())
 
 - 初始化示例：`PandaStock(phone="pandastock", nid="pandastock")`（与专属账号同一套服务端鉴权，仅配额不同）
 
-## 🔑 当前开放的 22 个接口
+## 🔑 免费开放的 22 个接口（服务端共 176 个，完整清单 + 返回字段见 INTERFACES.md）
 
 接口按成本/价值分档，客户端不含限制逻辑，鉴权/配额/频率/分级全部在服务端（NATS 网关）执行。
 
