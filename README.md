@@ -101,7 +101,7 @@ print(ps.get_ch_industry_real())
 | chAllMarketBearCompare | `get_ch_all_market_bear_compare()` | 全市场多空对比 |
 | chDdxStockData | `get_ch_stock_ddx_data(code)` | 个股 DDX |
 
-> 服务端共 **176 个接口**，完整清单（含每个接口「是否可测试」标注）见 [`INTERFACES.md`](INTERFACES.md)。上表 22 个为已对公开 key 开放的请求接口。
+> 服务端共 **176 个接口**，完整清单（含「是否可测试」+ **每个接口返回的字段明细**）见 [`INTERFACES.md`](INTERFACES.md)（「接口返回字段详情」一节）。上表 22 个为已对公开 key 开放的请求接口。
 
 ## 🧩 MCP 接入（本地 stdio）
 
