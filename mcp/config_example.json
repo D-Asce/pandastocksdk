@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "pandaData": {
+      "command": "python",
+      "args": ["mcp/server.py"],
+      "env": {
+        "PANDA_PHONE": "YOUR_PHONE",
+        "PANDA_NID": "YOUR_NID"
+      }
+    }
+  }
+}
