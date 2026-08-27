@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from panda_stock import PandaStock
 
-# 公共测试账号（见 README"免费试用"），可直接试玩
+# 公共测试账号（见 README"测试账号"），可直接试玩
 PHONE = "pandastock"
 NID = "pandastock"
 
