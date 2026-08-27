@@ -22,5 +22,5 @@ jobs:
       - name: Mirror to GitCode
         continue-on-error: true
         run: |
-          git remote add gitcode https://${{ secrets.GITCODE_TOKEN }}@gitcode.net/<你的GITCODE用户名>/pandastocksdk.git
+          git remote add gitcode https://oauth2:${{ secrets.GITCODE_TOKEN }}@gitcode.com/ascegu/pandastocksdk.git
           git push --mirror gitcode
