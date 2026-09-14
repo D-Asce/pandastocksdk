@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pandastocksdk"
+version = "1.5.4"
+description = "A-share (Chinese stock market) realtime market data SDK + stdio MCP Server over NATS request/response"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "D-Asce" }]
+keywords = ["a-share", "stock", "mcp", "nats", "market-data", "china-stock", "finance"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Typing :: Typed",
+]
+dependencies = [
+    "mcp>=2.0",
+    "nats-py==2.14.0",
+]
+
+[project.scripts]
+pandastock-mcp = "pandastock_mcp_launcher:main"
+
+[tool.setuptools]
+py-modules = ["panda_stock", "pandastock_mcp_launcher"]
+
+[tool.setuptools.data-files]
+"share/pandastock-mcp" = ["mcp/server.py", "mcp/config_example.json"]
