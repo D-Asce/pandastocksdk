@@ -3,7 +3,7 @@
   "name": "io.github.D-Asce/pandastocksdk",
   "title": "pandaData A-share Market Data MCP Server",
   "description": "Realtime A-share market data via NATS: quotes, K-line, sectors, news, capital flow, DDX.",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "repository": {
     "url": "https://github.com/D-Asce/pandastocksdk",
     "source": "github"
@@ -12,7 +12,7 @@
     {
       "registryType": "pypi",
       "identifier": "pandastock-mcp",
-      "version": "1.5.4",
+      "version": "1.5.5",
       "transport": {
         "type": "stdio"
       },

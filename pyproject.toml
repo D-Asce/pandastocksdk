@@ -3,8 +3,8 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pandastocksdk"
-version = "1.5.4"
+name = "pandastock-mcp"
+version = "1.5.5"
 description = "A-share (Chinese stock market) realtime market data SDK + stdio MCP Server over NATS request/response"
 readme = "README.md"
 requires-python = ">=3.10"
