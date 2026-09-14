@@ -1,0 +1,31 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.D-Asce/pandastocksdk",
+  "title": "pandaData A-share Market Data MCP Server",
+  "description": "Realtime A-share (Chinese stock market) data via NATS request/response: stock quotes, market indices, concept/industry sectors, K-line history (daily/minute), financial news, limit-up/down statistics, Dragon-Tiger list, capital flow, bull/bear comparison and DDX data. 22 request/response interfaces open to the public test account; 176 total interfaces documented.",
+  "version": "1.5.4",
+  "repository": {
+    "url": "https://github.com/D-Asce/pandastocksdk",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "pandastock-mcp",
+      "version": "1.5.4",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "PANDA_PHONE",
+          "description": "pandaData account phone. Public test account: pandastock"
+        },
+        {
+          "name": "PANDA_NID",
+          "description": "pandaData account nid. Public test account: pandastock"
+        }
+      ]
+    }
+  ]
+}

@@ -316,6 +316,35 @@ Agent 配置
 
 详见 `mcp/config_example.json`。
 
+## Tools
+
+本地 MCP Server（`mcp/server.py`）暴露 22 个请求/响应工具，与公开测试账号的 22 个开放接口一一对应。The stdio MCP server exposes 22 request/response tools:
+
+| Tool | Description |
+|---|---|
+| `ChStockCurReal` | A股实时行情快照 / Realtime snapshot of ALL A-share stocks |
+| `ChMarketCurReal` | 指数实时快照 / Realtime snapshot of market indices |
+| `ChConceptCurReal` | 概念板块实时快照 / Realtime snapshot of concept sectors |
+| `ChIndustryCurReal` | 行业板块实时快照 / Realtime snapshot of industry sectors |
+| `chStockList` | 股票列表 / List of all A-share stocks |
+| `chConceptList` | 概念板块列表 / List of concept sectors |
+| `chIndustryList` | 行业板块列表 / List of industry sectors |
+| `ChOneStockReal` | 单只股票实时行情 / Realtime quote for ONE stock (e.g. "600519") |
+| `chStockFrontDayHistory` | 个股前复权日线 / Forward-adjusted daily K-line for one stock |
+| `chConceptDayHistory` | 概念板块日线 / Concept sector daily K-line |
+| `chIndustryDayHistory` | 行业板块日线 / Industry sector daily K-line |
+| `chStockMinuteHistory` | 个股分钟历史 / Minute-level K-line (1/5/15/30/60) |
+| `ChMarketDayHistory` | 指数日线 / Index daily K-line |
+| `ChCoreNews` | 核心资讯 / Core market news |
+| `ChDomesticNews` | 国内财经要闻 / Domestic financial news |
+| `ChGlobalNews` | 全球财经要闻 / Global financial news |
+| `ChOptionNews` | 期权资讯 / Options-related news |
+| `ChLimitUpDown` | 涨跌停统计 / Limit-up & limit-down statistics |
+| `ChLhbData` | 龙虎榜数据 / Dragon-Tiger list data |
+| `ChMarketFundFlow` | 市场资金流向 / Whole-market capital flow |
+| `chAllMarketBearCompare` | 全市场多空对比 / Bull/bear comparison of the whole market |
+| `chDdxStockData` | 个股DDX / DDX large-order tracking for one stock |
+
 ## 🤖 SKILL.md
 
 仓库根目录 `SKILL.md` 供 Claude Code / OpenClaw 直接激活。
