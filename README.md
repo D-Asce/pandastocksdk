@@ -2,7 +2,7 @@
 
 <!-- mcp-name: io.github.D-Asce/pandastocksdk -->
 
-[![Visit SeekTool - AI Tools Directory](https://seektool.ai)](https://seektool.ai)
+[SeekTool.ai Tools Directory](https://seektool.ai/)
 
 <a href="https://www.toolpilot.ai" target="_blank"><img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="Featured on ToolPilot"></a>
 
