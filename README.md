@@ -2,6 +2,10 @@
 
 <!-- mcp-name: io.github.D-Asce/pandastocksdk -->
 
+[![Visit SeekTool - AI Tools Directory](https://seektool.ai)](https://seektool.ai)
+
+<a href="https://www.toolpilot.ai" target="_blank"><img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="Featured on ToolPilot"></a>
+
 > A 股数据 API + AI 选股 · 开源客户端
 
 基于 **NATS** 的 A股 实时数据通道——行情、Level2、DDX 大单、资金流、选股信号**主动推给你**，不是让你轮询 REST。
