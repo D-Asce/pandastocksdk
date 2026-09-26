@@ -196,7 +196,10 @@ py -m twine upload dist/*
 
 ## 6. 遗留问题（未在 P0 处理）
 
-- **依赖声明冲突**：PyPI 现网 1.5.4 声明 `mcp<2,>=1.0.0`，仓库已改为 `mcp>=2.0`。1.5.5 发版后自动覆盖，但**升级用户会装上 mcp 2.x**，需确认 `mcp.server.mcpserver.MCPServer` 在目标环境可用。
+- **依赖声明冲突**：PyPI 现网 1.5.4 声明 `mcp<2,>=1.0.0`，仓库已改为 `mcp>=2.0`。1.5.5 发版后自动覆盖。
+  ✅ **2026-09-26 冒烟已通过**：干净 venv 安装 1.5.5 wheel（拉到 `mcp 2.2.0`）→
+  `from mcp.server.mcpserver import MCPServer` 成功 → 控制台入口 `pandastock-mcp` 完成
+  MCP `initialize` 握手（`serverInfo.version=1.5.5`）→ `tools/list` 返回 **22 个工具**。升级安全。
 - **LICENSE 检测**：文件内容是标准 MIT，但 GitHub API license 字段返回 `Other/NOASSERTION`（可能因版权行 `Copyright (c) 2026 pandaData` 与常规格式差异）。目录收录时会显示 "Other"，建议确认。
 - **无 tests / CI**：仓库有 dev extra 却无 `tests/` 目录；远端现有 1 个 workflow（`mirror.yml` 镜像），`publish-mcp.yml` 本地就绪但未入库（见 2b），另缺测试与 PyPI 发布流水线。P1 处理。
 - **远程 HTTP MCP endpoint**：当前仅 stdio，用户必须本地装 Python。P2 最大架构机会。
