@@ -146,7 +146,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 |---|---|---|
 | mcp.so | https://mcp.so/add | repo URL + `pip install pandastock-mcp` + 工具列表 |
 | Glama | https://glama.ai/mcp 中的 Submit | 仓库已有 `glama.json`，填 repo URL 即可 |
-| SeekTool.ai | 已收录（README 反链已移除，待定是否恢复） | 更新描述为「176 个接口，22 个免注册可试」 |
+| SeekTool.ai | 已收录；反链已恢复到 README 文末「已收录渠道」区块（`b7c924f`） | 更新描述为「176 个接口，22 个免注册可试」 |
 | ToolPilot.ai | 同上 | 同上 |
 | 中文广场：DataWhale MCP 列表 / 魔搭 ModelScope MCP / 阿里云百炼 | 各自 GitHub issue 或表单 | 中文描述 + 免注册测试账号是加分项 |
 
