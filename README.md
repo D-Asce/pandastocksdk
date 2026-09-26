@@ -347,3 +347,9 @@ print(ps.get_ch_industry_real())
 ## ⚖️ 许可证
 
 MIT（见 `LICENSE`）。客户端开源，**调用后端需有效 phone/nid，按量计费**。
+
+## 📰 已收录渠道
+
+[SeekTool.ai Tools Directory](https://seektool.ai/)
+
+<a href="https://www.toolpilot.ai" target="_blank"><img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="Featured on ToolPilot"></a>
