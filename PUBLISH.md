@@ -10,13 +10,17 @@
 | 官方 MCP Registry | ❌ 未收录 | `GET /v0/servers?search=D-Asce` → `count:0` |
 | Smithery | ❌ 未收录 | `GET /registry.smithery.ai/servers/D-Asce/pandastocksdk` → 404 |
 | mcp.so | ❌ 未收录 | `/server/pandastock-mcp` → 404 |
-| GitHub topics | ❌ 空 | `topics: []` |
+| GitHub topics | ❌ 空 | `topics: []`（PUT → 403，PAT 权限不足） |
+| CI workflow | ❌ 未入库 | `publish-mcp.yml` 本地就绪，push 被拒：PAT 缺 `workflow` scope |
 | PyPI project_urls | ❌ 占位符 | 三条全指 `github.com/example/pandastock-mcp` |
 | PyPI 描述 | ❌ 陈旧 | 1547 字符，写「166」，仓库写「176」 |
 
 ---
 
-## 0. 前置：提交本次修复
+## 0. 前置：提交本次修复 ✅ 已完成
+
+已推送：`1fe9a44`（project_urls/版本）→ `c780574`（README 首屏）→ `92ad425` + `015eab0`（本文件）。
+以下命令仅供追溯：
 
 ```powershell
 cd D:\code\net\pandastocksdk
@@ -78,9 +82,22 @@ tar xf mcp-publisher.tar.gz mcp-publisher.exe
 .\mcp-publisher.exe publish
 ```
 
-### 2b. CI 自动发布（推荐，已落库）
+### 2b. CI 自动发布（推荐；workflow 文件**尚未入库**）
 
-**真实 workflow 已创建：`.github/workflows/publish-mcp.yml`**（YAML 已校验），要点：
+**本地已就绪：`.github/workflows/publish-mcp.yml`（75 行，YAML 已校验），但 push 被拒**：
+
+> **2026-09-26 实测**：`git push` 返回
+> `refusing to allow a Personal Access Token to create or update workflow .github/workflows/publish-mcp.yml without workflow scope`；
+> Contents API PUT 同样 `403 Resource not accessible by personal access token`。
+> 仓库现有凭据是 fine-grained PAT 且未授予 **Workflows: Write**。二选一：
+>
+> a) **网页最快**：https://github.com/D-Asce/pandastocksdk/new/main → 文件名粘贴
+>    `.github/workflows/publish-mcp.yml` → 把本地同名文件内容粘进去 → Commit
+> b) **改 PAT**：Settings → Developer settings → Fine-grained tokens → 该 token →
+>    Repository permissions → **Workflows: Read and write** → 保存后在仓库根目录：
+>    `git add .github/workflows/publish-mcp.yml && git commit -m "ci: add MCP Registry publish workflow (OIDC auth + PyPI preflight)" && git push origin main`
+
+要点：
 
 - 触发：`push` tag `v*` + `workflow_dispatch` 手动
 - 认证：`mcp-publisher login github-oidc`，`permissions: id-token: write` —— **不需要任何 secret**
@@ -129,8 +146,8 @@ Smithery 支持从 GitHub 仓库自动索引：
 |---|---|---|
 | mcp.so | https://mcp.so/add | repo URL + `pip install pandastock-mcp` + 工具列表 |
 | Glama | https://glama.ai/mcp 中的 Submit | 仓库已有 `glama.json`，填 repo URL 即可 |
-| SeekTool.ai | 已收录（README 原有链接） | 更新描述为「176 个接口，22 个免注册可试」 |
-| ToolPilot.ai | 已收录 | 同上 |
+| SeekTool.ai | 已收录（README 反链已移除，待定是否恢复） | 更新描述为「176 个接口，22 个免注册可试」 |
+| ToolPilot.ai | 同上 | 同上 |
 | 中文广场：DataWhale MCP 列表 / 魔搭 ModelScope MCP / 阿里云百炼 | 各自 GitHub issue 或表单 | 中文描述 + 免注册测试账号是加分项 |
 
 提交描述统一口径（**不要再出现 166**）：
@@ -181,7 +198,7 @@ py -m twine upload dist/*
 
 - **依赖声明冲突**：PyPI 现网 1.5.4 声明 `mcp<2,>=1.0.0`，仓库已改为 `mcp>=2.0`。1.5.5 发版后自动覆盖，但**升级用户会装上 mcp 2.x**，需确认 `mcp.server.mcpserver.MCPServer` 在目标环境可用。
 - **LICENSE 检测**：文件内容是标准 MIT，但 GitHub API license 字段返回 `Other/NOASSERTION`（可能因版权行 `Copyright (c) 2026 pandaData` 与常规格式差异）。目录收录时会显示 "Other"，建议确认。
-- **无 tests / CI**：仓库有 dev extra 却无 `tests/` 目录；现有 2 个 workflow（`mirror.yml` 镜像、`publish-mcp.yml` 注册表发布），缺测试与 PyPI 发布流水线。P1 处理。
+- **无 tests / CI**：仓库有 dev extra 却无 `tests/` 目录；远端现有 1 个 workflow（`mirror.yml` 镜像），`publish-mcp.yml` 本地就绪但未入库（见 2b），另缺测试与 PyPI 发布流水线。P1 处理。
 - **远程 HTTP MCP endpoint**：当前仅 stdio，用户必须本地装 Python。P2 最大架构机会。
 
 ---
