@@ -10,7 +10,7 @@
 | 官方 MCP Registry | ❌ 未收录 | `GET /v0/servers?search=D-Asce` → `count:0` |
 | Smithery | ❌ 未收录 | `GET /registry.smithery.ai/servers/D-Asce/pandastocksdk` → 404 |
 | mcp.so | ❌ 未收录 | `/server/pandastock-mcp` → 404 |
-| GitHub topics | ❌ 空 | `topics: []`（PUT → 403，PAT 权限不足） |
+| GitHub topics | ✅ 已设置（2026-09-26 网页路径） | 12 个：a-share, china-stock, llm, market-data, mcp, mcp-server, model-context-protocol, nats, python, quantitative-finance, realtime-data, stock-data |
 | CI workflow | ❌ 未入库 | `publish-mcp.yml` 本地就绪，push 被拒：PAT 缺 `workflow` scope |
 | PyPI project_urls | ❌ 占位符 | 三条全指 `github.com/example/pandastock-mcp` |
 | PyPI 描述 | ❌ 陈旧 | 1547 字符，写「166」，仓库写「176」 |
@@ -31,14 +31,13 @@ git push origin main
 
 ---
 
-## 1. GitHub topics（2 分钟，杠杆最高）
+## 1. GitHub topics ✅ 已完成（杠杆最高）
 
-> **2026-09-26 实测**：仓库已存的 git 凭据是 fine-grained PAT，PUT topics 返回
-> `403 Resource not accessible by personal access token`（缺 Administration: write）。
-> 两条路选一：
+> **2026-09-26 已完成**：走网页路径（原 a）在 https://github.com/D-Asce/pandastocksdk/edit 填入 12 个 topics。
+> API 验证 `GET /repos/D-Asce/pandastocksdk/topics` → `count=12`：
+> `a-share, china-stock, llm, market-data, mcp, mcp-server, model-context-protocol, nats, python, quantitative-finance, realtime-data, stock-data`
 >
-> a) 网页最快：https://github.com/D-Asce/pandastocksdk/edit → 填 topics
-> b) 换一个带 **Administration → Contents/Administration write** 的 PAT 再跑下面的命令
+> 备注：PAT 直接 PUT topics 仍为 403（fine-grained PAT 缺 Administration: write）；下方命令仅在换 PAT 后可用。
 
 ```powershell
 $env:GH_TOKEN = "<你的 PAT，需 repository Administration: write>"
@@ -151,17 +150,14 @@ Smithery 支持从 GitHub 仓库自动索引：
 | FindMCP | https://findmcp.app/submit | ✅ 提交成功（`{"success":true,"id":96}`，需英文描述 80+ 字符 + Claude Desktop 安装片段） |
 | mcptrove.com (MCP Directory) | https://mcptrove.com/submit | ✅ 提交成功（"Thanks — submitted!"，人工审核） |
 
-### 4b. 待提交（需要浏览器登录 GitHub，一次性搞定）
+### 4b. 浏览器执行进度（2026-09-26）
 
-> 4 项都卡在同一个前置条件：Playwright 浏览器里 GitHub 未登录。
-> 登录一次后依次完成：
-
-| 渠道 | 入口 | 备注 |
+| 渠道 | 状态 | 证据 |
 |---|---|---|
-| MCPVault | https://mcpvault.io/submit | "Sign in to submit" → GitHub OAuth（scopes 正常，可授权） |
-| mcp.so | https://github.com/chatmcp/mcpso/issues | 新建 issue：repo URL + `pip install pandastock-mcp` + 工具列表；$39 可免排队（不建议） |
-| punkpeye/awesome-mcp-servers（92k★） | Fork README 加一行 → PR | **标题末尾加 🤖 走 agent 快速通道**；一行格式：仓库链接 + 语言/本地/OS 图例 emoji + 描述；3000+ PR 队列，别指望快 |
-| Awesome-MCP-ZH（中文列表） | github.com/AshFrancis001/Awesome-MCP-ZH | 中文描述 PR，放在「金融与加密货币」或数据分析分类 |
+| MCPVault | ✅ 已 claim | GitHub OAuth 授权成功 |
+| mcp.so | ✅ 已提 issue | https://github.com/chatmcp/mcpso/issues/4406（state=open，标题 "Add PandaStock MCP - A-share realtime stock data server (22 tools)"） |
+| punkpeye/awesome-mcp-servers（92k★） | ✅ PR 已开 | https://github.com/punkpeye/awesome-mcp-servers/pull/15170（state=open，标题 `Add pandastock-mcp 🤖`；fork `D-Asce/awesome-mcp-servers` main=`ce12952`，net diff 仅 README.md +1/-0，插入点 @@ -2594 行 Gaming 前） |
+| Awesome-MCP-ZH（中文列表） | ✅ PR 已开 | https://github.com/AshFrancis001/Awesome-MCP-ZH/pull/1（state=open，标题 "添加 pandastock-mcp（A 股实时行情 MCP Server）"；fork `D-Asce/Awesome-MCP-ZH` main=`fa19ca6`，net diff 仅 README.md +1/-0，插入「金融与加密货币」openMF 与 pwh-pwh 之间） |
 
 ### 4c. 不适用 / 已关闭（勿再尝试）
 
