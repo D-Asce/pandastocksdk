@@ -18,7 +18,7 @@ from panda_stock import PandaStock
 # 服务端程序集标识（name 会出现在 tools/list 的 serverInfo 中）
 mcp = MCPServer(
     "pandaData",
-    version="1.5.4",
+    version="1.5.5",
     description="pandaData: A-share (Chinese stock market) realtime quotes, "
     "K-line history, sector data, financial news, fund flow and DDX via "
     "NATS request/response.",

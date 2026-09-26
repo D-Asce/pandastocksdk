@@ -23,6 +23,12 @@ dependencies = [
     "nats-py==2.14.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/D-Asce/pandastocksdk"
+Repository = "https://github.com/D-Asce/pandastocksdk"
+Documentation = "https://github.com/D-Asce/pandastocksdk/blob/main/INTERFACES.md"
+Issues = "https://github.com/D-Asce/pandastocksdk/issues"
+
 [project.scripts]
 pandastock-mcp = "pandastock_mcp_launcher:main"
 
