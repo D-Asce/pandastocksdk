@@ -1,49 +1,67 @@
-# pandaData SDK
+# pandaData — A 股实时数据 SDK + MCP Server
 
 <!-- mcp-name: io.github.D-Asce/pandastocksdk -->
 
-[SeekTool.ai Tools Directory](https://seektool.ai/)
+[![PyPI version](https://img.shields.io/pypi/v/pandastock-mcp.svg)](https://pypi.org/project/pandastock-mcp/)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-<a href="https://www.toolpilot.ai" target="_blank"><img src="https://www.toolpilot.ai/cdn/shop/files/f-w_690x151_crop_center.png" alt="Featured on ToolPilot"></a>
+> **A 股数据 API + AI 选股 · 开源客户端**
+>
+> 基于 **NATS** 的 A 股实时数据通道 —— 行情、Level2、DDX 大单、资金流、选股信号**主动推给你**，不是让你轮询 REST。
 
-> A 股数据 API + AI 选股 · 开源客户端
+## ⚡ 30 秒上手
 
-基于 **NATS** 的 A股 实时数据通道——行情、Level2、DDX 大单、资金流、选股信号**主动推给你**，不是让你轮询 REST。
-
-> 📞 **接口咨询 / 专属 key 申请**：加微信 `onestock188` 或 `pandastock888`
-> 📅 最后更新：2026-08-27
-
-## ✨ 特性
-
-- **实时快照（请求/响应）**：4 个 CurReal 主题通过请求获取 A股 实时行情 / 指数 / 概念 / 行业，无需订阅
-- **AI 选股**：`get_ch_select_stock()` 等 AI 选股接口
-- **22 个开放接口**：全部为请求/响应接口（底层 176 个接口覆盖全量数据）
-- **MCP ready**：提供本地 MCP Server（22 个工具），Claude / Cursor / OpenClaw 直接调用
-
-## 安装
+**免注册**：内置公共测试账号，装完直接跑，无需申请。
 
 ```bash
-pip install nats-py==2.14.0
+pip install pandastock-mcp
 ```
-
-## 🚀 快速开始
 
 ```python
 from panda_stock import PandaStock
 
-# 公共测试账号（见下方"测试账号"），可直接试玩
+# 公共测试账号（配额说明见下方「公共测试账号」）
 ps = PandaStock(phone="pandastock", nid="pandastock")
 ps.connect_server()
 
-# 获取股票列表
-print(ps.get_ch_stock())
-
-# AI 选股
-print(ps.get_ch_select_stock())
-
-# 单只股票实时行情
-print(ps.get_ch_one_stock_real("600519"))
+print(ps.get_ch_stock())                  # 全市场股票列表
+print(ps.get_ch_one_stock_real("600519")) # 单只实时行情
+print(ps.get_ch_select_stock())           # AI 选股
 ```
+
+## 🤖 MCP 接入（Claude / Cursor / OpenClaw）
+
+```bash
+pip install pandastock-mcp
+```
+
+```json
+{
+  "mcpServers": {
+    "panda-stock": {
+      "command": "pandastock-mcp",
+      "env": {
+        "PANDA_PHONE": "pandastock",
+        "PANDA_NID": "pandastock"
+      }
+    }
+  }
+}
+```
+
+升级：`pip install --upgrade pandastock-mcp` · 详见 `mcp/config_example.json`
+
+> 📞 **接口咨询 / 专属 key 申请**：加微信 `onestock188` 或 `pandastock888`
+> 📅 最后更新：2026-09-26
+
+## ✨ 特性
+
+- **免注册试用**：公共测试账号装完即可调用，先验证再申请专属 key
+- **实时快照（请求/响应）**：4 个 CurReal 主题通过请求获取 A 股实时行情 / 指数 / 概念 / 行业，无需订阅
+- **AI 选股**：`get_ch_select_stock()` 等 AI 选股接口
+- **22 个开放接口**：全部为请求/响应接口；服务端共 **176 个接口**覆盖全量数据（完整清单见 [INTERFACES.md](INTERFACES.md)）
+- **MCP ready**：本地 stdio MCP Server 暴露 22 个工具，Claude / Cursor / OpenClaw 直接调用
 
 ## 📡 实时快照（请求/响应）
 
@@ -293,38 +311,9 @@ print(ps.get_ch_industry_real())
 | 可转债 | 获取可转债实时行情 | `get_ch_kzz_cur_real` | — |
 | 可转债 | 获取可转债列表 | `get_ch_kzz_stock` | — |
 
-## 🧩 MCP 接入（本地 stdio）
-
-安装
-```bash
-pip install pandastock-mcp
-```
-
-更新
-```bash
-pip install --upgrade pandastock-mcp
-```
-
-Agent 配置
-```json
-{
-  "mcpServers": {
-    "panda-stock": {
-      "command": "pandastock-mcp",
-      "env": {
-        "PANDA_PHONE": "pandastock",
-        "PANDA_NID": "pandastock"
-      }
-    }
-  }
-}
-```
-
-详见 `mcp/config_example.json`。
-
 ## Tools
 
-本地 MCP Server（`mcp/server.py`）暴露 22 个请求/响应工具，与公开测试账号的 22 个开放接口一一对应。The stdio MCP server exposes 22 request/response tools:
+本地 MCP Server（`mcp/server.py`）暴露 22 个请求/响应工具，与公开测试账号的 22 个开放接口一一对应。
 
 | Tool | Description |
 |---|---|
