@@ -140,15 +140,53 @@ Smithery 支持从 GitHub 仓库自动索引：
 
 ---
 
-## 4. mcp.so / Glama / 中文 MCP 广场
+## 4. 第三方目录收录
+
+### 4a. 2026-09-26 已提交（Playwright 实测）
+
+| 渠道 | 入口 | 结果 |
+|---|---|---|
+| mcp.directory | https://mcp.directory/submit | ✅ 已在审核队列（返回 "already submitted, review soon"，24h 内发布） |
+| mcpservers.org | https://mcpservers.org/submit | ✅ 提交成功（免费档，最长 2 周审核，邮件通知） |
+| FindMCP | https://findmcp.app/submit | ✅ 提交成功（`{"success":true,"id":96}`，需英文描述 80+ 字符 + Claude Desktop 安装片段） |
+| mcptrove.com (MCP Directory) | https://mcptrove.com/submit | ✅ 提交成功（"Thanks — submitted!"，人工审核） |
+
+### 4b. 待提交（需要浏览器登录 GitHub，一次性搞定）
+
+> 4 项都卡在同一个前置条件：Playwright 浏览器里 GitHub 未登录。
+> 登录一次后依次完成：
+
+| 渠道 | 入口 | 备注 |
+|---|---|---|
+| MCPVault | https://mcpvault.io/submit | "Sign in to submit" → GitHub OAuth（scopes 正常，可授权） |
+| mcp.so | https://github.com/chatmcp/mcpso/issues | 新建 issue：repo URL + `pip install pandastock-mcp` + 工具列表；$39 可免排队（不建议） |
+| punkpeye/awesome-mcp-servers（92k★） | Fork README 加一行 → PR | **标题末尾加 🤖 走 agent 快速通道**；一行格式：仓库链接 + 语言/本地/OS 图例 emoji + 描述；3000+ PR 队列，别指望快 |
+| Awesome-MCP-ZH（中文列表） | github.com/AshFrancis001/Awesome-MCP-ZH | 中文描述 PR，放在「金融与加密货币」或数据分析分类 |
+
+### 4c. 不适用 / 已关闭（勿再尝试）
+
+| 渠道 | 原因 |
+|---|---|
+| PulseMCP | 2026-09-03 起停止收新提交，官方指向 MCP Registry |
+| LobeHub | OAuth 要求全部仓库读写 + gists + workflows，风险过高，主动放弃 |
+| CuratedMCP / mcpcentral.io | 本网络访问返回 Cloudflare 403（数据中心 IP 被拦），换网络可重试 |
+| Anthropic Connectors Directory | 需 Claude Team 组织（~$50/月）才能进提交入口 |
+| Docker MCP Catalog | 需 Dockerfile 打包，属 P2（配合远程 HTTP endpoint 一起做） |
+| Futurepedia | 2026 起仅付费（$247+），放弃 |
+| 官方 Registry（modelcontextprotocol/servers 仓库） | 旧 README 已不再收第三方 PR，只走 `mcp-publisher`（见 §2） |
+
+### 4d. 其余原清单（仍有效）
 
 | 渠道 | 提交入口 | 需要内容 |
 |---|---|---|
-| mcp.so | https://mcp.so/add | repo URL + `pip install pandastock-mcp` + 工具列表 |
-| Glama | https://glama.ai/mcp 中的 Submit | 仓库已有 `glama.json`，填 repo URL 即可 |
+| Glama | https://glama.ai/mcp 中的 Submit | 仓库已有 `glama.json`，填 repo URL 即可；也会从 GitHub topics 自动索引 |
 | SeekTool.ai | 已收录；反链已恢复到 README 文末「已收录渠道」区块（`b7c924f`） | 更新描述为「176 个接口，22 个免注册可试」 |
 | ToolPilot.ai | 同上 | 同上 |
 | 中文广场：DataWhale MCP 列表 / 魔搭 ModelScope MCP / 阿里云百炼 | 各自 GitHub issue 或表单 | 中文描述 + 免注册测试账号是加分项 |
+| 中文自动收录站 | mcphello.com / mcpapp.net / followmcp.com / jindage.com / mcpradars.com / mcp.aibase.com | 多为 GitHub 每日自动同步，**设完 topics 后逐个核实是否已收录**，缺的再手动提 |
+
+> 上游依赖提醒：Glama、mcphello、mcp.directory、mcp.aibase 等会抓 **GitHub topics** 和**官方 Registry**。
+> topics（§1）和 PyPI→Registry（§5→§2）做完后，先复查这些站，再手动补交。
 
 提交描述统一口径（**不要再出现 166**）：
 
@@ -215,3 +253,56 @@ py -m twine upload dist/*
 - [ ] `api.github.com/repos/D-Asce/pandastocksdk/topics` → 非空
 - [ ] PyPI `project_urls` 无 `github.com/example`
 - [ ] PyPI description 无 `166`，README 首屏第一行是产品 + badge，无第三方广告
+
+---
+
+## 8. 发文渠道（介绍接口/教程的平台）
+
+统一选题（三篇打天下，别每处重写）：
+
+1. **教程向**：《用 MCP 把 A 股实时行情接进 Claude / Cursor》——安装、免注册测试账号、22 工具演示
+2. **技术向**：《为什么 A 股数据用 NATS 推送而不是 REST 轮询》——架构差异化（Level2/DDX 主动推送）
+3. **English 版**：*Building an MCP server for A-share realtime data: NATS push vs REST polling*
+
+### 8a. 英文（自发布，快）
+
+| 平台 | 入口 | 规则要点 |
+|---|---|---|
+| DEV Community (dev.to) | dev.to 新建文章 | 即发即上；支持 canonical URL 交叉发布；标签 `mcp` `python` `quantitative-finance`；避免硬广口吻 |
+| Hashnode | hashnode.com | 自发布 + 站内发现；适合长文教程 |
+| In Plain English | plainenglish.io/write-for-us | 免费账号投稿，编辑审；1500+ 词更稳；网络内 4 站分发 |
+| freeCodeCamp News | freecodecamp.org/news | 编辑严审；教程必须可复现（给出完整安装 + 运行命令） |
+| Hacker Noon | hackernoon.com | 叙事/工程案例向 |
+| Moesif Blog（API 垂类） | moesif.com/blog/write-for-us 表单 | 500-2000 词，API 教程契合度最高；不付稿费但读者全是 API 人群 |
+| Just Tech Blog（API 垂类） | 邮件 pitch：contact@justtechblog.com | 800-2500 词；作者简介 1 条 dofollow 链接 |
+| SitePoint / DigitalOcean / DZone / The New Stack | 各自 pitch | 高门槛，发完 1-2 篇自发布后再投 |
+
+> 分发策略：先发 dev.to/Hashnode（即时），同文加 canonical 再投 In Plain English / freeCodeCamp（编辑背书）。
+
+### 8b. 中文（自发布，账号即开即用）
+
+| 平台 | 入口 | 规则要点 |
+|---|---|---|
+| 掘金 | juejin.cn/editor/drafts | 自发布；后端/AI 标签；封面图必填；摘要 50-100 字 |
+| CSDN | editor.csdn.net/md | 自发布；量大但 SEO 长尾好 |
+| 开源中国 OSCHINA | my.oschina.net 博客 | 开源项目气质契合；也可投稿动弹 |
+| 思否 SegmentFault | segmentfault.com/write | 自发布 |
+| 知乎专栏 | zhuanlan.zhihu.com | 「量化 × AI」话题流量好；长文+代码块 |
+| InfoQ 中文站 | 投稿邮件 editors@cn.infoq.com | 深度文章 3000+ 字，非 How-to；三种授权（独家稿费 150 元/千字封顶 800、转载 200 元/篇、CC）；见 infoq.github.io/article-guidelines.html |
+| linux.do | linux.do | 有信任等级门槛；技术分享形式，别纯广告 |
+| V2EX 分享创造 | v2ex.com/go/create | **首发大方承认是自己的作品**；一页内+讲技术原理；新号有 30 天限制；禁重复发帖（亦见 §8d） |
+
+### 8c. 多平台一键工具
+
+- `k8scat/articli`（Go CLI）：掘金 / CSDN / 开源中国 / 思否 一次发布，Cookie/Token 鉴权
+- 或 `wechatsync` 类浏览器插件同步（维护状态自行核实）
+- 掘金也可直接走其内部 API（`content_api/v1/article_draft/create` + `article/publish`，Cookie 鉴权）
+
+### 8d. 社区发帖（非发文，短贴）
+
+| 渠道 | 要点 |
+|---|---|
+| Show HN | 必须披露 "I'm the author"；标题别营销腔 |
+| r/mcp · r/LocalLLaMA · r/algotrading | 技术分享帖形式；reddit 自我推广政策：外链 + 透明身份 |
+| V2EX 推广节点 | 分享创造发过一次后的后续推广放 /go/promotions |
+| 雪球 / 集思录 | 量化散户社区；以「数据接口能力演示」切入，别硬广 |
