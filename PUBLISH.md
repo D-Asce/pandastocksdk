@@ -184,9 +184,27 @@ Smithery 支持从 GitHub 仓库自动索引：
 > 上游依赖提醒：Glama、mcphello、mcp.directory、mcp.aibase 等会抓 **GitHub topics** 和**官方 Registry**。
 > topics（§1）和 PyPI→Registry（§5→§2）做完后，先复查这些站，再手动补交。
 
-提交描述统一口径（**不要再出现 166**）：
+> 提交描述统一口径（**不要再出现 166**）：
+>
+> > pandaData：A 股实时数据 MCP Server。NATS 推送行情 / Level2 / DDX 大单 / 资金流 / AI 选股。服务端 176 个接口，22 个开放接口，**提供免注册公共测试账号**，`pip install pandastock-mcp` 即用。
 
-> pandaData：A 股实时数据 MCP Server。NATS 推送行情 / Level2 / DDX 大单 / 资金流 / AI 选股。服务端 176 个接口，22 个开放接口，**提供免注册公共测试账号**，`pip install pandastock-mcp` 即用。
+### 4e. 2026-09-27 执行记录（本轮新增）
+
+> ⚠️ 本会话 github.com 间歇宕机（api.github.com 正常），以下标注「⏳ 等恢复」的项需在 github.com 恢复窗口内补完。
+
+| 渠道 | 状态 | 证据 / 备注 |
+|---|---|---|
+| 火山引擎 volcengine/mcp-server | ✅ PR 已开 | https://github.com/volcengine/mcp-server/pull/436（Open，+1/-0） |
+| Influzer.ai | ✅ 提交成功 | https://www.influzer.ai/mcp/submit → "Thanks! Your submission was received"；已登录态（后续可编辑）；Category=Data & Analytics、Transport=stdio、Official 勾选、含真实工具清单 + Claude/Cursor 配置片段 |
+| 魔搭 ModelScope | ✅ 已收录（未重复提交） | `@ascegu/panda_stock_l2` 已在列；条目陈旧（写 141 工具、gitcode 旧镜像链）→ 待后续联系更新 |
+| yzfly/Awesome-MCP-ZH（7.7k★，权威中文列表） | ⏳ 差建 PR 一步（等恢复） | fork `D-Asce/Awesome-MCP-ZH` 分支 `patch-1` 已就绪（README +1/-0，插入「金融与加密货币」节 OpenChainBench 与 pwh-pwh 之间）；标题格式 `新增 PandaStock 到 💰 金融与加密货币` |
+| Glama | ⏳ 未收录（等恢复） | `?query=pandastock` 结果为空；路径已探明：Add Server → GitHub OAuth（authorize → 点 Authorize 无需密码）→ 回填仓库 URL/名称/描述 |
+| MCPFind | ⏳ 未提交（等恢复） | mcpfind.org/submit → Open GitHub Editor → `submissions/*.yml` PR；收录条件全满足（公开仓库 + MIT + README + 22 工具 + PyPI 已发布） |
+| MCP Surge | ❌ 作废 | mcpsurge.com Google DNS NXDOMAIN，域名已失效 |
+| 阿里云百炼 | ❌ 不可行 | 云市场 OneKey MCP = 邀约制企业入驻流程（服务商注册 + SPI + 计量计费），个人无入口；「开发者招募」文章链接未能提取 |
+| DataWhale | ❌ 无收录目录 | `datawhalechina/mcp-lite-dev` 是 MCP 教程课程，第 5 章「MCP Server 资源整理」无收录清单 → 以 yzfly PR 替代该目标 |
+| 中文自动收录站复核 | ❌ 均未收录 | mcp.aibase / mcphello / followmcp / jindage / mcpradars / mcpapp 六站搜索 pandastock 均无结果；多为 GitHub topics/Registry 自动同步 → 待 §5→§2 完成后复查，仍缺再手动提 |
+| MCPWorld | ⏳ 等登录（阻塞） | 百度账号登录需你键入手机号 + 验证码，收到后继续 |
 
 ---
 
