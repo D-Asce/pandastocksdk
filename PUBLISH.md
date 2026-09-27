@@ -204,7 +204,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 | 阿里云百炼 | ❌ 不可行 | 云市场 OneKey MCP = 邀约制企业入驻流程（服务商注册 + SPI + 计量计费），个人无入口；「开发者招募」文章链接未能提取 |
 | DataWhale | ❌ 无收录目录 | `datawhalechina/mcp-lite-dev` 是 MCP 教程课程，第 5 章「MCP Server 资源整理」无收录清单 → 以 yzfly PR 替代该目标 |
 | 中文自动收录站复核 | ❌ 均未收录 | mcp.aibase / mcphello / followmcp / jindage / mcpradars / mcpapp 六站搜索 pandastock 均无结果；多为 GitHub topics/Registry 自动同步 → 待 §5→§2 完成后复查，仍缺再手动提 |
-| MCPWorld | ⏳ 等登录（阻塞） | 百度账号登录需你键入手机号 + 验证码，收到后继续 |
+| MCPWorld | ⏳ 等登录（阻塞） | 已核实未收录（站内搜 `pandastock` 仅出相关推荐，无 PandaStock 卡片）；登录框=手机号+短信验证码（「验证即登录，自动创建百度账号」），验证码只能你本人手机收 → 发我手机号即可，我填号点「发送验证码」后再找你要码；提交预填稿已备好：`%TEMP%\mcpworld_submission.md`（名称/功能描述/服务详情 Markdown/Logo/JSON 配置全就绪，登录后 1 分钟可提交） |
 
 ---
 
