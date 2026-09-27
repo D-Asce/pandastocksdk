@@ -197,9 +197,9 @@ Smithery 支持从 GitHub 仓库自动索引：
 | 火山引擎 volcengine/mcp-server | ✅ PR 已开 | https://github.com/volcengine/mcp-server/pull/436（Open，+1/-0） |
 | Influzer.ai | ✅ 提交成功 | https://www.influzer.ai/mcp/submit → "Thanks! Your submission was received"；已登录态（后续可编辑）；Category=Data & Analytics、Transport=stdio、Official 勾选、含真实工具清单 + Claude/Cursor 配置片段 |
 | 魔搭 ModelScope | ✅ 已收录（未重复提交） | `@ascegu/panda_stock_l2` 已在列；条目陈旧（写 141 工具、gitcode 旧镜像链）→ 待后续联系更新 |
-| yzfly/Awesome-MCP-ZH（7.7k★，权威中文列表） | ⏳ 差建 PR 一步（等恢复） | fork `D-Asce/Awesome-MCP-ZH` 分支 `patch-1` 已就绪（README +1/-0，插入「金融与加密货币」节 OpenChainBench 与 pwh-pwh 之间）；标题格式 `新增 PandaStock 到 💰 金融与加密货币` |
-| Glama | ⏳ 未收录（等恢复） | `?query=pandastock` 结果为空；路径已探明：Add Server → GitHub OAuth（authorize → 点 Authorize 无需密码）→ 回填仓库 URL/名称/描述 |
-| MCPFind | ⏳ 未提交（等恢复） | mcpfind.org/submit → Open GitHub Editor → `submissions/*.yml` PR；收录条件全满足（公开仓库 + MIT + README + 22 工具 + PyPI 已发布） |
+| yzfly/Awesome-MCP-ZH（7.7k★，权威中文列表） | ✅ PR 已开 | https://github.com/yzfly/Awesome-MCP-ZH/pull/636（标题 `新增 PandaStock 到 💰 金融与加密货币`；README +1/-0，插入「金融与加密货币」节 OpenChainBench 与 pwh-pwh 之间，正文含收录标准自证） |
+| Glama | ✅ 已提交（待审核） | GitHub OAuth 授权（D-Asce，scope 仅 read:user+email+org）→ complete-profile → Add Server 对话框（Runs from source）填 Name/Description/仓库 URL → Submit for Review；对话框正常关闭无报错；审核通过后需按邮件提供 Dockerfile 做自动安全检查 |
+| MCPFind | ✅ PR 已开 | https://github.com/MCPFind/mcp-find/pull/264（标题 `Add: PandaStock`；fork `D-Asce/mcp-find` 分支 `D-Asce-patch-1`，commit `b3f7763`，新增 `submissions/pandastock.yml` +7/-0，正文含收录标准自证；源自 mcpfind.org 表单 Open GitHub Editor 预填） |
 | MCP Surge | ❌ 作废 | mcpsurge.com Google DNS NXDOMAIN，域名已失效 |
 | 阿里云百炼 | ❌ 不可行 | 云市场 OneKey MCP = 邀约制企业入驻流程（服务商注册 + SPI + 计量计费），个人无入口；「开发者招募」文章链接未能提取 |
 | DataWhale | ❌ 无收录目录 | `datawhalechina/mcp-lite-dev` 是 MCP 教程课程，第 5 章「MCP Server 资源整理」无收录清单 → 以 yzfly PR 替代该目标 |
