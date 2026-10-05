@@ -204,7 +204,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 | 阿里云百炼 | ❌ 不可行 | 云市场 OneKey MCP = 邀约制企业入驻流程（服务商注册 + SPI + 计量计费），个人无入口；「开发者招募」文章链接未能提取 |
 | DataWhale | ❌ 无收录目录 | `datawhalechina/mcp-lite-dev` 是 MCP 教程课程，第 5 章「MCP Server 资源整理」无收录清单 → 以 yzfly PR 替代该目标 |
 | 中文自动收录站复核 | ❌ 均未收录 | mcp.aibase / mcphello / followmcp / jindage / mcpradars / mcpapp 六站搜索 pandastock 均无结果；多为 GitHub topics/Registry 自动同步 → 待 §5→§2 完成后复查，仍缺再手动提 |
-| MCPWorld | ⏳ 等登录（阻塞，仅剩你手机收码一条路） | 已核实未收录（站内搜 `pandastock` 仅出相关推荐）；登录框=短信登录（手机号+验证码，「验证即登录，自动创建百度账号」）；**三路径实测**：①短信=唯一可行，验证码只能你本人手机收 → 发我手机号，我填号点「发送验证码」后再找你要码；②Google OAuth=弹窗能开但 `accounts.google.com` 连接超时（本网络不可达，勿重试）；③账号密码=无凭据、注册也要短信验证，死路；提交预填稿已备好：`%TEMP%\mcpworld_submission.md`（登录后 1 分钟可提交） |
+| MCPWorld | ✅ 已提交（2026-10-05，审核中） | 提交成功 toast → 跳转 `/zh/myMcp`，「我的MCP」列表见 PandaStock、审核状态=**审核中**；表单：名称 PandaStock、描述 125 字、服务详情 markdown 1169 字、勾选「在MCP广场展示」、类型=自定义代码输入（stdio/uvx config 173 字符）、电话 18994111679、邮箱 asce1010@126.com；技术要点：提交按钮禁用由父表单 deep watcher 驱动（`distribute.length>0 && config!=="" && proto_type!==""...` 全过才 enable），checkbox 需点 label 包裹元素（直点 input 被双切回）、代码框最后填+立即 blur 防父模型变更清空 |
 
 ---
 
