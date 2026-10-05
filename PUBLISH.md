@@ -205,6 +205,8 @@ Smithery 支持从 GitHub 仓库自动索引：
 | DataWhale | ❌ 无收录目录 | `datawhalechina/mcp-lite-dev` 是 MCP 教程课程，第 5 章「MCP Server 资源整理」无收录清单 → 以 yzfly PR 替代该目标 |
 | 中文自动收录站复核 | ❌ 均未收录 | mcp.aibase / mcphello / followmcp / jindage / mcpradars / mcpapp 六站搜索 pandastock 均无结果；多为 GitHub topics/Registry 自动同步 → 待 §5→§2 完成后复查，仍缺再手动提 |
 | MCPWorld | ✅ 已提交（2026-10-05，审核中） | 提交成功 toast → 跳转 `/zh/myMcp`，「我的MCP」列表见 PandaStock、审核状态=**审核中**；表单：名称 PandaStock、描述 125 字、服务详情 markdown 1169 字、勾选「在MCP广场展示」、类型=自定义代码输入（stdio/uvx config 173 字符）、电话 18994111679、邮箱 asce1010@126.com；技术要点：提交按钮禁用由父表单 deep watcher 驱动（`distribute.length>0 && config!=="" && proto_type!==""...` 全过才 enable），checkbox 需点 label 包裹元素（直点 input 被双切回）、代码框最后填+立即 blur 防父模型变更清空 |
+| mcpmarket.com | ✅ 已收录（2026-10-05 复核发现，未重复提交） | `https://mcpmarket.com/zh/server/pandadata` 页面存在即已收录；如需排队优化可选 Free Queue（$0，4-6 周），暂不动 |
+| mcpapp.net | ✅ 已提交（2026-10-05，审核中） | 成功页 `/zh-hans/submit/success?id=pandastock`「已收到提交，正在等待审核」（48h 人工审）；**首次提交报错根因已修复**：`previews_json` 里 `imageUrl:""`/`ctaUrl:""` 空串过不了 `z.url().optional()`（生产把 url/email 校验失败统一渲染成裸 `Invalid input`，P1 探针 3 错 = 2 URL + canary、P2 探针仅 canary 1 错，均在限流前不耗 5 次/24h 配额）；修法=预览 Image URL 填 logo raw 链接、CTA 填仓库链接；表单要点：transport=stdio/auth=none（默认 sse/oauth 须改）、capabilities=Interactive+Reads+Tools、categories=productivity+developer-tools、头像经 `mcpapp_avatar.js` 注入 14347B logo.png、**Turnstile 生产未配置无需 token**（页面显式提示 "Submission still works"，此前 `hasTurnstile:true` 是 `[class*="turnstile"]` 误匹配 missing-widget div） |
 
 ---
 
