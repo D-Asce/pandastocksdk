@@ -208,6 +208,20 @@ Smithery 支持从 GitHub 仓库自动索引：
 | mcpmarket.com | ✅ 已收录（2026-10-05 复核发现，未重复提交） | `https://mcpmarket.com/zh/server/pandadata` 页面存在即已收录；如需排队优化可选 Free Queue（$0，4-6 周），暂不动 |
 | mcpapp.net | ✅ 已提交（2026-10-05，审核中） | 成功页 `/zh-hans/submit/success?id=pandastock`「已收到提交，正在等待审核」（48h 人工审）；**首次提交报错根因已修复**：`previews_json` 里 `imageUrl:""`/`ctaUrl:""` 空串过不了 `z.url().optional()`（生产把 url/email 校验失败统一渲染成裸 `Invalid input`，P1 探针 3 错 = 2 URL + canary、P2 探针仅 canary 1 错，均在限流前不耗 5 次/24h 配额）；修法=预览 Image URL 填 logo raw 链接、CTA 填仓库链接；表单要点：transport=stdio/auth=none（默认 sse/oauth 须改）、capabilities=Interactive+Reads+Tools、categories=productivity+developer-tools、头像经 `mcpapp_avatar.js` 注入 14347B logo.png、**Turnstile 生产未配置无需 token**（页面显式提示 "Submission still works"，此前 `hasTurnstile:true` 是 `[class*="turnstile"]` 误匹配 missing-widget div） |
 
+### 4f. 2026-10-09 执行记录（GitHub PR / issue 批次，6 渠道）
+
+> 共性：各仓库对**首次贡献者的 workflow 运行需维护者手动批准**（`conclusion=action_required`），属正常审核门，非 CI 失败，无需改代码。
+> mcpHQ 与 TensorBlock 两条 PR 曾因 fork base 落后被标 `dirty`（且分支被强制重置后短暂关闭），已按「`merge-upstream` 同步 fork main → force-reset 分支 → 从新 base 重取目标文件 → 重放编辑 → 重新 push → reopen PR」流程修复，复核 `mergeable=True`、diff 干净。
+
+| 渠道 | 状态 | 证据 / 备注 |
+|---|---|---|
+| Horatio-Li/awesome-mcp-servers（issue 评论） | ✅ 已评论 | https://github.com/Horatio-Li/awesome-mcp-servers/issues/1#issuecomment-6081804224 |
+| wundercorp/awesome-mcp | ✅ PR 已开 | https://github.com/wundercorp/awesome-mcp/pull/112（open，mergeable=True；新增 `servers/data/pandastock/server.json` + README 重生成，本地 validate 39 entries / generate 通过；CI `Validate catalog` = `action_required` 待批准） |
+| mcpHQ/awesome-mcp-servers | ✅ PR 已开（冲突已修复） | https://github.com/mcpHQ/awesome-mcp-servers/pull/181（open，mergeable=True；`data/servers.json` 中部 index 113 插入 desc_len=196、category=`finance-commerce-and-business-apps`，231→232；validate 232 servers / generate / check-generated 全过；4 commits / 4 files：servers.json +15、README +4/-2、llms.txt +2/-1、llms-full.txt +12/-1；CI = `action_required` 待批准） |
+| BlockRunAI/awesome-finance-mcp | ✅ PR 已开 | https://github.com/BlockRunAI/awesome-finance-mcp/pull/108（open，mergeable_state=**clean**；README Data Providers 追加行，desc 51 字符，Pricing=Free） |
+| TensorBlock/awesome-mcp-servers | ✅ PR 已开（冲突已修复） | https://github.com/TensorBlock/awesome-mcp-servers/pull/3393（open，mergeable=True，mergeable_state=blocked（必需 check 未就绪，暂无 workflow runs）；`docs/finance--crypto.md` 顶部「💰 Finance & Crypto」节插入 bullet，+1/-0） |
+| cline/mcp-marketplace | ✅ issue 已建 | https://github.com/cline/mcp-marketplace/issues/2895（open，标题 `[Server Submission]: PandaStock - A-share Real-time Market Data MCP Server`；模板 label `server-submission` 未自动打上，手动加 label 返回 403（需 admin）→ 记为已知限制；**表单坑**：`browser_fill_form` 的 `.fill()` 不触发 React onChange 导致 Create 无反应且校验清空，改用 `browser_run_code_unsafe` 逐字段 click + `page.keyboard.type` 键入即成功） |
+
 ---
 
 ## 5. PyPI 重新发布（修死链 + 陈旧描述）—— 当前唯一硬阻塞
