@@ -348,10 +348,22 @@ py -m twine upload dist/*
 | 基础 | GitHub topics（12 个） | ✅ 生效 |
 | 目录 | mcp.directory / mcpservers.org / FindMCP / mcptrove / MCPFind / MCPWorld / mcpapp / mcpmarket / Influzer / Glama / mcp.so | ✅ 已提交，审核中 |
 | Awesome list | punkpeye / yzfly / AshFrancis / Horatio-Li（评论） | ✅ 已提交 |
-| GitHub PR/issue（本周） | wunder #112 / mcpHQ #181 / BlockRunAI #108 / TensorBlock #3393 / cline #2895 | ✅ open，等审核 |
+| GitHub PR/issue（本周） | **mcpHQ #181 ✅已合并** / **TensorBlock #3393 ✅已合并** / wunder #112 · BlockRunAI #108 · cline #2895 | 2 条已合并上线，3 条等审核 |
 | 量化平台 | volcengine / ModelScope | ✅ 已提交 |
 
 > 边际收益递减 —— **不再继续铺目录**，转向「内容 + 社区 + 平台模块」。
+
+### 9.0.1 🎉 两条 PR 已合并上线（2026-10-09 合并，2026-10-10 核验）
+
+| 仓库 | PR | 合并人 | 合并时间 | merge commit | 上线核验（拉 upstream `main` 实测） |
+|---|---|---|---|---|---|
+| **mcpHQ/awesome-mcp-servers** | [#181](https://github.com/mcpHQ/awesome-mcp-servers/pull/181) | `imrajdas` | 2026-09-10 01:59 CST | `de327a2` | ✅ `data/servers.json` 命中条目：`name=PandaStock` / `category=finance-commerce-and-business-apps` / `language=Python` / `provider=pandaData` / `url` 指向真实仓库；该文件当前 **250** 个 servers |
+| **TensorBlock/awesome-mcp-servers** | [#3393](https://github.com/TensorBlock/awesome-mcp-servers/pull/3393) | `wilsonccccc` | 2026-09-10 00:09 CST | `573076d` | ✅ `docs/finance--crypto.md` 命中条目原文：<br>`- [PandaStock](https://github.com/D-Asce/pandastocksdk): A-share real-time market data MCP server - NATS-pushed quotes, Level-2, DDX big orders, money flow and AI stock screening; 176 server-side endpoints, 22 open endpoints with a free public test account. Install: pip install pandastock-mcp.` |
+
+> ⚠️ 两条 PR 在合并前都曾因 fork base 落后被判 `dirty`（head==base 导致被自动关闭），
+> 修复流程：`merge-upstream` 同步 fork main → force-reset 分支 → 从新 base 重取目标文件
+> → 重放编辑 → 重新 push → reopen PR。**下次遇到 dirty 先同步 base 再 force-reset，
+> 不要直接改文件重推**（会踩 head==base 自动关闭）。
 
 ### 9.1 🔴 P0 — PyPI 1.5.5 发版（只有用户能做，杠杆最大）
 
