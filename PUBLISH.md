@@ -198,7 +198,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 | Influzer.ai | ✅ 提交成功 | https://www.influzer.ai/mcp/submit → "Thanks! Your submission was received"；已登录态（后续可编辑）；Category=Data & Analytics、Transport=stdio、Official 勾选、含真实工具清单 + Claude/Cursor 配置片段 |
 | 魔搭 ModelScope | ❌ **此前记录有误，实际未收录** | **2026-10-10 实测推翻旧结论**：旧记录写「`@ascegu/panda_stock_l2` 已在列，条目陈旧待更新」——实测该条目**根本不存在**。三处独立核验均 404：① `api/v1/models/ascegu/panda_stock_l2` → `{"Code":10010205001,"Message":"获取模型信息失败，信息：record not found"}`；② `api/v1/spaces/ascegu/panda_stock_l2` → 404（非创空间）；③ `/models/ascegu/panda_stock_l2` → HTTP 200 但**空壳**（只有导航栏 + 4 条 console error）。**结论：不是「陈旧待更新」，而是「从未创建，需重新提交」**。另：Playwright 浏览器虽有 12 个 `modelscope.cn` cookie，但访问 `/my/myacls` 被重定向且页面显示「登录 / 注册」→ cookie 已失效，**无登录态**，需用户重新登录后才能创建 |
 | yzfly/Awesome-MCP-ZH（7.7k★，权威中文列表） | ✅ PR 已开 | https://github.com/yzfly/Awesome-MCP-ZH/pull/636（标题 `新增 PandaStock 到 💰 金融与加密货币`；README +1/-0，插入「金融与加密货币」节 OpenChainBench 与 pwh-pwh 之间，正文含收录标准自证） |
-| Glama | ✅ 已提交（待审核） | GitHub OAuth 授权（D-Asce，scope 仅 read:user+email+org）→ complete-profile → Add Server 对话框（Runs from source）填 Name/Description/仓库 URL → Submit for Review；对话框正常关闭无报错；审核通过后需按邮件提供 Dockerfile 做自动安全检查 |
+| Glama | ✅ **已通过审核并上线**（2026-10-10 复核确认，优于原「待审核」记录） | 提交路径：GitHub OAuth 授权（D-Asce，scope 仅 read:user+email+org）→ complete-profile → Add Server 对话框（Runs from source）填 Name/Description/仓库 URL → Submit for Review。**上线核验**：`glama.ai/mcp/servers?query=pandastock` 命中条目，归属 `D-Asce`，分类 Finance / Research & Data / AI & Machine Learning，已索引 MCP 工具 `ChMarketFundFlow` / `chStockList` / `ChMarketCurReal` / `ChIndustryCurReal` |
 | MCPFind | ✅ PR 已开 | https://github.com/MCPFind/mcp-find/pull/264（标题 `Add: PandaStock`；fork `D-Asce/mcp-find` 分支 `D-Asce-patch-1`，commit `b3f7763`，新增 `submissions/pandastock.yml` +7/-0，正文含收录标准自证；源自 mcpfind.org 表单 Open GitHub Editor 预填） |
 | MCP Surge | ❌ 作废 | mcpsurge.com Google DNS NXDOMAIN，域名已失效 |
 | 阿里云百炼 | ❌ 不可行 | 云市场 OneKey MCP = 邀约制企业入驻流程（服务商注册 + SPI + 计量计费），个人无入口；「开发者招募」文章链接未能提取 |
@@ -456,6 +456,8 @@ RESULT MCP_SCHEMA_VERIFIED
 | **ModelScope** | ✅ 已收录 | ❌ **已订正：条目不存在** | 见 §4e，三处 404 |
 | **mcp.directory** | ✅ 审核队列 | ❌ **已订正：从未上线** | 见 §4a，三种关键词均无结果 + 对照组通过 |
 | mcpservers.org | ✅ 提交成功 | ✅ **确认在线**（复核后订正为已收录） | 遍历 12 个子 sitemap / **66,783 条 URL**，命中 `https://mcpservers.org/servers/d-asce/pandastocksdk`；打开确认：标题 `PandaStock MCP 服务器`、分类「金融」、正文为仓库 README（含 22 工具 / NATS / 免注册测试账号描述）。⚠️ **slug 规律是 `d-asce/<repo>`，不是 `<name>`**——先前按 `pandastock-mcp` 猜 slug 得 404 是误判来源 |
+| **Glama** | ✅ 已提交（待审核） | ✅ **已通过审核并上线**（好于原记录） | `glama.ai/mcp/servers?query=pandastock` 命中条目：归属 `D-Asce`，分类 Finance / Research & Data / AI & Machine Learning，且已索引 MCP 工具（`ChMarketFundFlow` / `chStockList` / `ChMarketCurReal` / `ChIndustryCurReal`） |
+| MCPWorld | ✅ 已提交（审核中） | ⚠️ **无法判定** | `我的MCP` 显示 "No Data"；但公开广场页为 SPA，**hydration 前渲染占位符「当前已收录 0 个」**（同页他处显示「全部 62324」），`?keyword=` 亦不过滤 → 抓到的很可能是未加载完的占位内容，**不足以判定未收录**，需人工登录后确认 |
 | 魔搭 cookie | （隐含已登录） | ❌ 12 个 cookie 已失效 | 访问 `/my/myacls` 被重定向且显示「登录 / 注册」 |
 
 > ⚠️ **方法学教训**：本轮两次差点误判为"未收录"——一次是 slug 猜错，一次是 camelCase（`PandaData`）没匹配小写 needle（`pandastock`）。
