@@ -455,7 +455,7 @@ RESULT MCP_SCHEMA_VERIFIED
 | mcpmarket | 已收录 | ✅ **确认在线** | `mcpmarket.com/zh/server/pandadata` → 页面显示 `PANDADATA PandaData by D-Asce` |
 | **ModelScope** | ✅ 已收录 | ❌ **已订正：条目不存在** | 见 §4e，三处 404 |
 | **mcp.directory** | ✅ 审核队列 | ❌ **已订正：从未上线** | 见 §4a，三种关键词均无结果 + 对照组通过 |
-| mcpservers.org | ✅ 提交成功 | ⚠️ **无法判定** | 站内检索不支持 URL 参数（`?q=` 不过滤）、猜测 slug 404、sitemap 为 index 且子图 XML 无 `document.body` 导致无法遍历 → **不下结论**，需人工到站内搜索确认 |
+| mcpservers.org | ✅ 提交成功 | ✅ **确认在线**（复核后订正为已收录） | 遍历 12 个子 sitemap / **66,783 条 URL**，命中 `https://mcpservers.org/servers/d-asce/pandastocksdk`；打开确认：标题 `PandaStock MCP 服务器`、分类「金融」、正文为仓库 README（含 22 工具 / NATS / 免注册测试账号描述）。⚠️ **slug 规律是 `d-asce/<repo>`，不是 `<name>`**——先前按 `pandastock-mcp` 猜 slug 得 404 是误判来源 |
 | 魔搭 cookie | （隐含已登录） | ❌ 12 个 cookie 已失效 | 访问 `/my/myacls` 被重定向且显示「登录 / 注册」 |
 
 > ⚠️ **方法学教训**：本轮两次差点误判为"未收录"——一次是 slug 猜错，一次是 camelCase（`PandaData`）没匹配小写 needle（`pandastock`）。
