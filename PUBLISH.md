@@ -438,3 +438,25 @@ RESULT MCP_SCHEMA_VERIFIED
 1. 教程向：《用 MCP 把 A 股实时行情接进 Claude / Cursor》—— 已备（§9.2-2）
 2. 技术向：《为什么 A 股数据用 NATS 推送而不是 REST 轮询》—— 架构差异化（Level2/DDX 主动推送）
 3. English 版：*Building an MCP server for A-share realtime data: NATS push vs REST polling*
+
+### 9.6 渠道状态实测复核（2026-10-10）
+
+因发现 ModelScope 记录有误，对全部「✅ 已收录/已提交」逐条实测复核。**方法学：任何"搜不到"结论必须先做对照组证明检索本身可用**，否则不记录。
+
+| 渠道 | 旧记录 | 实测结论 | 依据 |
+|---|---|---|---|
+| mcpHQ #181 | PR 已开 | ✅ **已合并且条目在线** | API 拉 upstream `main`：条目在 `data/servers.json`，该文件现 250 条 |
+| TensorBlock #3393 | PR 已开 | ✅ **已合并且条目在线** | 同上，条目在 `docs/finance--crypto.md`，原文逐字命中 |
+| punkpeye #15170 | PR 已开 | ✅ 仍 open（记录准确） | `state=open merged=false`，最后更新 09-26 |
+| yzfly #636 | PR 已开 | ✅ 仍 open（记录准确） | 同上，09-27 |
+| AshFrancis001 #1 | PR 已开 | ✅ 仍 open（记录准确） | 同上，09-26 |
+| volcengine #436 | PR 已开 | ✅ 仍 open（记录准确） | 同上，09-27 |
+| MCPFind #264 | PR 已开 | ✅ 仍 open（记录准确） | 同上，09-27 |
+| mcpmarket | 已收录 | ✅ **确认在线** | `mcpmarket.com/zh/server/pandadata` → 页面显示 `PANDADATA PandaData by D-Asce` |
+| **ModelScope** | ✅ 已收录 | ❌ **已订正：条目不存在** | 见 §4e，三处 404 |
+| **mcp.directory** | ✅ 审核队列 | ❌ **已订正：从未上线** | 见 §4a，三种关键词均无结果 + 对照组通过 |
+| mcpservers.org | ✅ 提交成功 | ⚠️ **无法判定** | 站内检索不支持 URL 参数（`?q=` 不过滤）、猜测 slug 404、sitemap 为 index 且子图 XML 无 `document.body` 导致无法遍历 → **不下结论**，需人工到站内搜索确认 |
+| 魔搭 cookie | （隐含已登录） | ❌ 12 个 cookie 已失效 | 访问 `/my/myacls` 被重定向且显示「登录 / 注册」 |
+
+> ⚠️ **方法学教训**：本轮两次差点误判为"未收录"——一次是 slug 猜错，一次是 camelCase（`PandaData`）没匹配小写 needle（`pandastock`）。
+> 对照组（control）是唯一防误判手段：先证明检索工具本身有效，再采信阴性结果。
