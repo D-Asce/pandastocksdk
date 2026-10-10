@@ -495,3 +495,27 @@ RESULT MCP_SCHEMA_VERIFIED
 
 > ⚠️ **本轮方法学教训（与 §9.6 同源）**：**提交前必须先读 README/CONTRIBUTING 原文**。本轮若不核查就批量开 PR，会产出 1 个必被拒（wong2）+ 1 个重复（punkpeye）+ 2 个格式错误（README vs 生成源）的无效 PR。
 > 另有两个技术坑：① `contents` API 对 **>1 MB** 文件返回空 content（ever-works README 因此一度误读为 0 字节），须改用 git blob API；② 强格式要求的条目里 repo slug 会**重复出现 4 次**（加粗文字/链接/badge/badge 链接），用 `count('slug')==1` 校验会误报失败，应改为校验整块文本恰好出现一次。
+
+### 9.8 国内渠道（用户明确「国内用户比较重要」，2026-10-10）
+
+用户拍板**国内优先**。据此把国内渠道按**「自动化程度」**而非流量排序 —— 因为能自动化的才能持续产出：
+
+| 渠道 | 自动化 | 机制 | 前置（仅用户可做） |
+|---|---|---|---|
+| **博客园** | 🟢 **全自动** | **官方 MetaWeblog XML-RPC**（非逆向接口）：`newPost`/`editPost`/`getRecentPosts`/`newMediaObject` | 博客设置 → 其它设置 → 勾选「允许 MetaWeblog 访问」→ 取**访问令牌** |
+| **掘金** | 🟡 半自动 | Cookie 鉴权（无 OAuth）：`article_draft/create` + `article/publish`；**写接口不需反爬签名**（仅读接口需 msToken） | 浏览器登录后复制整条 Cookie |
+| **Gitee** | 🟡 API v5 | `POST /v5/user/repos` 建仓 + git push（注意默认分支 `master`） | ⚠️ **实名认证 + 2FA/绑第三方**，否则建公开仓库被拦 |
+| **知乎** | 🔴 浏览器自动化 | 发布接口有 `x-zse-93`/`x-zse-96` 签名，逆向成本过高 | 登录态；建议只做回答不做发文 |
+
+**已完成的可行性验证（无凭证，仅凭协议层证据）：**
+- `rpc.cnblogs.com:443` / `gitee.com` / `api.juejin.cn` / `juejin.cn` / `zhihu.com` **五个域名 TCP+TLS 全部连通**
+- 博客园 XML-RPC 实测：用空凭证调用 `blogger.getUsersBlogs` 返回 **Fault「请输入用户名」**、`metaWeblog.getCategories` 返回 **Fault「参数有误, 缺失部分参数」** —— 这是**参数校验级**报错，证明端点存活、协议可通、目标方法确实存在（对比「方法不存在」才是坏消息）。`system.listMethods` 返回 `Failed to handle XmlRpcService call` 属正常（该可选方法未实现），不可作为连通性判据。
+
+**已交付脚本**（`D:\code\net\promo-repos\research\`，纯标准库/stdlib）：
+- `cnblogs_publish.py` —— `--check` 先验凭证，`--draft` 存草稿，标题优先级 `--title` > 文件 H1 > 文件名
+- `juejin_publish.py` —— 已把踩坑点固化：`category_id` 必须传字符串、`brief_content` ≤100 字（实测三种输入截断正确）、`tag_ids` 不可空、成功判据用 `err_no==0`（`err_msg` 本身就是 `"success"`）、建草稿返回 `data.id` 而非 `data.article_id`
+- `国内渠道-凭证清单.md` —— 用户侧操作步骤；凭证只进本地 `.env`，已加 `.gitignore` 兜底
+
+> ⚠️ **两条不可越的红线**
+> 1. **合规**：全程锁定「数据工具」定位，不出现荐股 / 收益 / 稳赚等表述。雪球等需金融资质的平台直接跳过。
+> 2. **先给价值再谈产品**：博客园/掘金读者对硬广极度敏感。首篇必须是**能独立解决的技术内容**（如「NATS 推送 vs REST 轮询，实测延迟差多少」），产品仅在文末一句带过。
