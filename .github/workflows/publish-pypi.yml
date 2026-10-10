@@ -1,0 +1,129 @@
+name: Release (PyPI + MCP Registry)
+
+# One tag push publishes to PyPI first, then to the MCP Registry.
+#
+# Ordering is mandatory: the registry validates ownership by reading the
+# `mcp-name:` marker out of the *PyPI* package description, so the registry
+# job cannot run until PyPI actually has the version. Running them as two
+# independent tag-triggered workflows races, and the registry preflight loses.
+#
+# PyPI uses Trusted Publishing (OIDC) — no API token is stored in this repo.
+# One-time setup, required once, in the PyPI web UI:
+#   pypi.org/manage/account/publishing → add a GitHub publisher with
+#     repo  = D-Asce/pandastocksdk
+#     name  = release-pypi
+#     workflow = publish-pypi.yml
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  pypi:
+    name: Publish to PyPI (trusted publishing)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # PyPI Trusted Publishing
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build sdist + wheel
+        run: |
+          python -m pip install --upgrade build
+          python -m build
+
+      - name: Show what is about to be uploaded
+        run: |
+          ls -l dist/
+          python - <<'PY'
+          import glob, zipfile, re
+          whl = glob.glob("dist/*.whl")
+          if not whl:
+              raise SystemExit("no wheel built")
+          z = zipfile.ZipFile(whl[0])
+          meta = z.read(next(n for n in z.namelist()
+                             if n.endswith(".dist-info/METADATA"))).decode("utf-8")
+          # fail loudly here rather than after an irreversible upload
+          for pat, label in ((r"^Version:\s*(\S+)", "Version"),
+                             (r"^Requires-Dist:\s*mcp\S*", "mcp requirement")):
+              m = re.search(pat, meta, re.M)
+              print(f"  {label}: {m.group(0) if m else 'MISSING'}")
+          assert "github.com/example" not in meta, "placeholder URL still in metadata"
+          assert "io.github.D-Asce/pandastocksdk" in meta, "mcp-name marker missing"
+          print("  artifact checks OK")
+          PY
+
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  registry:
+    name: Publish to MCP Registry (GitHub OIDC)
+    needs: pypi # hard ordering: PyPI must carry the version + marker first
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # GitHub OIDC for `mcp-publisher login github-oidc`
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preflight — PyPI must have this version with mcp-name marker
+        run: |
+          python3 - <<'PY'
+          import json, sys, urllib.request
+
+          server = json.load(open("server.json"))
+          pkg = next(p for p in server["packages"] if p["registryType"] == "pypi")
+          ident, ver, name = pkg["identifier"], pkg["version"], server["name"]
+
+          problems = []
+          if ver != server["version"]:
+              problems.append(f"server.json version={server['version']} != packages.version={ver}")
+
+          try:
+              data = json.load(urllib.request.urlopen(f"https://pypi.org/pypi/{ident}/json"))
+          except Exception as exc:
+              problems.append(f"PyPI package {ident} not fetchable: {exc}")
+              data = None
+
+          if data:
+              desc = data["info"].get("description") or ""
+              if data["info"]["version"] != ver:
+                  problems.append(
+                      f"PyPI latest={data['info']['version']} but server.json={ver} — upload to PyPI first"
+                  )
+              if name not in desc:
+                  problems.append(
+                      f"mcp-name marker '{name}' missing from PyPI README — re-upload with current README"
+                  )
+              if "github.com/example" in desc:
+                  problems.append("PyPI description still carries the placeholder URL")
+
+          if problems:
+              print("::error::MCP Registry publish preflight failed")
+              for p in problems:
+                  print(f" - {p}")
+              sys.exit(1)
+          print(f"Preflight OK: {name} {ver} on PyPI")
+          PY
+
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+
+      - name: Validate server.json against live registry schema
+        run: ./mcp-publisher validate
+
+      - name: Authenticate to MCP Registry (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        run: ./mcp-publisher publish
