@@ -362,8 +362,8 @@ py -m twine upload dist/*
 
 | 仓库 | PR | 合并人 | 合并时间 | merge commit | 上线核验（拉 upstream `main` 实测） |
 |---|---|---|---|---|---|
-| **mcpHQ/awesome-mcp-servers** | [#181](https://github.com/mcpHQ/awesome-mcp-servers/pull/181) | `imrajdas` | 2026-09-10 01:59 CST | `de327a2` | ✅ `data/servers.json` 命中条目：`name=PandaStock` / `category=finance-commerce-and-business-apps` / `language=Python` / `provider=pandaData` / `url` 指向真实仓库；该文件当前 **250** 个 servers |
-| **TensorBlock/awesome-mcp-servers** | [#3393](https://github.com/TensorBlock/awesome-mcp-servers/pull/3393) | `wilsonccccc` | 2026-09-10 00:09 CST | `573076d` | ✅ `docs/finance--crypto.md` 命中条目原文：<br>`- [PandaStock](https://github.com/D-Asce/pandastocksdk): A-share real-time market data MCP server - NATS-pushed quotes, Level-2, DDX big orders, money flow and AI stock screening; 176 server-side endpoints, 22 open endpoints with a free public test account. Install: pip install pandastock-mcp.` |
+| **mcpHQ/awesome-mcp-servers** | [#181](https://github.com/mcpHQ/awesome-mcp-servers/pull/181) | `imrajdas` | 2026-10-10 01:59 CST | `de327a2` | ✅ `data/servers.json` 命中条目：`name=PandaStock` / `category=finance-commerce-and-business-apps` / `language=Python` / `provider=pandaData` / `url` 指向真实仓库；该文件当前 **250** 个 servers |
+| **TensorBlock/awesome-mcp-servers** | [#3393](https://github.com/TensorBlock/awesome-mcp-servers/pull/3393) | `wilsonccccc` | 2026-10-10 00:09 CST | `573076d` | ✅ `docs/finance--crypto.md` 命中条目原文：<br>`- [PandaStock](https://github.com/D-Asce/pandastocksdk): A-share real-time market data MCP server - NATS-pushed quotes, Level-2, DDX big orders, money flow and AI stock screening; 176 server-side endpoints, 22 open endpoints with a free public test account. Install: pip install pandastock-mcp.` |
 
 > ⚠️ 两条 PR 在合并前都曾因 fork base 落后被判 `dirty`（head==base 导致被自动关闭），
 > 修复流程：`merge-upstream` 同步 fork main → force-reset 分支 → 从新 base 重取目标文件
@@ -467,3 +467,31 @@ RESULT MCP_SCHEMA_VERIFIED
 
 > ⚠️ **方法学教训**：本轮两次差点误判为"未收录"——一次是 slug 猜错，一次是 camelCase（`PandaData`）没匹配小写 needle（`pandastock`）。
 > 对照组（control）是唯一防误判手段：先证明检索工具本身有效，再采信阴性结果。
+
+### 9.7 2026-10-10 新增 GitHub 列表批次（3 条新 PR，自动化全流程）
+
+**结论先行：GitHub PR 是当前唯一可端到端全自动化的渠道**（建 fork → 改文件 → push → 开 PR → 校验 mergeable）。本轮据此又筛出 3 个未覆盖的高质量列表并全部自动提交成功。
+
+| 新 PR | 目标 | ⭐ | 改动 | 状态 |
+|---|---|---|---|---|
+| [#602](https://github.com/YuzeHao2023/Awesome-MCP-Servers/pull/602) | YuzeHao2023/Awesome-MCP-Servers | 1071 | `README.md` +1/−0 | ✅ open / mergeable=clean |
+| [#721](https://github.com/MobinX/awesome-mcp-list/pull/721) | MobinX/awesome-mcp-list | 889 | `README.md` +1/−0 | ✅ open / mergeable=clean |
+| [#487](https://github.com/tolkonepiu/best-of-mcp-servers/pull/487) | tolkonepiu/best-of-mcp-servers | 152 | `projects.yaml` +7/−0 | ✅ open / clean，`yamllint` **success** |
+
+**三个列表的提交格式各不相同，均已按各自规则定制（不可套用同一模板）：**
+
+1. **YuzeHao2023** — 分区 `## Category: Finance`，条目格式为 `- 名称 — URL (说明)`，分隔符是 **U+2014 em dash**（⚠️ 非 ASCII `-`，首版写错已修正）。
+2. **MobinX** — 有强制 [CONTRIBUTING.md](https://github.com/MobinX/awesome-mcp-list/blob/main/CONTRIBUTING.md)，要求**逐字**匹配模板：`-` + **三个空格** + `**[owner/repo](url)**` + 与 repo 同名的 stars badge + 一句话说明；且明确「格式不符 / 无 public repo 的 PR 会被 close」。分区 `### 💰 Finance & Fintech`。
+3. **tolkonepiu** — ⚠️ **README 是自动生成的**，直接改 README 会被覆盖；正确做法是改数据源 `projects.yaml`，记录 schema 为 `name` / `github_id` / `description`(折叠块 `>-`) / `category: finance-and-fintech`。
+
+**主动排除的 4 个候选（避免无意义 PR / 重复投稿）：**
+
+| 目标 | ⭐ | 排除原因 |
+|---|---|---|
+| wong2/awesome-mcp-servers | 4350 | ⚠️ **README 明写 "We do not accept PRs"**，要求走 mcpservers.org（§4a 已投）。差点白开一个必被自动关闭的 PR |
+| punkpeye/awesome-mcp-servers | 96k | 已有 open PR #15170，重复投稿会被判 duplicate |
+| PipedreamHQ/awesome-mcp-servers | 284 | 最后更新 **2025-03-30**（停更 18 个月），且条目全是自家 `mcp.pipedream.com/app/...` 托管应用，非 Pipedream 集成项目投了也会被拒 |
+| ever-works/awesome-mcp-servers | 117 | README（1.33 MB）+ 6,682 个 `details/*.md` **由商业平台 "Ever Works Directory Builder" 生成**，无 CI workflow；改生成物等于无效 PR |
+
+> ⚠️ **本轮方法学教训（与 §9.6 同源）**：**提交前必须先读 README/CONTRIBUTING 原文**。本轮若不核查就批量开 PR，会产出 1 个必被拒（wong2）+ 1 个重复（punkpeye）+ 2 个格式错误（README vs 生成源）的无效 PR。
+> 另有两个技术坑：① `contents` API 对 **>1 MB** 文件返回空 content（ever-works README 因此一度误读为 0 字节），须改用 git blob API；② 强格式要求的条目里 repo slug 会**重复出现 4 次**（加粗文字/链接/badge/badge 链接），用 `count('slug')==1` 校验会误报失败，应改为校验整块文本恰好出现一次。
