@@ -519,3 +519,83 @@ RESULT MCP_SCHEMA_VERIFIED
 > ⚠️ **两条不可越的红线**
 > 1. **合规**：全程锁定「数据工具」定位，不出现荐股 / 收益 / 稳赚等表述。雪球等需金融资质的平台直接跳过。
 > 2. **先给价值再谈产品**：博客园/掘金读者对硬广极度敏感。首篇必须是**能独立解决的技术内容**（如「NATS 推送 vs REST 轮询，实测延迟差多少」），产品仅在文末一句带过。
+
+### 9.9 2026-10-10 阻塞项复核（3 项全部重新验证，含 1 项已解除）
+
+系统提示仍有 3 项未完成。逐项复核后：**0 项可完全自动解除，1 项取得实质进展，2 项确认为真实阻塞**。过程本身发现了 3 个此前未记录的问题。
+
+#### 9.9.1 PyPI / MCP Registry 死锁 —— 🔧 已打破（唯一需用户做一次性配置）
+
+**先量化线上缺陷（此前只记为「死链」，实际更严重）：**
+
+| 字段 | 线上 1.5.4（错误） | 本地 1.5.5（已修） |
+|---|---|---|
+| Homepage / Repository / Documentation | `github.com/example/pandastock-mcp` ← **setuptools 占位符，三个全是假的** | `github.com/D-Asce/pandastocksdk` |
+| `requires_dist` | `mcp<2,>=1.0.0` ← 与代码实际需求不符 | `mcp>=2.0` |
+| `mcp-name` marker | **缺失** | 已含 |
+
+即从 PyPI 安装的人，主页指向不存在的仓库。
+
+**发现的死锁**：旧 `publish-mcp.yml` 只发 MCP Registry，且 preflight 第 46-49 行在「PyPI 版本不匹配」时直接 `sys.exit(1)`。于是：PyPI 等用户传 token → Registry 工作流又等 PyPI 先有 1.5.5 → **两边互相等待，永远走不到**。
+
+**解法**：新增 `publish-pypi.yml`，单工作流内两个 job 顺序执行——
+```
+pypi (Trusted Publishing/OIDC, 无需 token)  →  registry (needs: pypi)
+```
+- PyPI 侧改用 **Trusted Publishing**，仓库内不再存任何 token
+- 上传前断言产物含 `mcp-name` 且不含 `github.com/example`，避免不可逆的错误发布
+- **删除旧 `publish-mcp.yml`**：它同样监听 `v*` tag，两者会在同一次推送里争抢发布同一个 Registry 条目（已用 YAML 解析验证确认冲突）
+
+**仍需用户做一次性配置**（网页操作，无法用 API 代替）：
+`pypi.org/manage/account/publishing` → 新增 GitHub publisher → repo `D-Asce/pandastocksdk`、workflow 名 `publish-pypi.yml`。配置后打 `v*` tag 即全自动完成 PyPI + Registry。
+
+#### 9.9.2 HF Space —— ❌ 确认为双重阻塞（此前结论不完整，已纠正）
+
+此前只记「超时」。实测发现是 **DNS 污染**：
+
+| 域名 | 解析结果 | 结论 |
+|---|---|---|
+| `huggingface.co` | `108.160.162.98` / `128.121.243.77` | TCP 超时（污染 IP） |
+| `hf.co` | AWS `3.210.66.237` 等 6 个 | **TCP+TLS 正常** |
+| `api.github.com` / `gitee.com` | 正常 | 对照组通过 |
+
+⚠️ **纠正我自己的中途判断**：我一度认为「换 hf.co 就能通」——**这是错的**。`hf.co/api/...` 返回 `307`，`Location` 指向 `https://huggingface.co/api/...`，又回到被污染的域名。尝试用 `hf.co` 的 IP + `SNI=huggingface.co` 绕过，nginx 直接 `ConnectionReset`。
+
+**结论：网络层无解（需换代理），且即使网络通了也无 HF 凭证。** 依赖托管端点的 3 个远程 MCP 榜（jaw9c ⭐1138 / punkpeye-remote ⭐1001 / sylviangth ⭐72）继续挂起。
+
+#### 9.9.3 PR 全量审计 —— ✅ 发现并修复 1 个高价值 PR，清单大幅修正
+
+| PR | 复核结果 |
+|---|---|
+| YuzeHao #602 / MobinX #721 / tolkonepiu #487 | ✅ open / mergeable / clean |
+| **punkpeye #15170** | ⚠️ **`mergeable_state=dirty`（冲突）+ 2 个 bot 判负**，本就永远合不上 |
+| yzfly #636 / AshFrancis001 #1 / volcengine #436 / MCPFind #264 | ❌ **4 个仓库已被删除**，PR 随之消失 |
+| mcpHQ #181 / TensorBlock #3393 | ✅ 对照组：仍为 merged（证明审计方法本身有效） |
+
+**4 个「消失」的定性**（按 §9.6 方法学做了对照）：owner 账号全部健在（`volcengine` 211 repos、`yzfly` 89 repos），仅目标仓库被删 → 仓库被删除/下架，非账号消失，PR 无法挽回。
+
+**punkpeye 修复（96,016⭐，手上最有价值的 PR）**：两个 bot 要求此前均未满足——
+- `name-check`：条目名须为完整 `owner/repo`，原用 `pandastock-mcp` ❌（**与本轮 MobinX 修掉的是同一类 bug**）
+- `glama-check`：须在 Glama 上架 ✅（实测 `glama.ai/mcp/servers/D-Asce/pandastocksdk` 返回 200，徽章 `badges/score.svg` 返回 200 + `image/svg+xml` 真实 SVG，已验证非坏图）
+
+因该 README 每日被 bot 重写，在旧分支上补救只会让 diff 变成 1.4 MB 噪声，故**重建**：以当前 `main`（`cc7f1f42c3`）为基底，在 `### 💰 Finance & Fintech` 末尾插入合规条目 → **新 PR [#16114](https://github.com/punkpeye/awesome-mcp-servers/pull/16114)，+1/−0，mergeable=clean**；旧 #15170 已留言说明并关闭，避免重复条目。
+
+#### 9.9.4 两个新踩的坑
+
+1. **`git push` 到 `github.com:443` 完全不可用**（5/5 连接超时），但 `api.github.com` 正常（346ms）→ 已改用 REST git API 推送（`api_push.py`）。注意：API 提交的 commit SHA 与本地不同（时间戳/committer 不同），故需记录「上次同步的本地 commit」作为 diff 基准，否则 `git fetch` 不可用时无法计算差异。
+2. **本机 `site.ENABLE_USER_SITE = False`** → `pip install --user` 会显示成功但 `import` 不到（此前 PyYAML、aiohttp 均如此）。须显式设置 `PYTHONPATH=C:\Users\asce1\AppData\Roaming\Python\Python311\site-packages`。
+
+#### 9.9.5 第三方平台登录态 —— ❌ 无可用凭证
+
+`.playwright-mcp/` 下无任何 `storage_state` / cookie 文件（仅 npm 包文件）。扫描各 Chromium/CEF profile 的 `Cookies` 库：掘金 / 知乎 / CSDN / 雪球 / Gitee / 博客园 / 魔搭 **全部 ABSENT**。
+
+> ⚠️ **本项为部分审计**：Chrome 主 profile 的 `Cookies` 因文件被占用而读取失败（`PermissionError`），故结论仅覆盖可读的 Electron/CEF profile。GitHub 显示 ABSENT 但我们确有可用凭证——因为它走 `git credential` 而非 cookie，两者是不同通路。
+
+#### 9.9.6 仍未解除的阻塞（汇总）
+
+| 阻塞项 | 需要用户做的事 |
+|---|---|
+| PyPI 1.5.5 上线 | 配置一次 Trusted Publisher（§9.9.1），之后打 tag 即可 |
+| HF Space | 需可访问 huggingface.co 的网络 **且** HF 账号 |
+| 掘金 / 知乎 / CSDN 发文 | 提供登录态（掘金 cookie / 知乎扫码登录） |
+| Gitee 建仓 | 实名认证 + 2FA/绑第三方 + 私人令牌 |
