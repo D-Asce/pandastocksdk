@@ -196,7 +196,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 |---|---|---|
 | 火山引擎 volcengine/mcp-server | ✅ PR 已开 | https://github.com/volcengine/mcp-server/pull/436（Open，+1/-0） |
 | Influzer.ai | ✅ 提交成功 | https://www.influzer.ai/mcp/submit → "Thanks! Your submission was received"；已登录态（后续可编辑）；Category=Data & Analytics、Transport=stdio、Official 勾选、含真实工具清单 + Claude/Cursor 配置片段 |
-| 魔搭 ModelScope | ✅ 已收录（未重复提交） | `@ascegu/panda_stock_l2` 已在列；条目陈旧（写 141 工具、gitcode 旧镜像链）→ 待后续联系更新 |
+| 魔搭 ModelScope | ❌ **此前记录有误，实际未收录** | **2026-10-10 实测推翻旧结论**：旧记录写「`@ascegu/panda_stock_l2` 已在列，条目陈旧待更新」——实测该条目**根本不存在**。三处独立核验均 404：① `api/v1/models/ascegu/panda_stock_l2` → `{"Code":10010205001,"Message":"获取模型信息失败，信息：record not found"}`；② `api/v1/spaces/ascegu/panda_stock_l2` → 404（非创空间）；③ `/models/ascegu/panda_stock_l2` → HTTP 200 但**空壳**（只有导航栏 + 4 条 console error）。**结论：不是「陈旧待更新」，而是「从未创建，需重新提交」**。另：Playwright 浏览器虽有 12 个 `modelscope.cn` cookie，但访问 `/my/myacls` 被重定向且页面显示「登录 / 注册」→ cookie 已失效，**无登录态**，需用户重新登录后才能创建 |
 | yzfly/Awesome-MCP-ZH（7.7k★，权威中文列表） | ✅ PR 已开 | https://github.com/yzfly/Awesome-MCP-ZH/pull/636（标题 `新增 PandaStock 到 💰 金融与加密货币`；README +1/-0，插入「金融与加密货币」节 OpenChainBench 与 pwh-pwh 之间，正文含收录标准自证） |
 | Glama | ✅ 已提交（待审核） | GitHub OAuth 授权（D-Asce，scope 仅 read:user+email+org）→ complete-profile → Add Server 对话框（Runs from source）填 Name/Description/仓库 URL → Submit for Review；对话框正常关闭无报错；审核通过后需按邮件提供 Dockerfile 做自动安全检查 |
 | MCPFind | ✅ PR 已开 | https://github.com/MCPFind/mcp-find/pull/264（标题 `Add: PandaStock`；fork `D-Asce/mcp-find` 分支 `D-Asce-patch-1`，commit `b3f7763`，新增 `submissions/pandastock.yml` +7/-0，正文含收录标准自证；源自 mcpfind.org 表单 Open GitHub Editor 预填） |
@@ -349,7 +349,7 @@ py -m twine upload dist/*
 | 目录 | mcp.directory / mcpservers.org / FindMCP / mcptrove / MCPFind / MCPWorld / mcpapp / mcpmarket / Influzer / Glama / mcp.so | ✅ 已提交，审核中 |
 | Awesome list | punkpeye / yzfly / AshFrancis / Horatio-Li（评论） | ✅ 已提交 |
 | GitHub PR/issue（本周） | **mcpHQ #181 ✅已合并** / **TensorBlock #3393 ✅已合并** / wunder #112 · BlockRunAI #108 · cline #2895 | 2 条已合并上线，3 条等审核 |
-| 量化平台 | volcengine / ModelScope | ✅ 已提交 |
+| 量化平台 | volcengine ✅已提交 / ModelScope ❌**实测未收录**（旧记录有误，见 §4e） | 1 条待审核，1 条需重新创建 |
 
 > 边际收益递减 —— **不再继续铺目录**，转向「内容 + 社区 + 平台模块」。
 
