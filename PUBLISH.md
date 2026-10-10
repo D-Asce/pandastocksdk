@@ -336,3 +336,93 @@ py -m twine upload dist/*
 | r/mcp · r/LocalLLaMA · r/algotrading | 技术分享帖形式；reddit 自我推广政策：外链 + 透明身份 |
 | V2EX 推广节点 | 分享创造发过一次后的后续推广放 /go/promotions |
 | 雪球 / 集思录 | 量化散户社区；以「数据接口能力演示」切入，别硬广 |
+
+---
+
+## 9. 2026-10-10 下一步推广计划
+
+### 9.0 已完成渠道汇总（20+，均在等审核或已生效）
+
+| 类别 | 渠道 | 状态 |
+|---|---|---|
+| 基础 | GitHub topics（12 个） | ✅ 生效 |
+| 目录 | mcp.directory / mcpservers.org / FindMCP / mcptrove / MCPFind / MCPWorld / mcpapp / mcpmarket / Influzer / Glama / mcp.so | ✅ 已提交，审核中 |
+| Awesome list | punkpeye / yzfly / AshFrancis / Horatio-Li（评论） | ✅ 已提交 |
+| GitHub PR/issue（本周） | wunder #112 / mcpHQ #181 / BlockRunAI #108 / TensorBlock #3393 / cline #2895 | ✅ open，等审核 |
+| 量化平台 | volcengine / ModelScope | ✅ 已提交 |
+
+> 边际收益递减 —— **不再继续铺目录**，转向「内容 + 社区 + 平台模块」。
+
+### 9.1 🔴 P0 — PyPI 1.5.5 发版（只有用户能做，杠杆最大）
+
+> ⚠️ **不是发新版本，是修 1.5.4 的 4 处元数据**（PyPI 元数据不可原地改，必须重发）。
+
+已实测确认（2026-10-10）：
+
+| 检查项 | 1.5.5 状态 |
+|---|---|
+| `twine check dist/*` | ✅ 两包均 PASSED |
+| `Project-URL` × 4 | ✅ 全指 `github.com/D-Asce/pandastocksdk`（1.5.4 是 `github.com/example` 死链） |
+| `Requires-Dist: mcp` | ✅ `mcp>=2.0`（1.5.4 写的是 `mcp<2,>=1.0.0` 与代码冲突） |
+| README `mcp-name` 标记 | ✅ `io.github.D-Asce/pandastocksdk`（**Registry 所有权校验读这个**） |
+| 描述里的 `166` | ✅ 出现 0 次（`176` 出现 4 次） |
+
+上传（**只差 token**；本机 `twine 7.0.0` 已装，但实测报 `ERROR NonInteractive: Credential not found for API token.`）：
+
+```powershell
+cd D:\code\net\pandastocksdk
+py -m twine upload dist/*
+# Username: __token__   Password: <你的 PyPI token>
+```
+
+**一个动作解锁整条链**：官方 MCP Registry（CI workflow 已就绪，`git tag v1.5.5 && push` 即发）→ Smithery 自动索引 → 中文 6 站复查（mcphello/followmcp/jindage/mcpradars/mcp.aibase）→ Glama 自动索引。
+
+### 9.2 🟢 P1 — 零成本、受众最准（已备好，待用户发布）
+
+| # | 内容 | 产物 | 状态 |
+|---|---|---|---|
+| 1 | **BigQuant 模块市场** | `promo-repos/bigquant/pandastock_datasource/`（`__init__.py` + `bigmodule.json` + `README.md`）—— 把 PandaStock 包成可视化数据源模块，`bq module publish` 发布 | ✅ 代码已备，待用户用 BigQuant 账号发布 |
+| 2 | **中文长文（四站同发）** | `promo-repos/research/articles/zh-用MCP接A股行情.md` —— 《用 MCP 把 A 股实时行情接进 Claude / Cursor》 | ✅ 文稿已备，待用户发：知乎 + 掘金 + CSDN + 雪球 |
+| 3 | **Tushare 社区** | `promo-repos/research/posts/tushare-community-post.md` | ✅ 草稿已备，待用户发 |
+| 4 | **Akshare / Baostock 社区** | `promo-repos/research/posts/akshare-baostock-community-post.md` | ✅ 草稿已备，待用户发 |
+
+### 9.3 🟡 P2 — HF Space 托管 MCP 端点（仓库已建好并通过端到端验证）
+
+**Space 仓库（canonical）**：https://github.com/D-Asce/pandastock-mcp-space
+HEAD `47f7f63` — 6 个文件：`README.md`（含 `sdk: gradio` / `app_file: app.py` frontmatter）
+`app.py`（8 个 MCP 工具）`requirements.txt`（`gradio[mcp]` + `nats-py`）`panda_stock.py`
+`verify_mcp_schema.py`（验证脚本）`VERIFICATION.md`（验证报告）
+
+**✅ 已完成的端到端验证（2026-10-10，本机实跑）**：
+
+```
+initialize /gradio_api/mcp/ -> 200  serverInfo={name:"Gradio",version:"1.30.0"}
+tools/list                    -> TOOLS_COUNT 8
+  ch_stock_list args=[]                              ch_core_news        args=['date']
+  ch_one_stock_real args=['code']                    ch_market_fund_flow args=[]
+  ch_stock_front_day_history args=['code']           ch_lhb_data         args=['date']
+  ch_stock_minute_history args=['code','minute','date']
+  ch_ddx_stock_data args=['code']
+RESULT MCP_SCHEMA_VERIFIED
+```
+
+⚠️ **部署陷阱（实测发现）**：MCP 端点必须带尾斜杠 —— `/gradio_api/mcp` 返回 **307 重定向**，
+不跟随重定向的客户端会直接连接失败。对外配置一律写 `https://<space>.hf.space/gradio_api/mcp/`。
+
+**用户只需 1 步**：https://huggingface.co/spaces/new → Create a Space from a GitHub repo
+→ 选 `D-Asce/pandastock-mcp-space` → SDK=Gradio → Name=`pandastock-mcp` → Public
+（huggingface.co 从本环境不可达，必须本地浏览器操作；建好后给我 URL，我跑远程 schema 复验）
+
+⚠️ 数据风险：公共测试账号按来源 IP 限频（本机 IP 已被本轮测试打满，HF 服务器 IP 需实测）。
+
+### 9.4 🔵 P3 — 等 P0 完成后观察
+
+- **英文社区**：r/LocalLLaMA 可发（r/algotrading 禁自我推广）；Show HN 配合 PyPI 发布叙事
+- **聚宽 / 米筐社区帖**：受众存在但无正式提交入口，性价比低于 BigQuant
+- **B 站视频**：量化 + MCP 题材有流量，制作成本高
+
+### 9.5 选题统一口径（三篇打天下，别每处重写）
+
+1. 教程向：《用 MCP 把 A 股实时行情接进 Claude / Cursor》—— 已备（§9.2-2）
+2. 技术向：《为什么 A 股数据用 NATS 推送而不是 REST 轮询》—— 架构差异化（Level2/DDX 主动推送）
+3. English 版：*Building an MCP server for A-share realtime data: NATS push vs REST polling*

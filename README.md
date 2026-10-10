@@ -344,6 +344,28 @@ print(ps.get_ch_industry_real())
 
 仓库根目录 `SKILL.md` 供 Claude Code / OpenClaw 直接激活。
 
+## 📝 深度文章
+
+| 文章 | 内容 |
+|---|---|
+| [用 MCP 把 A 股实时行情接进 Claude / Cursor](docs/articles/01-tutorial-zh.md) | 5 分钟上手教程 · 安装 / 配置 / 实战示例 |
+| [为什么 A 股数据用 NATS 推送而不是 REST 轮询](docs/articles/02-why-nats-zh.md) | 架构差异化 · Level-2 / DDX / 实时推送的技术原因 |
+| [Building an MCP Server for A-share Realtime Data](docs/articles/03-architecture-en.md) | English · NATS push vs REST polling for market data |
+
+## ☁️ 托管 MCP 端点
+
+不想装 Python？直接用 Hugging Face 上的托管 Space（免安装、免注册，公开测试账号）：
+
+**`D-Asce/pandastock-mcp-space`** → https://github.com/D-Asce/pandastock-mcp-space
+
+MCP 客户端配置（注意 URL 尾斜杠不能省）：
+
+```json
+{ "mcpServers": { "panda-stock": { "url": "https://asce-pandastock-mcp.hf.space/gradio_api/mcp/" } } }
+```
+
+或在 https://huggingface.co/settings/mcp 点 Space 卡片上的 MCP 徽章一键添加。
+
 ## ⚖️ 许可证
 
 MIT（见 `LICENSE`）。客户端开源，**调用后端需有效 phone/nid，按量计费**。
