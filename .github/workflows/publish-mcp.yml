@@ -1,0 +1,75 @@
+name: Publish to MCP Registry
+
+# Official MCP Registry publish via GitHub OIDC — no secrets required.
+# Prerequisite: the matching version must already be on PyPI, because the
+# registry validates ownership by reading the `mcp-name:` marker from the
+# package README. The preflight step fails fast (with a clear message) when
+# PyPI is not ready yet.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write # GitHub OIDC for `mcp-publisher login github-oidc`
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Preflight — PyPI must have this version with mcp-name marker
+        run: |
+          python3 - <<'PY'
+          import json, sys, urllib.request
+
+          server = json.load(open("server.json"))
+          pkg = next(p for p in server["packages"] if p["registryType"] == "pypi")
+          ident, ver, name = pkg["identifier"], pkg["version"], server["name"]
+
+          problems = []
+          if ver != server["version"]:
+              problems.append(f"server.json version={server['version']} != packages.version={ver}")
+
+          try:
+              data = json.load(urllib.request.urlopen(f"https://pypi.org/pypi/{ident}/json"))
+          except Exception as exc:
+              problems.append(f"PyPI package {ident} not fetchable: {exc}")
+              data = None
+
+          if data:
+              desc = data["info"].get("description") or ""
+              if data["info"]["version"] != ver:
+                  problems.append(
+                      f"PyPI latest={data['info']['version']} but server.json={ver} — upload to PyPI first"
+                  )
+              if name not in desc:
+                  problems.append(
+                      f"mcp-name marker '{name}' missing from PyPI README — re-upload with current README"
+                  )
+
+          if problems:
+              print("::error::MCP Registry publish preflight failed")
+              for p in problems:
+                  print(f" - {p}")
+              sys.exit(1)
+          print(f"Preflight OK: {name} {ver} on PyPI")
+          PY
+
+      - name: Install mcp-publisher
+        run: |
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+
+      - name: Validate server.json against live registry schema
+        run: ./mcp-publisher validate
+
+      - name: Authenticate to MCP Registry (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        run: ./mcp-publisher publish
