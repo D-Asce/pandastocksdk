@@ -145,7 +145,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 
 | 渠道 | 入口 | 结果 |
 |---|---|---|
-| mcp.directory | https://mcp.directory/submit | ✅ 已在审核队列（返回 "already submitted, review soon"，24h 内发布） |
+| mcp.directory | https://mcp.directory/submit | ❌ **此前记录有误，实际未上架**（2026-10-10 实测：提交于 09-26，已过 14 天仍未收录；站内搜 `pandastock`/`pandaData`/`a-share` 均 "No servers found"；猜测 slug `/server/pandastock-mcp` 404。**对照组已验证检索可用**——搜 `filesystem` 正常返回官方 Filesystem 80.5k★，故「搜不到」是有效阴性而非检索故障）→ 需重新提交并跟踪是否真正上架 |
 | mcpservers.org | https://mcpservers.org/submit | ✅ 提交成功（免费档，最长 2 周审核，邮件通知） |
 | FindMCP | https://findmcp.app/submit | ✅ 提交成功（`{"success":true,"id":96}`，需英文描述 80+ 字符 + Claude Desktop 安装片段） |
 | mcptrove.com (MCP Directory) | https://mcptrove.com/submit | ✅ 提交成功（"Thanks — submitted!"，人工审核） |
