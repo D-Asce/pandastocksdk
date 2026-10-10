@@ -351,6 +351,7 @@ print(ps.get_ch_industry_real())
 | [用 MCP 把 A 股实时行情接进 Claude / Cursor](docs/articles/01-tutorial-zh.md) | 5 分钟上手教程 · 安装 / 配置 / 实战示例 |
 | [为什么 A 股数据用 NATS 推送而不是 REST 轮询](docs/articles/02-why-nats-zh.md) | 架构差异化 · Level-2 / DDX / 实时推送的技术原因 |
 | [Building an MCP Server for A-share Realtime Data](docs/articles/03-architecture-en.md) | English · NATS push vs REST polling for market data |
+| [行情数据用推送还是轮询？附可运行压测脚本](docs/articles/04-推送vs轮询-zh.md) | 纯技术 · 延迟量化方法 + 可复现 benchmark 脚本（可独立阅读） |
 
 ## ☁️ 托管 MCP 端点
 
