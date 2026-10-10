@@ -450,7 +450,7 @@ RESULT MCP_SCHEMA_VERIFIED
 
 | 渠道 | 旧记录 | 实测结论 | 依据 |
 |---|---|---|---|
-| mcpHQ #181 | PR 已开 | ✅ **已合并且条目在线** | API 拉 upstream `main`：条目在 `data/servers.json`，该文件现 250 条 |
+| mcpHQ #181 | PR 已开 | ✅ **已合并且条目在线（数据层 + 展示层双确认）** | API 拉 upstream `main`：`data/servers.json` 命中条目（该文件现 250 条），**且生成的 `README.md`（69,808 字节）也命中**——`- **[PandaStock](https://github.com/D-Asce/pandastocksdk)** \`Python\` · A-share real-time market data MCP server with NATS-pushed quotes...`，即**人看的 README 与机器读的 JSON 都在线** |
 | TensorBlock #3393 | PR 已开 | ✅ **已合并且条目在线** | 同上，条目在 `docs/finance--crypto.md`，原文逐字命中 |
 | punkpeye #15170 | PR 已开 | ✅ 仍 open（记录准确） | `state=open merged=false`，最后更新 09-26 |
 | yzfly #636 | PR 已开 | ✅ 仍 open（记录准确） | 同上，09-27 |
