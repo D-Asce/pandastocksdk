@@ -47,7 +47,7 @@ AI 自己就会：
 
 ## 三、PandaStock MCP：A 股数据的 MCP 服务
 
-[PandaStock](https://github.com/D-Asce/pandastocksdk) 是一个把 A 股数据
+[PandaStock](https://gitee.com/nutou123/pandastocksdk) 是一个把 A 股数据
 包装成 MCP 服务的项目。它背后是 NATS 推送的实时数据通道，对外暴露
 **22 个开放接口**（服务端共 176 个接口），覆盖：
 
@@ -136,7 +136,8 @@ AI 自动完成：调 `ChMarketFundFlow` → 排序 → 输出表格。**零代�
 
 ## 七、动手试试
 
-- 仓库：https://github.com/D-Asce/pandastocksdk
+- 仓库（国内直连）：https://gitee.com/nutou123/pandastocksdk
+- GitHub 镜像：https://github.com/D-Asce/pandastocksdk
 - 安装：`pip install pandastock-mcp`
 - 测试账号：`phone=pandastock` / `nid=pandastock`
 - 接口清单：仓库 `INTERFACES.md`（176 个接口）

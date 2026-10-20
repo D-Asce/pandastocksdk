@@ -112,7 +112,8 @@ MCP 工具的调用模式天然是请求/响应（Agent 问 → 工具答）。�
 
 ## 试试
 
-- 仓库：https://github.com/D-Asce/pandastocksdk
+- 仓库（国内直连）：https://gitee.com/nutou123/pandastocksdk
+- GitHub 镜像：https://github.com/D-Asce/pandastocksdk
 - 接口清单：`INTERFACES.md`（176 服务端接口，22 开放）
 - 测试账号：`pandastock` / `pandastock`
 

@@ -54,6 +54,8 @@ pip install pandastock-mcp
 
 > 📞 **接口咨询 / 专属 key 申请**：加微信 `onestock188` 或 `pandastock888`
 > 📅 最后更新：2026-09-26
+>
+> 🇨🇳 **国内直连（无需梯子）**：https://gitee.com/nutou123/pandastocksdk
 
 ## ✨ 特性
 

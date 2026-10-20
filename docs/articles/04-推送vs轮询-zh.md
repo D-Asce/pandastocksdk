@@ -359,7 +359,7 @@ if __name__ == "__main__":
 ---
 
 如果需要可运行的参考实现，本文提到的采集与分发部分可以看
-[这个仓库](https://github.com/D-Asce/pandastocksdk)（A 股数据方向，Go + NATS 实现）。
+[这个仓库](https://gitee.com/nutou123/pandastocksdk)（A 股数据方向，Go + NATS 实现）。GitHub 镜像：https://github.com/D-Asce/pandastocksdk
 
 欢迎在评论区交流你遇到的实际延迟问题 —— 不同的上游差异很大，
 实测数据比理论更有参考价值。

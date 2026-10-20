@@ -121,7 +121,7 @@ PandaStock MCP for realtime + agent interaction.
 
 ## Try it
 
-- Repo: <https://github.com/D-Asce/pandastocksdk>
+- Repo: <https://github.com/D-Asce/pandastocksdk> (Gitee mirror: <https://gitee.com/nutou123/pandastocksdk>)
 - Install: `pip install pandastock-mcp`
 - Interface catalog: `INTERFACES.md` (176 server-side endpoints, 22 open)
 - Test account: `phone=pandastock` / `nid=pandastock`
