@@ -24,6 +24,8 @@ ps.connect_server()
 
 ## 能力（22 个请求接口）
 
+> 服务端完整目录共 **210 个接口**（含港股 / 美股 / Level2 新通道），完整清单见 [`INTERFACES.md`](INTERFACES.md)；其中 22 个对公开测试账号开放。
+
 - 实时快照：`get_ch_stock_real()` / `get_ch_market_real()` / `get_ch_concept_real()` / `get_ch_industry_real()`
 - 列表：`get_ch_stock()` / `get_ch_concept()` / `get_ch_industry()`
 - 单只实时：`get_ch_one_stock_real(code)`

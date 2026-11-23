@@ -40,7 +40,7 @@ to be *now*:
 The A-share market has a real-time push infrastructure. PandaStock exposes it
 over **NATS request/response + publish/subscribe** instead of REST polling:
 
-- **Request/response** for point queries (one stock, one answer) — 176 server-side endpoints, 22 open
+- **Request/response** for point queries (one stock, one answer) — 210 server-side endpoints, 22 open
 - **Publish/subscribe** for streaming snapshots (whole-market realtime, Level-2, DDX) — pushed to subscribers, not pulled
 
 The practical difference: a REST client asks "what's the price now?" and gets a
@@ -121,9 +121,9 @@ PandaStock MCP for realtime + agent interaction.
 
 ## Try it
 
-- Repo: <https://github.com/D-Asce/pandastocksdk> (Gitee mirror: <https://gitee.com/nutou123/pandastocksdk>)
+- Repo: <https://github.com/D-Asce/pandastocksdk>
 - Install: `pip install pandastock-mcp`
-- Interface catalog: `INTERFACES.md` (176 server-side endpoints, 22 open)
+- Interface catalog: `INTERFACES.md` (210 server-side endpoints, 22 open)
 - Test account: `phone=pandastock` / `nid=pandastock`
 
 The 22 open endpoints don't cover everything yet — your use case is the

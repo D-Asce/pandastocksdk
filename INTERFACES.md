@@ -1,97 +1,209 @@
-# pandaData 接口清单（全部 176 个，含返回字段）
+# pandaData 接口清单（全部 210 个，含返回字段）
 
 > **图例**：✅ 可测试 = 已对公开 key 开放（测试账号可用，按来源 IP 限频）；— 暂未开放 = 需专属 key / 专属 key 后使用。公共测试账号：`phone="pandastock"` / `nid="pandastock"`。
 
-> 接口定义来源 `apis.json`（服务端 176 个接口）。其中 `get_ch_stock_ddx_data()` 已在 SDK 实现并开放，但未收录于 `apis.json`，于文末单独列出。
+> 接口定义来源 `apis.json`（服务端 210 个接口，schema `pandastock.api.v3`，`generated_at=2026-11-22`）。最近更新 v3.5.0（2026-11-23）：新增 6 个 Level2 逐笔/委托/竞价通道与按代码订阅接口，市场扩展至港股、美股。
+> 其中 `get_ch_stock_ddx_data()` 已在 SDK 实现并开放，但未收录于 `apis.json`，于文末单独列出。
 
-> 「接口返回字段详情」列出每个接口实际返回的字段（来自服务端 `returns` 定义），即调用后拿到的数据结构。
+> 「接口返回字段详情」列出每个接口实际返回的字段（来自服务端 `returns.shape` 定义），即调用后拿到的数据结构。
+> 新增接口的可测试状态尚未逐一实测，统一保守标记为「— 暂未开放」；已开放清单沿用此前逐条核验的 21 个接口。
 
 
-## 接口总览（176 个）
+## 接口总览（210 个）
 
 | 分类 | 接口名称 | 方法(function) | 可测试 |
 |---|---|---|---|
-| Levle2和大单 | 订阅Level2实时数据通道 | `subscribe_ch_l2_data_real` | — 暂未开放 |
-| Levle2和大单 | 获取Level2实时数据 | `get_ch_l2_data_cur_real` | — 暂未开放 |
-| Levle2和大单 | 订阅大单数据(DDE)通道 | `subscribe_ch_ddx_data_real` | — 暂未开放 |
-| Levle2和大单 | 获取大单数据(DDE) | `get_ch_ddx_data_cur_real` | — 暂未开放 |
-| Levle2和大单 | 获取个股历史大单历史数据 | `get_ch_stock_ddx_history` | — 暂未开放 |
-| Levle2和大单 | 个股千档数据 | `get_ch_stock_thousand_level_order` | — 暂未开放 |
-| Levle2和大单 | 个股实时资金流数据 | `get_ch_stock_l2_fund_flow_sa` | — 暂未开放 |
-| Levle2和大单 | 获取个股最新逐笔成交 | `get_ch_stock_l2_laster_transactions_sa` | — 暂未开放 |
-| Levle2和大单 | 获取个股全部逐笔成交数据 | `get_ch_stock_l2_all_transactions_sa` | — 暂未开放 |
-| Levle2和大单 | 市场实时资金流数据 | `get_ch_all_market_l2_fund_flow` | — 暂未开放 |
-| Levle2和大单 | 上证指数实时资金流数据 | `get_ch_sh_market_l2_fund_flow` | — 暂未开放 |
-| Levle2和大单 | 深圳市场实时资金流数据 | `get_ch_sz_market_l2_fund_flow` | — 暂未开放 |
-| Levle2和大单 | 创业板实时资金流数据 | `get_ch_cyb_market_l2_fund_flow` | — 暂未开放 |
-| Levle2和大单 | 科创板实时资金流数据 | `get_ch_kcb_market_l2_fund_flow` | — 暂未开放 |
-| Levle2和大单 | 个股实时大单成交明细 | `get_ch_stock_big_order` | — 暂未开放 |
-| Levle2和大单 | 订阅Level2单只股成交明细 | `subscribe_ch_l2_transaction_single` | — 暂未开放 |
-| Levle2和大单 | 订阅Level2多只股成交明细 | `subscribe_ch_l2_transaction_batch` | — 暂未开放 |
-| Levle2和大单 | 订阅Level2所有股成交明细 | `subscribe_ch_l2_transaction_all` | — 暂未开放 |
-| Levle2和大单 | 个股l2分价成交明细 | `get_ch_stock_price_summarize` | — 暂未开放 |
-| Levle2和大单 | 订阅l2单只股十档行情通道 | `subscribe_ch_l2_deep_single` | — 暂未开放 |
-| Levle2和大单 | 订阅l2多只股十档行情通道 | `subscribe_ch_l2_depth_batch` | — 暂未开放 |
-| Levle2和大单 | 订阅l2所有股票十档行情通道 | `subscribe_ch_l2_depth_all` | — 暂未开放 |
-| Levle2和大单 | 订阅l2单只个股买 一卖一明细 | `subscribe_ch_l2_orders_single` | — 暂未开放 |
-| Levle2和大单 | 订阅l2多只个股买 一卖一明细 | `subscribe_ch_l2_orders_batch` | — 暂未开放 |
-| Levle2和大单 | 订阅l2所有股票买 一卖一明细 | `subscribe_ch_l2_orders_all` | — 暂未开放 |
-| Levle2和大单 | 日内实时暗盘资金 | `get_ch_stock_dark_rank` | — 暂未开放 |
-| Levle2和大单 | 历史暗盘资金 | `get_ch_stock_dark_rank_history` | — 暂未开放 |
-| Levle2和大单 | 个股DDE实时数据 | `get_ch_stock_ea_dde` | — 暂未开放 |
+| 个股数据 | 获取股票列表 | `get_ch_stock` | ✅ 可测试 |
+| 个股数据 | 每日ST股信息 | `get_ch_stock_st_history` | — 暂未开放 |
+| 个股数据 | 订阅实时行情通道 | `subscribe_ch_stock_real` | — 暂未开放 |
+| 个股数据 | 订阅北证个股实时行情 | `subscribe_ch_bj_stock_real` | — 暂未开放 |
+| 个股数据 | 获取所有个股实时行情 | `get_ch_stock_real` | ✅ 可测试 |
+| 个股数据 | 获取单只个股实时行情 | `get_ch_one_stock_real` | ✅ 可测试 |
+| 个股数据 | 个股实时分钟K线 | `get_ch_stock_minute_real` | — 暂未开放 |
+| 个股数据 | 历史分钟数据 | `get_ch_stock_minute_history` | ✅ 可测试 |
+| 个股数据 | 个股分时图 | `get_ch_stock_time_line` | — 暂未开放 |
+| 个股数据 | 个股昨日分时图 | `get_ch_stock_time_line_yes` | — 暂未开放 |
+| 个股数据 | 个股五日分时 | `get_ch_stock_five_days_time_line` | — 暂未开放 |
+| 个股数据 | 个股竞价分时数据 | `get_ch_stock_auction_time_line` | — 暂未开放 |
+| 个股数据 | 前复权日线 | `get_ch_stock_front_day_history` | ✅ 可测试 |
+| 个股数据 | 前复权周线 | `get_ch_stock_front_week_history` | — 暂未开放 |
+| 个股数据 | 前复权月线 | `get_ch_stock_front_month_history` | — 暂未开放 |
+| 个股数据 | 后复权日线 | `get_ch_stock_back_day_history` | — 暂未开放 |
+| 个股数据 | 后复权周线 | `get_ch_stock_back_week_history` | — 暂未开放 |
+| 个股数据 | 后复权月线 | `get_ch_stock_back_month_history` | — 暂未开放 |
+| 个股数据 | 个股实时逐笔成交 | `get_ch_stock_transaction_real` | — 暂未开放 |
+| 个股数据 | 历史分笔 | `get_ch_stock_transaction_history` | — 暂未开放 |
+| 个股数据 | 十大股东 | `get_ch_stock_ten_holders` | — 暂未开放 |
+| 个股数据 | 十大流通股东 | `get_ch_stock_ten_circulating_holders` | — 暂未开放 |
+| 个股数据 | 股东人数历史 | `get_ch_stock_share_holder` | — 暂未开放 |
+| 个股数据 | 个股除权除息历史 | `get_ch_stock_dividend_history` | — 暂未开放 |
+| 个股数据 | 年度高送转/分红 | `get_ch_year_high_stock_dividend` | — 暂未开放 |
+| 个股数据 | 年度解禁数据 | `get_ch_year_stock_lock_up` | — 暂未开放 |
+| 个股数据 | 大宗交易历史 | `get_ch_stock_block_trading` | — 暂未开放 |
+| 个股数据 | 增减持历史 | `get_ch_stock_inc_or_dec` | — 暂未开放 |
+| 个股数据 | 个股股本变化历史 | `get_ch_stock_share_capital` | — 暂未开放 |
+| 个股数据 | 个股一致行动人信息 | `get_ch_stock_pacs` | — 暂未开放 |
+| 个股数据 | 个股公告 | `get_ch_stock_announce` | — 暂未开放 |
+| 个股数据 | 个股研报 | `get_ch_stock_research_report` | — 暂未开放 |
+| 个股数据 | 历史暗盘资金 | `get_ch_stock_dark_rank_history` | — 暂未开放 |
+| 个股数据 | 个股资金流明细历史 | `get_ch_stock_fund_flow_detail_history` | — 暂未开放 |
+| 个股数据 | 1日融资买入排行 | `get_ch_rz_buy_1_day` | — 暂未开放 |
+| 个股数据 | 5日融资买入排行 | `get_ch_rz_buy_5_day` | — 暂未开放 |
+| 个股数据 | 20日融资买入排行 | `get_ch_rz_buy_20_day` | — 暂未开放 |
+| 个股数据 | 获取个股实时筹码峰数据 | `get_ch_stock_chip_data` | — 暂未开放 |
+| 个股数据 | 日内实时暗盘资金 | `get_ch_stock_dark_rank` | — 暂未开放 |
+| 个股数据 | 主力评分数据 | `get_ch_stock_primer_info` | — 暂未开放 |
+| 个股数据 | 人气排名数据 | `get_ch_stock_attention_tank` | — 暂未开放 |
+| 个股数据 | 个股资金流 | `get_ch_stock_fund_flow` | — 暂未开放 |
+| 个股数据 | 不复权日线 | `get_ch_stock_none_day_history` | — 暂未开放 |
+| 板块数据 | 获取概念板块列表 | `get_ch_concept` | ✅ 可测试 |
+| 板块数据 | 获取行业板块列表 | `get_ch_industry` | ✅ 可测试 |
+| 板块数据 | 订阅概念板块实时行情通道 | `subscribe_ch_concept_real` | — 暂未开放 |
+| 板块数据 | 获取概念板块实时行情 | `get_ch_concept_real` | ✅ 可测试 |
+| 板块数据 | 订阅行业板块实时行情通道 | `subscribe_ch_industry_real` | — 暂未开放 |
+| 板块数据 | 获取行业板块实时行情 | `get_ch_industry_real` | ✅ 可测试 |
+| 板块数据 | 概念板块日线 | `get_ch_concept_day_history` | ✅ 可测试 |
+| 板块数据 | 概念板块周线 | `get_ch_concept_week_history` | — 暂未开放 |
+| 板块数据 | 概念板块月线 | `get_ch_concept_month_history` | — 暂未开放 |
+| 板块数据 | 行业板块日线 | `get_ch_industry_day_history` | ✅ 可测试 |
+| 板块数据 | 行业板块周线 | `get_ch_industry_week_history` | — 暂未开放 |
+| 板块数据 | 行业板块月线 | `get_ch_industry_month_history` | — 暂未开放 |
+| 板块数据 | 获取A数据源概念板块列表 | `get_ch_sa_concept_list` | — 暂未开放 |
+| 板块数据 | 获取A数据源概念板块实时行情 | `get_ch_sa_concept_real` | — 暂未开放 |
+| 板块数据 | 获取A数据源概念板块日K线 | `get_ch_sa_concept_day_k` | — 暂未开放 |
+| 板块数据 | 订阅A概念板块实时行情 | `subscribe_ch_sa_concept_real` | — 暂未开放 |
+| 板块数据 | 获取A数据源行业板块列表 | `get_ch_sa_industry_list` | — 暂未开放 |
+| 板块数据 | 获取A数据源行业板块实时行情 | `get_ch_sa_industry_real` | — 暂未开放 |
+| 板块数据 | 获取A数据源行业板块日K线 | `get_ch_sa_industry_day_k` | — 暂未开放 |
+| 板块数据 | 订阅A行业板块实时行情 | `subscribe_ch_sa_industry_real` | — 暂未开放 |
+| 板块数据 | 订阅A概念板块实时资金流 | `subscribe_ch_sa_concept_money_flow` | — 暂未开放 |
+| 板块数据 | 订阅A行业板块实时资金流 | `subscribe_ch_sa_industry_money_flow` | — 暂未开放 |
+| 指数数据 | 指数日线 | `get_ch_market_day_history` | ✅ 可测试 |
+| 指数数据 | 指数周线 | `get_ch_market_week_history` | — 暂未开放 |
+| 指数数据 | 指数月线 | `get_ch_market_month_history` | — 暂未开放 |
+| 指数数据 | 沪深300成分股权重 | `get_ch_hs300_constituent_weight_history` | — 暂未开放 |
+| 指数数据 | 上证50成分股权重 | `get_ch_sz50_constituent_weight_history` | — 暂未开放 |
+| 指数数据 | 中证500成分股权重 | `get_ch_zz500_constituent_weight_history` | — 暂未开放 |
+| 指数数据 | 中证1000成分股权重 | `get_ch_zz1000_constituent_weight_history` | — 暂未开放 |
+| 指数数据 | 涨跌停数量历史 | `get_ch_limit_up_down` | ✅ 可测试 |
+| 指数数据 | 交易日涨跌分布时序数据 | `get_ch_zd_map_history` | — 暂未开放 |
+| 指数数据 | 涨停股历史数据 | `get_ch_zt_stock_history` | — 暂未开放 |
+| 指数数据 | 交易日涨停股信息 | `get_ch_lb_stock_history_history` | — 暂未开放 |
+| 指数数据 | 龙虎榜数据 | `get_lhb_data` | ✅ 可测试 |
+| 指数数据 | 交易日涨跌停时序数据 | `get_ch_limit_up_down_history` | — 暂未开放 |
+| 指数数据 | 上交所每日统计信息 | `get_sh_market_daily_info` | — 暂未开放 |
+| 指数数据 | 上交所每周统计信息 | `get_sh_market_week_info` | — 暂未开放 |
+| 指数数据 | 上交所每月统计信息 | `get_sh_market_month_info` | — 暂未开放 |
+| 指数数据 | 交易日全天成交额数据 | `get_ch_market_amount_curve_history` | — 暂未开放 |
+| 指数数据 | 全市场PE/PB 日数据历史 | `get_ch_market_pe_pb_day_history` | — 暂未开放 |
+| 指数数据 | 全市场PE/PB 月数据历史 | `get_ch_market_pe_pb_month_history` | — 暂未开放 |
+| 指数数据 | 市场每个交易日涨跌平数量 | `get_ch_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 上证A股每个交易日涨跌平数量 | `get_ch_sh_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 深圳A股每个交易日涨跌平数量 | `get_ch_sz_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 创业板每个交易日涨跌平数量 | `get_ch_cyb_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 科创板每个交易日涨跌平数量 | `get_ch_kcb_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 北证每个交易日涨跌平数量 | `get_ch_bj_day_zd_count_history` | — 暂未开放 |
+| 指数数据 | 市场每个交易周涨跌平数量 | `get_ch_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 上证A股每个交易周涨跌平数量 | `get_ch_sh_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 深圳A股每个交易周涨跌平数量 | `get_ch_sz_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 创业板每个交易周涨跌平数量 | `get_ch_cyb_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 科创板每个交易周涨跌平数量 | `get_ch_kcb_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 北证每个交易周涨跌平数量 | `get_ch_bj_week_zd_count_history` | — 暂未开放 |
+| 指数数据 | 市场每个交易月涨跌平数量 | `get_ch_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 上证A股每个交易月涨跌平数量 | `get_ch_sh_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 深圳A股每个交易月涨跌平数量 | `get_ch_sz_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 创业板每个交易月涨跌平数量 | `get_ch_cyb_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 科创板每个交易月涨跌平数量 | `get_ch_kcb_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 北证每个交易月涨跌平数量 | `get_ch_bj_month_zd_count_history` | — 暂未开放 |
+| 指数数据 | 订阅指数实时行情通道 | `subscribe_ch_market_real` | — 暂未开放 |
+| 指数数据 | 获取指数实时行情 | `get_ch_market_real` | ✅ 可测试 |
+| 指数数据 | 市场实时涨跌停数量 | `get_ch_today_limit_up_down` | — 暂未开放 |
+| 指数数据 | 市场实时涨跌分布时序数据 | `get_ch_market_zd_map` | — 暂未开放 |
+| 指数数据 | 涨停股实时信息 | `get_ch_today_zt_stock` | — 暂未开放 |
+| 指数数据 | 市场实时涨停股列表 | `get_ch_today_lb_stock` | — 暂未开放 |
+| 指数数据 | 市场全天实时成交额 | `get_ch_market_amount_curve` | — 暂未开放 |
+| 指数数据 | 获取融资融券余额 | `get_rzrq_balance` | — 暂未开放 |
+| 指数数据 | 全市场买卖对比 | `get_ch_all_market_bear_compare` | ✅ 可测试 |
+| 指数数据 | 上证买卖对比 | `get_ch_sh_market_bear_compare` | — 暂未开放 |
+| 指数数据 | 深证买卖对比 | `get_ch_sz_market_bear_compare` | — 暂未开放 |
+| 指数数据 | 创业板买卖对比 | `get_ch_cyb_market_bear_compare` | — 暂未开放 |
+| 指数数据 | 科创板买卖对比 | `get_ch_kcb_market_bear_compare` | — 暂未开放 |
+| 指数数据 | 北证买卖对比 | `get_ch_bj_market_bear_compare` | — 暂未开放 |
+| 指数数据 | 市场资金流历史 | `get_ch_market_fund_flow` | ✅ 可测试 |
+| 指数数据 | A股交易日历 | `get_ch_calendar` | — 暂未开放 |
+| 指数数据 | 南向资金（港股通） | `get_south_bound` | — 暂未开放 |
+| Level2数据 | 订阅Level2实时数据通道 | `subscribe_ch_l2_data_real` | — 暂未开放 |
+| Level2数据 | 获取Level2实时数据 | `get_ch_l2_data_cur_real` | — 暂未开放 |
+| Level2数据 | 订阅大单数据(DDE)通道 | `subscribe_ch_ddx_data_real` | — 暂未开放 |
+| Level2数据 | 获取大单数据(DDE) | `get_ch_ddx_data_cur_real` | — 暂未开放 |
+| Level2数据 | 获取个股历史大单历史数据 | `get_ch_stock_ddx_history` | — 暂未开放 |
+| Level2数据 | 个股DDE实时数据 | `get_ch_stock_ea_dde` | — 暂未开放 |
+| Level2数据 | 全量逐笔成交明细 | `subscribe_ch_l2_transaction_all` | — 暂未开放 |
+| Level2数据 | 全量十档行情 | `subscribe_ch_l2_depth_all` | — 暂未开放 |
+| Level2数据 | 个股千档数据 | `get_ch_stock_thousand_level_order` | — 暂未开放 |
+| Level2数据 | 订阅个股千档行情 | `subscribe_ch_stock_thousand_level` | — 暂未开放 |
+| Level2数据 | 个股实时大单成交明细 | `get_ch_stock_big_order` | — 暂未开放 |
+| Level2数据 | 个股l2分价成交明细 | `get_ch_stock_price_summarize` | — 暂未开放 |
+| Level2数据 | 个股l2分价成交明细历史 | `get_ch_stock_price_summarize_history` | — 暂未开放 |
+| Level2数据 | 个股实时资金流数据 | `get_ch_stock_l2_fund_flow_sa` | — 暂未开放 |
+| Level2数据 | 个股实时资金流通道 | `subscribe_ch_l2_stock_money_flow_all` | — 暂未开放 |
+| Level2数据 | 获取所有个股实时资金流列表 | `get_ch_all_stock_fund_flow` | — 暂未开放 |
+| Level2数据 | 市场实时资金流数据 | `get_ch_all_market_l2_fund_flow` | — 暂未开放 |
+| Level2数据 | 上证指数实时资金流数据 | `get_ch_sh_market_l2_fund_flow` | — 暂未开放 |
+| Level2数据 | 深圳市场实时资金流数据 | `get_ch_sz_market_l2_fund_flow` | — 暂未开放 |
+| Level2数据 | 创业板实时资金流数据 | `get_ch_cyb_market_l2_fund_flow` | — 暂未开放 |
+| Level2数据 | 科创板实时资金流数据 | `get_ch_kcb_market_l2_fund_flow` | — 暂未开放 |
+| Level2数据 | 逐笔还原通道 | `subscribe_ch_stock_l2_trans` | — 暂未开放 |
+| Level2数据 | 逐笔还原回放通道 | `subscribe_ch_stock_l2_replay_trans` | — 暂未开放 |
+| Level2数据 | 逐笔委托通道 | `subscribe_ch_stock_l2_order_ex` | — 暂未开放 |
+| Level2数据 | 逐笔委托回放通道 | `subscribe_ch_stock_l2_replay_order` | — 暂未开放 |
+| Level2数据 | 竞价匹配通道 | `subscribe_ch_stock_l2_auction` | — 暂未开放 |
+| Level2数据 | 竞价匹配回放通道 | `subscribe_ch_stock_l2_replay_auction` | — 暂未开放 |
+| Level2数据 | 订阅个股逐笔还原（按代码） | `ch_sub_trans_ex` | — 暂未开放 |
+| Level2数据 | 订阅个股逐笔委托（按代码） | `ch_sub_order_ex` | — 暂未开放 |
+| Level2数据 | 订阅个股竞价匹配（按代码） | `ch_sub_auction_ex` | — 暂未开放 |
+| Level2数据 | 订阅个股千档（按代码） | `ch_stock_sub_thousand_level` | — 暂未开放 |
+| Level2数据 | 回放个股逐笔还原（按代码） | `replay_ch_stock_tran` | — 暂未开放 |
+| Level2数据 | 回放个股逐笔委托（按代码） | `replay_ch_stock_order` | — 暂未开放 |
+| Level2数据 | 回放个股竞价匹配（按代码） | `replay_ch_stock_auction` | — 暂未开放 |
+| 财务数据 | 利润表 | `get_ch_stock_income_statement` | — 暂未开放 |
+| 财务数据 | 现金流表 | `get_ch_stock_cash_flow_statement` | — 暂未开放 |
+| 财务数据 | 财务主表 | `get_ch_stock_financial_indicators` | — 暂未开放 |
+| 财务数据 | 资产负债表 | `get_ch_stock_balance_sheet` | — 暂未开放 |
+| 财务数据 | 财务辅助表 | `get_ch_stock_auxiliary_data` | — 暂未开放 |
+| 财务数据 | 股东表 | `get_ch_stock_share_capital_and_shareholders` | — 暂未开放 |
+| 财务数据 | 业绩预告 | `get_ch_stock_net_profit` | — 暂未开放 |
+| 财务数据 | 财务核心指标(数据源C) | `get_ch_si_stock_fin_key_indicators` | — 暂未开放 |
+| 财务数据 | 利润表(数据源C) | `get_ch_si_stock_fin_income_statements` | — 暂未开放 |
+| 财务数据 | 资产负债表(数据源C) | `get_ch_si_stock_fin_balance_sheet` | — 暂未开放 |
+| 财务数据 | 现金流表(数据源C) | `get_ch_si_stock_fin_cash_flow` | — 暂未开放 |
+| 财务数据 | 个股财务核心指标(数据源B) | `get_ch_ea_stock_fin_key_indicators` | — 暂未开放 |
+| 财务数据 | 个股资产负债表(数据源B) | `get_ch_ea_stock_fin_balance_sheet` | — 暂未开放 |
+| 财务数据 | 个股利润表(数据源B) | `get_ch_ea_stock_fin_income_statements` | — 暂未开放 |
+| 财务数据 | 个股现金流量表(数据源B) | `get_ch_ea_stock_fin_cash_flow` | — 暂未开放 |
 | 新闻资讯 | 重点资讯新闻 | `get_core_new` | ✅ 可测试 |
 | 新闻资讯 | 国内主要新闻 | `get_domestic_financial_news` | ✅ 可测试 |
 | 新闻资讯 | 国际主要新闻 | `get_global_financial_news` | ✅ 可测试 |
 | 新闻资讯 | 时评类新闻 | `get_options_news` | ✅ 可测试 |
 | 新闻资讯 | 个股新闻 | `get_ch_stock_month_news` | — 暂未开放 |
 | 新闻资讯 | 财经快讯(数据源sn) | `get_ch_sn_kx` | — 暂未开放 |
-| 新闻资讯 | 财经快讯(数据源SA) | `get_ch_sa_kx` | — 暂未开放 |
-| 新闻资讯 | 个股公告 | `get_ch_stock_announce` | — 暂未开放 |
-| 新闻资讯 | 个股研报 | `get_ch_stock_research_report` | — 暂未开放 |
-| 特色数据 | 每日ST股信息 | `get_ch_stock_st_history` | — 暂未开放 |
-| 特色数据 | 沪深300成分股权重 | `get_ch_hs300_constituent_weight_history` | — 暂未开放 |
-| 特色数据 | 上证50成分股权重 | `get_ch_sz50_constituent_weight_history` | — 暂未开放 |
-| 特色数据 | 中证500成分股权重 | `get_ch_zz500_constituent_weight_history` | — 暂未开放 |
-| 特色数据 | 中证1000成分股权重 | `get_ch_zz1000_constituent_weight_history` | — 暂未开放 |
-| 特色数据 | 个股除权除息历史 | `get_ch_stock_dividend_history` | — 暂未开放 |
-| 特色数据 | 年度高送转/分红 | `get_ch_year_high_stock_dividend` | — 暂未开放 |
-| 特色数据 | 个股股本变化历史 | `get_ch_stock_share_capital` | — 暂未开放 |
-| 特色数据 | 个股资金流明细历史 | `get_ch_stock_fund_flow_detail_history` | — 暂未开放 |
-| 特色数据 | 年度解禁数据 | `get_ch_year_stock_lock_up` | — 暂未开放 |
-| 特色数据 | 1日融资买入排行 | `get_ch_rz_buy_1_day` | — 暂未开放 |
-| 特色数据 | 5日融资买入排行 | `get_ch_rz_buy_5_day` | — 暂未开放 |
-| 特色数据 | 20日融资买入排行 | `get_ch_rz_buy_20_day` | — 暂未开放 |
-| 特色数据 | 个股一致行动人信息 | `get_ch_stock_pacs` | — 暂未开放 |
-| 特色数据 | 市场每个交易日涨跌平数量 | `get_ch_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 上证A股每个交易日涨跌平数量 | `get_ch_sh_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 深圳A股每个交易日涨跌平数量 | `get_ch_sz_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 创业板每个交易日涨跌平数量 | `get_ch_cyb_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 科创板每个交易日涨跌平数量 | `get_ch_kcb_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 北证每个交易日涨跌平数量 | `get_ch_bj_day_zd_count_history` | — 暂未开放 |
-| 特色数据 | 市场每个交易周涨跌平数量 | `get_ch_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 上证A股每个交易周涨跌平数量 | `get_ch_sh_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 深圳A股每个交易周涨跌平数量 | `get_ch_sz_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 创业板每个交易周涨跌平数量 | `get_ch_cyb_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 科创板每个交易周涨跌平数量 | `get_ch_kcb_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 北证每个交易周涨跌平数量 | `get_ch_bj_week_zd_count_history` | — 暂未开放 |
-| 特色数据 | 市场每个交易月涨跌平数量 | `get_ch_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 上证A股每个交易月涨跌平数量 | `get_ch_sh_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 深圳A股每个交易月涨跌平数量 | `get_ch_sz_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 创业板每个交易月涨跌平数量 | `get_ch_cyb_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 科创板每个交易月涨跌平数量 | `get_ch_kcb_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 北证每个交易月涨跌平数量 | `get_ch_bj_month_zd_count_history` | — 暂未开放 |
-| 特色数据 | 中国全社会用电量同比 | `get_ch_electricity_use_history` | — 暂未开放 |
-| 特色数据 | 全市场PE/PB 月数据历史 | `get_ch_market_pe_pb_month_history` | — 暂未开放 |
-| 特色数据 | 全市场PE/PB 日数据历史 | `get_ch_market_pe_pb_day_history` | — 暂未开放 |
-| 特色数据 | 中国年度GDP同比增长率 | `get_ch_gdp_yearly_growth` | — 暂未开放 |
-| 特色数据 | 中国季度GDP同比增长率 | `get_ch_gdp_quarter_rate` | — 暂未开放 |
-| 特色数据 | 中国季度GDP环比增长率 | `get_ch_gdp_qoq_rate` | — 暂未开放 |
-| 特色数据 | 个股l2分价成交明细历史 | `get_ch_stock_price_summarize_history` | — 暂未开放 |
-| 特色数据 | 交易日涨跌停时序数据 | `get_ch_limit_up_down_history` | — 暂未开放 |
-| 特色数据 | 交易日涨跌分布时序数据 | `get_ch_zd_map_history` | — 暂未开放 |
-| 特色数据 | 交易日涨停股信息 | `get_ch_lb_stock_history_history` | — 暂未开放 |
-| 特色数据 | 交易日全天成交额数据 | `get_ch_market_amount_curve_history` | — 暂未开放 |
-| 特色数据 | 中国GDP 季度数据 | `get_ch_gdp_quarter_value` | — 暂未开放 |
+| 新闻资讯 | 财经快讯(数据源A) | `get_ch_sa_kx` | — 暂未开放 |
+| 可转债 | 订阅可转债实时行情通道 | `subscribe_ch_kzz_stock_real` | — 暂未开放 |
+| 可转债 | 获取可转债实时行情 | `get_ch_kzz_cur_real` | — 暂未开放 |
+| 可转债 | 获取可转债列表 | `get_ch_kzz_stock` | — 暂未开放 |
+| ETF | 获取ETF基金列表 | `get_ch_etf_stock_list` | — 暂未开放 |
+| ETF | 获取ETF实时行情 | `get_ch_etf_real` | — 暂未开放 |
+| ETF | 获取ETF日K线 | `get_ch_etf_day_k` | — 暂未开放 |
+| ETF | 订阅ETF实时行情 | `subscribe_ch_etf_real` | — 暂未开放 |
+| 宏观数据 | 中国年度GDP同比增长率 | `get_ch_gdp_yearly_growth` | — 暂未开放 |
+| 宏观数据 | 中国季度GDP同比增长率 | `get_ch_gdp_quarter_rate` | — 暂未开放 |
+| 宏观数据 | 中国季度GDP环比增长率 | `get_ch_gdp_qoq_rate` | — 暂未开放 |
+| 宏观数据 | 中国GDP 季度数据 | `get_ch_gdp_quarter_value` | — 暂未开放 |
+| 宏观数据 | 中国GDP年度值 | `get_ch_gdp_year_value` | — 暂未开放 |
+| 宏观数据 | 汇丰制造业PMI终值  | `get_hsbc_pmi_final` | — 暂未开放 |
+| 宏观数据 | 汇丰制造业PMI初值 | `get_hsbc_pmi_preliminary` | — 暂未开放 |
+| 宏观数据 | 中国全社会用电量同比 | `get_ch_electricity_use_history` | — 暂未开放 |
+| 特色数据 | A股个股1分钟历史数据 | `a_stock_minute1_history` | — 暂未开放 |
 | 港股行情 | 订阅港股实时行情通道 | `subscribe_hk_stock_real` | — 暂未开放 |
 | 港股行情 | 获取港股实时行情 | `get_hk_stock_real` | — 暂未开放 |
 | 港股行情 | 订阅港股指数实时行情通道 | `subscribe_hk_market_real` | — 暂未开放 |
@@ -107,91 +219,17 @@
 | 港股行情 | 港股资产负债表 | `get_hk_stock_balance_sheet` | — 暂未开放 |
 | 港股行情 | 港股利润表 | `get_hk_stock_profit_statement` | — 暂未开放 |
 | 港股行情 | 港股现金流表 | `get_hk_stock_cash_flow` | — 暂未开放 |
-| 个股数据 | 获取股票列表 | `get_ch_stock` | ✅ 可测试 |
-| 个股数据 | 订阅实时行情通道 | `subscribe_ch_stock_real` | — 暂未开放 |
-| 个股数据 | 获取所有个股实时行情 | `get_ch_stock_real` | ✅ 可测试 |
-| 个股数据 | 获取单只个股实时行情 | `get_ch_one_stock_real` | ✅ 可测试 |
-| 个股数据 | 个股实时分钟K线 | `get_ch_stock_minute_real` | — 暂未开放 |
-| 个股数据 | 个股实时逐笔成交 | `get_ch_stock_transaction_real` | — 暂未开放 |
-| 个股数据 | 前复权日线 | `get_ch_stock_front_day_history` | ✅ 可测试 |
-| 个股数据 | 前复权周线 | `get_ch_stock_front_week_history` | — 暂未开放 |
-| 个股数据 | 前复权月线 | `get_ch_stock_front_month_history` | — 暂未开放 |
-| 个股数据 | 后复权日线 | `get_ch_stock_back_day_history` | — 暂未开放 |
-| 个股数据 | 后复权周线 | `get_ch_stock_back_week_history` | — 暂未开放 |
-| 个股数据 | 后复权月线 | `get_ch_stock_back_month_history` | — 暂未开放 |
-| 个股数据 | 历史分笔 | `get_ch_stock_transaction_history` | — 暂未开放 |
-| 个股数据 | 主力评分数据 | `get_ch_stock_primer_info` | — 暂未开放 |
-| 个股数据 | 个股资金流 | `get_ch_stock_fund_flow` | — 暂未开放 |
-| 个股数据 | 人气排名数据 | `get_ch_stock_attention_tank` | — 暂未开放 |
-| 个股数据 | 股东人数历史 | `get_ch_stock_share_holder` | — 暂未开放 |
-| 个股数据 | 大宗交易历史 | `get_ch_stock_block_trading` | — 暂未开放 |
-| 个股数据 | 增减持历史 | `get_ch_stock_inc_or_dec` | — 暂未开放 |
-| 个股数据 | 等比前复权日线 | `get_ch_stock_front_ratio_history` | — 暂未开放 |
-| 个股数据 | 等比前复权周线 | `get_ch_stock_front_ratio_week_history` | — 暂未开放 |
-| 个股数据 | 等比前复权月线 | `get_ch_stock_front_ratio_month_history` | — 暂未开放 |
-| 个股数据 | 等比后复权日线 | `get_ch_stock_back_ratio_history` | — 暂未开放 |
-| 个股数据 | 历史分钟数据 | `get_ch_stock_minute_history` | ✅ 可测试 |
-| 个股数据 | 个股分时图 | `get_ch_stock_time_line` | — 暂未开放 |
-| 个股数据 | 个股昨日分时图 | `get_ch_stock_time_line_yes` | — 暂未开放 |
-| 个股数据 | 个股五日分时 | `get_ch_stock_five_days_time_line` | — 暂未开放 |
-| 个股数据 | 个股竞价分时数据 | `get_ch_stock_auction_time_line` | — 暂未开放 |
-| 板块数据 | 获取概念板块列表 | `get_ch_concept` | ✅ 可测试 |
-| 板块数据 | 获取行业板块列表 | `get_ch_industry` | ✅ 可测试 |
-| 板块数据 | 订阅概念板块实时行情通道 | `subscribe_ch_concept_real` | — 暂未开放 |
-| 板块数据 | 获取概念板块实时行情 | `get_ch_concept_real` | ✅ 可测试 |
-| 板块数据 | 订阅行业板块实时行情通道 | `subscribe_ch_industry_real` | — 暂未开放 |
-| 板块数据 | 获取行业板块实时行情 | `get_ch_industry_real` | ✅ 可测试 |
-| 板块数据 | 概念板块日线 | `get_ch_concept_day_history` | ✅ 可测试 |
-| 板块数据 | 概念板块周线 | `get_ch_concept_week_history` | — 暂未开放 |
-| 板块数据 | 概念板块月线 | `get_ch_concept_month_history` | — 暂未开放 |
-| 板块数据 | 行业板块日线 | `get_ch_industry_day_history` | ✅ 可测试 |
-| 板块数据 | 行业板块周线 | `get_ch_industry_week_history` | — 暂未开放 |
-| 板块数据 | 行业板块月线 | `get_ch_industry_month_history` | — 暂未开放 |
-| 市场数据 | 获取融资融券余额 | `get_rzrq_balance` | — 暂未开放 |
-| 市场数据 | 上交所每日统计信息 | `get_sh_market_daily_info` | — 暂未开放 |
-| 市场数据 | 上交所每周统计信息 | `get_sh_market_week_info` | — 暂未开放 |
-| 市场数据 | 上交所每月统计信息 | `get_sh_market_month_info` | — 暂未开放 |
-| 市场数据 | 订阅指数实时行情通道 | `subscribe_ch_market_real` | — 暂未开放 |
-| 市场数据 | 获取指数实时行情 | `get_ch_market_real` | ✅ 可测试 |
-| 市场数据 | 涨跌停数量历史 | `get_ch_limit_up_down` | ✅ 可测试 |
-| 市场数据 | 指数日线 | `get_ch_market_day_history` | ✅ 可测试 |
-| 市场数据 | 指数周线 | `get_ch_market_week_history` | — 暂未开放 |
-| 市场数据 | 指数月线 | `get_ch_market_month_history` | — 暂未开放 |
-| 市场数据 | 龙虎榜数据 | `get_lhb_data` | ✅ 可测试 |
-| 市场数据 | 市场资金流历史 | `get_ch_market_fund_flow` | ✅ 可测试 |
-| 市场数据 | 全市场买卖对比 | `get_ch_all_market_bear_compare` | ✅ 可测试 |
-| 市场数据 | 上证买卖对比 | `get_ch_sh_market_bear_compare` | — 暂未开放 |
-| 市场数据 | 深证买卖对比 | `get_ch_sz_market_bear_compare` | — 暂未开放 |
-| 市场数据 | 创业板买卖对比 | `get_ch_cyb_market_bear_compare` | — 暂未开放 |
-| 市场数据 | 科创板买卖对比 | `get_ch_kcb_market_bear_compare` | — 暂未开放 |
-| 市场数据 | 北证买卖对比 | `get_ch_bj_market_bear_compare` | — 暂未开放 |
-| 市场数据 | 市场实时涨跌分布时序数据 | `get_ch_market_zd_map` | — 暂未开放 |
-| 市场数据 | 市场实时涨跌停数量 | `get_ch_today_limit_up_down` | — 暂未开放 |
-| 市场数据 | 市场实时涨停股列表 | `get_ch_today_lb_stock` | — 暂未开放 |
-| 市场数据 | 市场全天实时成交额 | `get_ch_market_amount_curve` | — 暂未开放 |
-| 财务数据 | 利润表 | `get_ch_stock_income_statement` | — 暂未开放 |
-| 财务数据 | 现金流表 | `get_ch_stock_cash_flow_statement` | — 暂未开放 |
-| 财务数据 | 财务主表 | `get_ch_stock_financial_indicators` | — 暂未开放 |
-| 财务数据 | 资产负债表 | `get_ch_stock_balance_sheet` | — 暂未开放 |
-| 财务数据 | 财务辅助表 | `get_ch_stock_auxiliary_data` | — 暂未开放 |
-| 财务数据 | 股东表 | `get_ch_stock_share_capital_and_shareholders` | — 暂未开放 |
-| 财务数据 | 业绩预告 | `get_ch_stock_net_profit` | — 暂未开放 |
-| 财务数据 | 财务核心指标(数据源SI) | `get_ch_si_stock_fin_key_indicators` | — 暂未开放 |
-| 财务数据 | 利润表(数据源SI) | `get_ch_si_stock_fin_income_statements` | — 暂未开放 |
-| 财务数据 | 资产负债表(数据源SI) | `get_ch_si_stock_fin_balance_sheet` | — 暂未开放 |
-| 财务数据 | 现金流表(数据源SI) | `get_ch_si_stock_fin_cash_flow` | — 暂未开放 |
-| 财务数据 | 个股财务核心指标(数据源Ea) | `get_ch_ea_stock_fin_key_indicators` | — 暂未开放 |
-| 财务数据 | 个股资产负债表(数据源Ea) | `get_ch_ea_stock_fin_balance_sheet` | — 暂未开放 |
-| 财务数据 | 个股利润表(数据源Ea) | `get_ch_ea_stock_fin_income_statements` | — 暂未开放 |
-| 财务数据 | 个股现金流量表(数据源Ea) | `get_ch_ea_stock_fin_cash_flow` | — 暂未开放 |
-| 可转债 | 订阅可转债实时行情通道 | `subscribe_ch_kzz_stock_real` | — 暂未开放 |
-| 可转债 | 获取可转债实时行情 | `get_ch_kzz_cur_real` | — 暂未开放 |
-| 可转债 | 获取可转债列表 | `get_ch_kzz_stock` | — 暂未开放 |
+| 美股行情 | 获取美股指数实时行情 | `get_us_market_real` | — 暂未开放 |
+| 美股行情 | 获取美股个股实时行情 | `get_us_stock_real` | — 暂未开放 |
+| 美股行情 | 订阅美股指数实时行情通道 | `subscribe_us_market_real` | — 暂未开放 |
+| 美股行情 | 订阅美股个股实时行情通道 | `subscribe_us_stock_real` | — 暂未开放 |
 
 ## 汇总
-- 接口总数（apis.json）：**176**
+- 接口总数（apis.json）：**210**
 - 已开放可测试：**21**（含文末补充 1 个，合计 22 个已开放）
-- 暂未开放：**155**
+- 暂未开放：**189**
+- 类型分布：request **182** / subscribe **27** / data **1**
+- 覆盖市场：中国、美国、香港
 
 ## 已开放接口（22 个，公开 key 可用）
 - `get_ch_all_market_bear_compare`
@@ -207,7 +245,6 @@
 - `get_ch_market_real`
 - `get_ch_one_stock_real`
 - `get_ch_stock`
-- `get_ch_stock_ddx_data`
 - `get_ch_stock_front_day_history`
 - `get_ch_stock_minute_history`
 - `get_ch_stock_real`
@@ -222,1088 +259,6 @@
 
 ## 接口返回字段详情
 
-### 订阅Level2实时数据通道 — `subscribe_ch_l2_data_real`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `action_amount` (number)：当日竞价成交金额（万元）
-  - `pre_action_amount` (number)：昨日竞价成交金额（万元）
-  - `l2_vol_rise_speed` (number)：成交量涨速
-  - `l2_total_buy_vol` (number)：买入委托总量
-  - `l2_total_sell_vol` (number)：卖出委托总量
-  - `l2_buy_cancel` (number)：撤销的买入委托总量
-  - `l2_sell_cancel` (number)：撤销的卖出委托总量
-  - `l2_deal_tick_num` (integer)：成交笔数
-  - `l2_order_tick_num` (integer)：委托笔数
-  - `inst_aggressive_buy_amount` (number)：主力主动净买额（万元）
-  - `inst_net_amount` (number)：主力净流入金额（万元）
-
-### 获取Level2实时数据 — `get_ch_l2_data_cur_real`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `action_amount` (number)：当日竞价成交金额（万元）
-  - `pre_action_amount` (number)：昨日竞价成交金额（万元）
-  - `l2_vol_rise_speed` (number)：成交量涨速
-  - `l2_total_buy_vol` (number)：买入委托总量
-  - `l2_total_sell_vol` (number)：卖出委托总量
-  - `l2_buy_cancel` (number)：撤销的买入委托总量
-  - `l2_sell_cancel` (number)：撤销的卖出委托总量
-  - `l2_deal_tick_num` (integer)：成交笔数
-  - `l2_order_tick_num` (integer)：委托笔数
-  - `inst_aggressive_buy_amount` (number)：主力主动净买额（万元）
-  - `inst_net_amount` (number)：主力净流入金额（万元）
-
-### 订阅大单数据(DDE)通道 — `subscribe_ch_ddx_data_real`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `ddx` (number)：当日DDX（大单动向）
-  - `ddy` (number)：当日DDY（涨跌动因）
-  - `ddz` (number)：当日DDZ（大单差分）
-  - `ddx_positive_in_five` (number)：5日内DDX为正的天数
-  - `ddx_positive_in_ten` (number)：10日内DDX为正的天数
-  - `ddx_inc_days` (number)：DDX连续递增天数
-  - `ddx_positive_continue_days` (number)：DDX连续为正的天数
-  - `bbd_amount` (number)：大单净额（万元）
-  - `sell_odd` (integer)：卖出单数
-  - `buy_odd` (integer)：买入单数
-  - `odd_ratio` (number)：单数比（卖出单数/买入单数）
-  - `big_odd_ratio` (number)：大单单差（大单买入占比 - 大单卖出占比）
-  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
-  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
-  - `medium_odd_ratio` (number)：中单单差（中单买入占比 - 中单卖出占比）
-  - `small_odd_ratio` (number)：小单单差（小单买入占比 - 小单卖出占比）
-  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
-  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
-  - `xl_odd_ratio` (number)：超大单单差（超大单买入占比 - 超大单卖出占比）
-  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
-  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
-
-### 获取大单数据(DDE) — `get_ch_ddx_data_cur_real`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `ddx` (number)：当日DDX（大单动向）
-  - `ddy` (number)：当日DDY（涨跌动因）
-  - `ddz` (number)：当日DDZ（大单差分）
-  - `ddx_positive_in_five` (number)：5日内DDX为正的天数
-  - `ddx_positive_in_ten` (number)：10日内DDX为正的天数
-  - `ddx_inc_days` (number)：DDX连续递增天数
-  - `ddx_positive_continue_days` (number)：DDX连续为正的天数
-  - `bbd_amount` (number)：大单净额（万元）
-  - `sell_odd` (integer)：卖出单数
-  - `buy_odd` (integer)：买入单数
-  - `odd_ratio` (number)：单数比（卖出单数/买入单数）
-  - `big_odd_ratio` (number)：大单单差（大单买入占比 - 大单卖出占比）
-  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
-  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
-  - `medium_odd_ratio` (number)：中单单差（中单买入占比 - 中单卖出占比）
-  - `small_odd_ratio` (number)：小单单差（小单买入占比 - 小单卖出占比）
-  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
-  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
-  - `xl_odd_ratio` (number)：超大单单差（超大单买入占比 - 超大单卖出占比）
-  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
-  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
-
-### 获取个股历史大单历史数据 — `get_ch_stock_ddx_history`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `ddx` (number)：当天ddx
-  - `ddy` (number)：当天ddy
-  - `ddz` (number)：当天ddz
-  - `ddx_positive_in_five` (number)：5日内 DDX 为正的天数
-  - `ddx_positive_in_ten` (number)：10日内 DDX 为正的天数
-  - `ddx_positive_continue_days` (number)：ddx 连续为正的天数
-  - `ddx_inc_days` (number)：ddx 连续递增天数
-  - `bbd_amount` (number)：大单净额(万元)
-  - `sell_odd` (integer)：卖出单数
-  - `buy_odd` (integer)：买入单数
-  - `odd_ratio` (number)：单数比  卖出单数/买入单数
-  - `xl_odd_ratio` (number)：超大单单差   超大单买入占比 - 超大单卖出占比
-  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
-  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
-  - `big_odd_ratio` (number)：大单单差   大单买入占比 - 大单卖出占比
-  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
-  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
-  - `medium_odd_ratio` (number)：中单单差   中单买入占比 - 中单卖出占比
-  - `small_odd_ratio` (number)：小单单差   小单买入占比 - 小单卖出占比
-  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
-  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
-
-### 个股千档数据 — `get_ch_stock_thousand_level_order`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `buy` (dict)：买方数据
-  - `sell` (dict)：卖方数据
-
-### 个股实时资金流数据 — `get_ch_stock_l2_fund_flow_sa`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `super_big_net_amt` (number)：超大单净额
-  - `big_net_amt` (number)：大单净额
-  - `medium_net_amt` (number)：中单净额
-  - `small_net_amt` (number)：小单净额
-
-### 获取个股最新逐笔成交 — `get_ch_stock_l2_laster_transactions_sa`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `price` (number)：成交量
-  - `direction` (string)：买卖方向，buy-买，sell-卖，其他-中性
-
-### 获取个股全部逐笔成交数据 — `get_ch_stock_l2_all_transactions_sa`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `price` (number)：成交价格
-  - `volume` (number)：成交量
-  - `direction` (string)：买卖方向，buy-买，sell-卖，其他-中性
-
-### 市场实时资金流数据 — `get_ch_all_market_l2_fund_flow`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `super_big_net_amt` (number)：超大单净流入金额
-  - `big_net_amt` (number)：大单净流入金额
-  - `medium_net_amt` (number)：中单净流入金额
-  - `small_net_amt` (number)：小单净流入金额
-  - `super_big_in` (number)：超大单买入金额
-  - `super_big_out` (number)：超大单卖出金额
-  - `big_in` (number)：大单买入金额
-  - `big_out` (number)：大单卖出金额
-  - `medium_in` (number)：中单买入金额
-  - `medium_out` (number)：中单卖出金额
-  - `small_in` (number)：小单买入金额
-  - `small_out` (number)：小单卖出金额
-
-### 上证指数实时资金流数据 — `get_ch_sh_market_l2_fund_flow`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `super_big_net_amt` (number)：超大单净流入金额
-  - `big_net_amt` (number)：大单净流入金额
-  - `medium_net_amt` (number)：中单净流入金额
-  - `small_net_amt` (number)：小单净流入金额
-  - `super_big_in` (number)：超大单买入金额
-  - `super_big_out` (number)：超大单卖出金额
-  - `big_in` (number)：大单买入金额
-  - `big_out` (number)：大单卖出金额
-  - `medium_in` (number)：中单买入金额
-  - `medium_out` (number)：中单卖出金额
-  - `small_in` (number)：小单买入金额
-  - `small_out` (number)：小单卖出金额
-
-### 深圳市场实时资金流数据 — `get_ch_sz_market_l2_fund_flow`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `super_big_net_amt` (number)：超大单净流入金额
-  - `big_net_amt` (number)：大单净流入金额
-  - `medium_net_amt` (number)：中单净流入金额
-  - `small_net_amt` (number)：小单净流入金额
-  - `super_big_in` (number)：超大单买入金额
-  - `super_big_out` (number)：超大单卖出金额
-  - `big_in` (number)：大单买入金额
-  - `big_out` (number)：大单卖出金额
-  - `medium_in` (number)：中单买入金额
-  - `medium_out` (number)：中单卖出金额
-  - `small_in` (number)：小单买入金额
-  - `small_out` (number)：小单卖出金额
-
-### 创业板实时资金流数据 — `get_ch_cyb_market_l2_fund_flow`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `super_big_net_amt` (number)：超大单净流入金额
-  - `big_net_amt` (number)：大单净流入金额
-  - `medium_net_amt` (number)：中单净流入金额
-  - `small_net_amt` (number)：小单净流入金额
-  - `super_big_in` (number)：超大单买入金额
-  - `super_big_out` (number)：超大单卖出金额
-  - `big_in` (number)：大单买入金额
-  - `big_out` (number)：大单卖出金额
-  - `medium_in` (number)：中单买入金额
-  - `medium_out` (number)：中单卖出金额
-  - `small_in` (number)：小单买入金额
-  - `small_out` (number)：小单卖出金额
-
-### 科创板实时资金流数据 — `get_ch_kcb_market_l2_fund_flow`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `super_big_net_amt` (number)：超大单净流入金额
-  - `big_net_amt` (number)：大单净流入金额
-  - `medium_net_amt` (number)：中单净流入金额
-  - `small_net_amt` (number)：小单净流入金额
-  - `super_big_in` (number)：超大单买入金额
-  - `super_big_out` (number)：超大单卖出金额
-  - `big_in` (number)：大单买入金额
-  - `big_out` (number)：大单卖出金额
-  - `medium_in` (number)：中单买入金额
-  - `medium_out` (number)：中单卖出金额
-  - `small_in` (number)：小单买入金额
-  - `small_out` (number)：小单卖出金额
-
-### 个股实时大单成交明细 — `get_ch_stock_big_order`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `ticktime` (string)：时间
-  - `price` (number)：成交价
-  - `volume` (number)：成交量
-  - `amount` (number)：成交额
-  - `kind` (string)：成交类型。U 主动买入，D 主动卖出，E 中性
-
-### 订阅Level2单只股成交明细 — `subscribe_ch_l2_transaction_single`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `id` (string)：成交ID
-  - `time` (string)：时间
-  - `price` (number)：成交价
-  - `vol` (number)：成交量
-  - `side` (string)：成交方向。B 主动买，S 主动卖，M 中性
-
-### 订阅Level2多只股成交明细 — `subscribe_ch_l2_transaction_batch`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `id` (string)：成交ID
-  - `time` (string)：时间
-  - `price` (number)：成交价
-  - `vol` (number)：成交量
-  - `side` (string)：成交方向。B 主动买，S 主动卖，M 中性
-
-### 订阅Level2所有股成交明细 — `subscribe_ch_l2_transaction_all`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `id` (string)：成交ID
-  - `time` (string)：时间
-  - `price` (number)：成交价
-  - `vol` (number)：成交量
-  - `side` (string)：成交方向。B 主动买，S 主动卖，M 中性
-
-### 个股l2分价成交明细 — `get_ch_stock_price_summarize`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `price` (number)：成交价格
-  - `vol` (number)：成交量(股)
-  - `zb` (number)：该价位成交量占总成交量比例
-  - `jml` (number)：主动买入占比
-  - `b_vol` (number)：主动买量(股)
-  - `s_vol` (number)：主动卖量(股)
-
-### 订阅l2单只股十档行情通道 — `subscribe_ch_l2_deep_single`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `name` (string)：个股名称
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `prev_close` (number)：昨收价
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `price` (number)：当前价
-  - `volume` (number)：成交量
-  - `amount` (number)：成交额
-  - `bids` (list)：买十档信息
-  - `asks` (list)：卖十档信息
-
-### 订阅l2多只股十档行情通道 — `subscribe_ch_l2_depth_batch`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `name` (string)：个股名称
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `prev_close` (number)：昨收价
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `price` (number)：当前价
-  - `volume` (number)：成交量
-  - `amount` (number)：成交额
-  - `bids` (list)：买十档信息
-  - `asks` (list)：卖十档信息
-
-### 订阅l2所有股票十档行情通道 — `subscribe_ch_l2_depth_all`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `name` (string)：个股名称
-  - `time` (string)：时间
-  - `date` (string)：日期
-  - `prev_close` (number)：昨收价
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `price` (number)：当前价
-  - `volume` (number)：成交量
-  - `amount` (number)：成交额
-  - `bids` (list)：买十档信息
-  - `asks` (list)：卖十档信息
-
-### 订阅l2单只个股买 一卖一明细 — `subscribe_ch_l2_orders_single`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `time` (string)：时间
-  - `buy_price` (number)：买一价
-  - `sell_price` (number)：卖一价
-  - `buy_vol` (number)：买一总量(股)
-  - `buy_count` (number)：买单笔数
-  - `sell_vol` (number)：卖一总量（股）
-  - `sell_count` (number)：卖单笔数
-  - `buy_queue` (list)：买队列逐笔明细，最多返回50笔
-  - `sell_queue` (list)：卖队列逐笔明细，最多返回50笔
-
-### 订阅l2多只个股买 一卖一明细 — `subscribe_ch_l2_orders_batch`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `time` (string)：时间
-  - `buy_price` (number)：买一价
-  - `sell_price` (number)：卖一价
-  - `buy_vol` (number)：买一总量(股)
-  - `buy_count` (number)：买单笔数
-  - `sell_vol` (number)：卖一总量（股）
-  - `sell_count` (number)：卖单笔数
-  - `buy_queue` (list)：买队列逐笔明细，最多返回50笔
-  - `sell_queue` (list)：卖队列逐笔明细，最多返回50笔
-
-### 订阅l2所有股票买 一卖一明细 — `subscribe_ch_l2_orders_all`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `time` (string)：时间
-  - `buy_price` (number)：买一价
-  - `sell_price` (number)：卖一价
-  - `buy_vol` (number)：买一总量(股)
-  - `buy_count` (number)：买单笔数
-  - `sell_vol` (number)：卖一总量（股）
-  - `sell_count` (number)：卖单笔数
-  - `buy_queue` (list)：买队列逐笔明细，最多返回50笔
-  - `sell_queue` (list)：卖队列逐笔明细，最多返回50笔
-
-### 日内实时暗盘资金 — `get_ch_stock_dark_rank`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `value` (list)：个股列表
-
-### 历史暗盘资金 — `get_ch_stock_dark_rank_history`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `value` (list)：个股列表
-
-### 个股DDE实时数据 — `get_ch_stock_ea_dde`
-分类：Levle2和大单 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `name` (string)：个股名称
-  - `today_ddx` (number)：当天ddx 数值
-  - `today_ddy` (number)：当天ddy 数值
-  - `today_ddz` (number)：当天ddz 数据
-  - `five_ddx` (number)：近五日ddx
-  - `five_ddy` (number)：近五日ddy
-  - `ten_ddx` (number)：近十日ddx
-  - `ten_ddy` (number)：近十日ddy
-  - `red_in_five` (number)：近五日ddx 为正的天数
-  - `red_in_ten` (number)：近十日ddx 为正的天数
-  - `red_continue` (number)：近期ddx 连续为正的天数
-
-### 重点资讯新闻 — `get_core_new`
-分类：新闻资讯 ｜ 可测试：✅
-
-  - `date` (string)：发布日期时间
-  - `content` (string)：正文
-  - `title` (string)：标题
-
-### 国内主要新闻 — `get_domestic_financial_news`
-分类：新闻资讯 ｜ 可测试：✅
-
-  - `date` (string)：发布日期
-  - `content` (string)：正文
-  - `title` (string)：标题
-
-### 国际主要新闻 — `get_global_financial_news`
-分类：新闻资讯 ｜ 可测试：✅
-
-  - `date` (string)：发布日期
-  - `content` (string)：正文
-  - `title` (string)：标题
-
-### 时评类新闻 — `get_options_news`
-分类：新闻资讯 ｜ 可测试：✅
-
-  - `date` (string)：发布日期
-  - `content` (string)：正文
-  - `title` (string)：标题
-
-### 个股新闻 — `get_ch_stock_month_news`
-分类：新闻资讯 ｜ 可测试：—
-
-  - `date` (string)：发布日期
-  - `content` (string)：新闻内容
-  - `title` (string)：新闻标题
-
-### 财经快讯(数据源sn) — `get_ch_sn_kx`
-分类：新闻资讯 ｜ 可测试：—
-
-  - `date` (string)：日期 YYYY-MM-DD
-  - `id` (string)：快讯唯一ID
-  - `title` (string)：标题
-  - `content` (string)：正文全文
-  - `time_ms` (number)：发布时间(毫秒时间戳)
-  - `tags_json` (string)：标签JSON，包含话题标签和关联股票信息
-
-### 财经快讯(数据源SA) — `get_ch_sa_kx`
-分类：新闻资讯 ｜ 可测试：—
-
-  - `content` (string)：快讯内容
-  - `time_ms` (string)：时间戳字符串
-  - `tags_json` (string)：关联的标签列表
-  - `title` (string)：标题
-  - `date` (string)：日期
-
-### 个股公告 — `get_ch_stock_announce`
-分类：新闻资讯 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `data` (list)：日内发布的公告列表数据
-  - `ann_id` (string)：公告ID
-  - `title` (string)：公告标题
-  - `content` (string)：公告内容
-
-### 个股研报 — `get_ch_stock_research_report`
-分类：新闻资讯 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `reports` (list)：当天发布的研报数据表
-  - `title` (string)：研报名称
-  - `org` (string)：研报发布机构名称
-  - `analyst` (string)：研报分析员
-  - `content` (string)：研报内容
-
-### 每日ST股信息 — `get_ch_stock_st_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `reason` (string)：加ST/加*ST
-  - `change_date` (string)：变更为ST股时间
-  - `code` (string)：个股代码
-
-### 沪深300成分股权重 — `get_ch_hs300_constituent_weight_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `weight` (number)：权重数值
-  - `code` (string)：个股代码
-  - `date` (string)：日期
-
-### 上证50成分股权重 — `get_ch_sz50_constituent_weight_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `weight` (number)：权重数值
-  - `code` (string)：个股代码
-  - `date` (string)：日期
-
-### 中证500成分股权重 — `get_ch_zz500_constituent_weight_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `weight` (number)：权重数值
-  - `code` (string)：个股代码
-  - `date` (string)：日期
-
-### 中证1000成分股权重 — `get_ch_zz1000_constituent_weight_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `weight` (number)：权重数值
-  - `code` (string)：个股代码
-  - `date` (string)：日期
-
-### 个股除权除息历史 — `get_ch_stock_dividend_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `type` (string)：类型 1 除权除息 2 扩/缩股 3 配股调整
-  - `bonus` (number)：红利 (元)
-  - `share_bonus` (number)：送股数量
-  - `allotment` (number)：配股数量
-  - `allo_price` (number)：配股价格
-  - `date` (string)：日期
-
-### 年度高送转/分红 — `get_ch_year_high_stock_dividend`
-分类：特色数据 ｜ 可测试：—
-
-  - `name` (string)：股票名称
-  - `capitalization_issue` (number)：转增(每10股)
-  - `stock_dividend` (number)：送股(每10股)
-  - `cash_dividend` (number)：派现(每10股 元)
-  - `recorde_date` (number)：股权登记日
-  - `dps` (number)：每股收益(元)
-  - `reps` (number)：每股未分配利润(元)
-  - `crps` (number)：每股资本公积金(元)
-  - `tag_date` (string)：公告日期
-  - `report_type` (string)：公告类型
-  - `code` (string)：股票代码
-
-### 个股股本变化历史 — `get_ch_stock_share_capital`
-分类：特色数据 ｜ 可测试：—
-
-  - `total_shares` (string)：总股本(股)
-  - `circulating_shares` (number)：流通股本(股)
-  - `date` (number)：日期
-
-### 个股资金流明细历史 — `get_ch_stock_fund_flow_detail_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `change_percent` (string)：涨跌幅(%)
-  - `turnover_amount` (number)：成交额(万元)
-  - `main_net_inflow` (number)：主力净流入金额(万元)
-  - `main_net_inflow_ratio` (number)：主力资金净流入比率(%)
-  - `super_large_buy_amount` (number)：超大单买入金额(万元)
-  - `super_large_buy_volume` (number)：超大单买入量(万股)
-  - `super_large_buy_avg_price` (number)：超大单买入均价(元)
-  - `super_large_sell_amount` (number)：超大单卖出金额(万元)
-  - `super_large_sell_volume` (number)：超大单卖出量(万股)
-  - `super_large_sell_avg_price` (number)：超大单卖出均价(元)
-  - `super_large_net_buy_amount` (number)：超大单净买入金额(万元)
-  - `large_buy_amount` (number)：大单买入金额(万元)
-  - `large_buy_volume` (number)：大单买入量(万股)
-  - `large_buy_avg_price` (number)：大单买入均价(元)
-  - `large_sell_amount` (number)：大单卖出金额(万元)
-  - `large_sell_volume` (number)：大单卖出量(万股)
-  - `large_sell_avg_price` (number)：大单卖出均价(元)
-  - `large_net_buy_amount` (number)：大单净买入金额(万元)
-  - `medium_buy_amount` (number)：中单买入金额(万元)
-  - `medium_buy_volume` (number)：中单买入量(万股)
-  - `medium_buy_avg_price` (number)：中单买入均价(元)
-  - `medium_sell_amount` (number)：中单卖出金额(万元)
-  - `medium_sell_volume` (number)：中单卖出量(万股)
-  - `medium_sell_avg_price` (number)：中单卖出均价(元)
-  - `medium_net_buy_amount` (number)：中单净买入金额(万元)
-  - `small_buy_amount` (number)：小单买入金额(万元)
-  - `small_buy_volume` (number)：小单买入量(万股)
-  - `small_buy_avg_price` (number)：小单买入均价(元)
-  - `small_sell_amount` (number)：小单卖出金额(万元)
-  - `small_sell_volume` (number)：小单卖出量(万股)
-  - `small_sell_avg_price` (number)：小单卖出均价(元)
-  - `small_net_buy_amount` (number)：小单净买入金额(万元)
-
-### 年度解禁数据 — `get_ch_year_stock_lock_up`
-分类：特色数据 ｜ 可测试：—
-
-  - `name` (string)：股票名称
-  - `expiration_date` (string)：解禁日期
-  - `expiration_count` (number)：解禁数量(万股)
-  - `expiration_float_rate` (number)：解禁占已流通A股比例(%)
-  - `expiration_total_rate` (number)：解禁占总股本比例(%)
-  - `expiration_amount` (number)：解禁市值(万元)
-  - `expiration_type` (string)：解禁类型
-  - `code` (string)：
-
-### 1日融资买入排行 — `get_ch_rz_buy_1_day`
-分类：特色数据 ｜ 可测试：—
-
-  - `name` (string)：股票名称
-  - `buy_amount` (number)：融资净买入(万元)
-  - `rz_balance` (number)：融资余额(万元)
-  - `increase` (number)：增幅(%)
-  - `float_cap_percent` (number)：占流通市值比例(%)
-  - `margin_balance` (number)：两融余额(万元)
-  - `date` (string)：日期
-  - `code` (string)：股票代码
-
-### 5日融资买入排行 — `get_ch_rz_buy_5_day`
-分类：特色数据 ｜ 可测试：—
-
-  - `name` (string)：股票名称
-  - `buy_amount` (number)：融资净买入(万元)
-  - `rz_balance` (number)：融资余额(万元)
-  - `increase` (number)：增幅(%)
-  - `float_cap_percent` (number)：占流通市值比例(%)
-  - `margin_balance` (number)：两融余额(万元)
-  - `date` (string)：日期
-  - `code` (string)：股票代码
-
-### 20日融资买入排行 — `get_ch_rz_buy_20_day`
-分类：特色数据 ｜ 可测试：—
-
-  - `name` (string)：股票名称
-  - `buy_amount` (number)：融资净买入(万元)
-  - `rz_balance` (number)：融资余额(万元)
-  - `increase` (number)：增幅(%)
-  - `float_cap_percent` (number)：占流通市值比例(%)
-  - `margin_balance` (number)：两融余额(万元)
-  - `code` (string)：股票代码
-  - `date` (string)：日期
-
-### 个股一致行动人信息 — `get_ch_stock_pacs`
-分类：特色数据 ｜ 可测试：—
-
-  - `stock_code` (string)：股票代码
-  - `col_cutoff_date` (string)：截止日期
-  - `col_shareholder` (string)：股东名称
-  - `col_type` (string)：股东性质
-  - `col_group_qty` (number)：一致行动组持股数量(股)
-  - `col_group_pct` (number)：一致行动组占总股本比例(%)
-  - `col_group_mv` (number)：一致行动组期末参考市值(元)
-  - `col_sh_qty` (number)：股东持股数量(股)
-  - `col_sh_pct` (number)：股东持股占总股本比例(%)
-  - `col_sh_mv` (number)：股东持股期末参考市值(元)
-  - `col_sh_nature` (number)：股东股本性质
-  - `col_sh_rank` (number)：股东股东排名
-  - `col_sh_t_qty` (number)：股东持流通股数量(股)
-  - `col_sh_t_pct` (number)：股东持流通股占总股本比例(%)
-  - `col_sh_t_mv` (number)：股东持流通股期末参考市值(元)
-  - `col_sh_t_nature` (string)：股东持流通股股本性质
-  - `col_sh_t_rank` (number)：股东持流通股股东排名
-  - `col_group_t_qty` (number)：一致行动组持流通股(股)
-  - `col_group_t_pct` (number)：一致行动组持流通股占总股本比例(%)
-  - `col_group_t_mv` (number)：一致行动组持流通股期末参考市值(元)
-
-### 市场每个交易日涨跌平数量 — `get_ch_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 上证A股每个交易日涨跌平数量 — `get_ch_sh_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 深圳A股每个交易日涨跌平数量 — `get_ch_sz_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 创业板每个交易日涨跌平数量 — `get_ch_cyb_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 科创板每个交易日涨跌平数量 — `get_ch_kcb_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 北证每个交易日涨跌平数量 — `get_ch_bj_day_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 市场每个交易周涨跌平数量 — `get_ch_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (string)：上涨数量
-  - `xd` (string)：下跌数量
-  - `pp` (string)：平盘数量
-
-### 上证A股每个交易周涨跌平数量 — `get_ch_sh_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨
-  - `xd` (number)：下跌
-  - `pp` (number)：平盘
-
-### 深圳A股每个交易周涨跌平数量 — `get_ch_sz_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 创业板每个交易周涨跌平数量 — `get_ch_cyb_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 科创板每个交易周涨跌平数量 — `get_ch_kcb_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 北证每个交易周涨跌平数量 — `get_ch_bj_week_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 市场每个交易月涨跌平数量 — `get_ch_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 上证A股每个交易月涨跌平数量 — `get_ch_sh_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 深圳A股每个交易月涨跌平数量 — `get_ch_sz_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 创业板每个交易月涨跌平数量 — `get_ch_cyb_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 科创板每个交易月涨跌平数量 — `get_ch_kcb_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 北证每个交易月涨跌平数量 — `get_ch_bj_month_zd_count_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `sz` (number)：上涨数量
-  - `xd` (number)：下跌数量
-  - `pp` (number)：平盘数量
-
-### 中国全社会用电量同比 — `get_ch_electricity_use_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `tag_date` (string)：发布日期
-  - `attache_date` (string)：数据所属月份
-  - `val` (string)：数值
-  - `pre_val` (string)：前值
-  - `except_val` (string)：预期值
-
-### 全市场PE/PB 月数据历史 — `get_ch_market_pe_pb_month_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `pe` (number)：市场市盈率(不包含亏损股)
-  - `pe_loss` (number)：市场市盈率(包含亏损股)
-  - `pb` (number)：市场市净率
-
-### 全市场PE/PB 日数据历史 — `get_ch_market_pe_pb_day_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `pe` (number)：市场市盈率(不包含亏损股)
-  - `pe_loss` (number)：市场市盈率(包含亏损股)
-  - `pb` (number)：市场市净率
-
-### 中国年度GDP同比增长率 — `get_ch_gdp_yearly_growth`
-分类：特色数据 ｜ 可测试：—
-
-  - `previous` (string)：上一次公布的年度GDP增速
-  - `consensus` (string)：市场预测的年度GDP增速（通常无预期）
-  - `actual` (string)：当期实际公布的年度GDP增速（如"5"表示5%）
-  - `pub_time` (string)：数据发布时间
-  - `revised` (string)：对前值的修正值（通常无修正）
-  - `date` (string)：数据对应的统计周期
-
-### 中国季度GDP同比增长率 — `get_ch_gdp_quarter_rate`
-分类：特色数据 ｜ 可测试：—
-
-  - `previous` (string)：上一次公布的季度GDP同比增速
-  - `consensus` (string)：市场预测的季度GDP同比增速（空表示无预期）
-  - `actual` (string)：当期实际公布的季度GDP同比增速（如"5"表示5%）
-  - `pub_time` (string)：数据发布时间
-  - `revised` (string)：对前值的修正值（通常无修正）
-  - `date` (string)：数据对应的统计周期
-
-### 中国季度GDP环比增长率 — `get_ch_gdp_qoq_rate`
-分类：特色数据 ｜ 可测试：—
-
-  - `previous` (string)：上一次公布的季度GDP环比增速
-  - `consensus` (string)：市场预测的季度GDP环比增速（通常无预期）
-  - `actual` (string)：当期实际公布的季度GDP环比增速（如"1.3"表示1.3%）
-  - `pub_time` (string)：数据发布时间
-  - `revised` (string)：对前值的修正值（通常无修正）
-  - `date` (string)：数据对应的统计周期
-
-### 个股l2分价成交明细历史 — `get_ch_stock_price_summarize_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `val` (list)：分家数据列表
-
-### 交易日涨跌停时序数据 — `get_ch_limit_up_down_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `date` (string)：日期
-  - `rise` (number)：涨停数量
-  - `fall` (number)：跌停数量
-  - `zhaban` (number)：炸板数量
-  - `nonword` (number)：非一字涨停数量
-  - `tradetime` (string)：时间
-
-### 交易日涨跌分布时序数据 — `get_ch_zd_map_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `up_over_10` (number)：涨幅>10%
-  - `up_7_10` (number)：涨幅7%~10%
-  - `up_5_7` (number)：涨幅5%~7%
-  - `up_2_5` (number)：涨幅2%~5%
-  - `up_0_2` (number)：涨幅0%~2%
-  - `flat` (number)：平盘
-  - `down_0_2` (number)：跌幅0%~2%
-  - `down_2_5` (number)：跌幅2%~5%
-  - `down_5_7` (number)：跌幅5%~7%
-  - `down_7_10` (number)：跌幅7%~10%
-  - `down_over_10` (string)：跌幅>10%
-
-### 交易日涨停股信息 — `get_ch_lb_stock_history_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `today_lb_ratio` (string)：当日连板晋级率
-  - `stocks` (list)：涨停个股列表
-
-### 交易日全天成交额数据 — `get_ch_market_amount_curve_history`
-分类：特色数据 ｜ 可测试：—
-
-  - `time` (string)：时间
-  - `amount` (number)：成交额
-
-### 中国GDP 季度数据 — `get_ch_gdp_quarter_value`
-分类：特色数据 ｜ 可测试：—
-
-  - `previous` (string)：上一季度GDP总量，单位：亿
-  - `date` (string)：数据对应的统计周期
-  - `consensus` (string)：市场预测的季度GDP总量（空值表示无预期）
-  - `actual` (string)：当期实际公布的季度GDP总量（如"334193"表示334193亿元）
-  - `pub_time` (string)：数据发布时间
-  - `revised` (string)：对前值的修正值（通常无修正）
-
-### 订阅港股实时行情通道 — `subscribe_hk_stock_real`
-分类：港股行情 ｜ 可测试：—
-
-  - `name` (string)：个股名称
-  - `last_close` (string)：昨日收盘价
-  - `open` (string)：今日开盘价
-  - `high` (string)：今日最高价
-  - `low` (string)：今日最低价
-  - `close` (string)：现价
-  - `amount` (string)：成交额（万元）
-  - `change` (string)：涨跌幅
-  - `volume` (string)：成交量(手)
-  - `time` (string)：时间
-
-### 获取港股实时行情 — `get_hk_stock_real`
-分类：港股行情 ｜ 可测试：—
-
-  - `name` (string)：个股名称
-  - `last_close` (string)：昨日收盘价
-  - `open` (string)：今日开盘价
-  - `high` (string)：今日最高价
-  - `low` (string)：今日最低价
-  - `close` (string)：现价
-  - `amount` (string)：成交额（万元）
-  - `change` (string)：涨跌幅
-  - `volume` (string)：成交量(手)
-  - `time` (string)：时间
-
-### 订阅港股指数实时行情通道 — `subscribe_hk_market_real`
-分类：港股行情 ｜ 可测试：—
-
-  - `name` (string)：指数名称
-  - `last_close` (string)：昨日收盘价
-  - `open` (string)：今日开盘价
-  - `high` (string)：今日最高价
-  - `low` (string)：今日最低价
-  - `close` (string)：现价
-  - `amount` (string)：成交额（万元）
-  - `change` (string)：涨跌幅
-  - `date` (string)：日期
-  - `time` (string)：时间
-
-### 获取港股指数实时行情 — `get_hk_market_real`
-分类：港股行情 ｜ 可测试：—
-
-  - `name` (string)：指数名称
-  - `last_close` (string)：昨日收盘价
-  - `open` (string)：今日开盘价
-  - `high` (string)：今日最高价
-  - `low` (string)：今日最低价
-  - `close` (string)：现价
-  - `amount` (string)：成交额（万元）
-  - `change` (string)：涨跌幅
-  - `date` (string)：日期
-  - `time` (string)：时间
-
-### 港股股票列表 — `get_hk_stock`
-分类：港股行情 ｜ 可测试：—
-
-  - `code` (string)：个股代码
-  - `total_shares` (string)：总股本(股)
-  - `time_to_market` (string)：上市日期
-
-### 港股个股历史日线 — `get_hk_stock_day_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-
-### 港股个股历史周线 — `get_hk_stock_week_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (string)：周内交易天数
-
-### 港股个股历史月线 — `get_hk_stock_month_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (string)：周内交易天数
-
-### 港股指数历史日线 — `get_hk_market_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-
-### 港股指数历史周线 — `get_hk_market_week_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (string)：周内交易天数
-
-### 港股指数历史月线 — `get_hk_market_month_history`
-分类：港股行情 ｜ 可测试：—
-
-  - `open` (string)：开盘价
-  - `high` (string)：最高价
-  - `low` (string)：最低价
-  - `last_close` (string)：昨收价
-  - `volume` (string)：成交量(股)
-  - `amount` (string)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (string)：周内交易天数
-
-### 港股主要财务指标 — `get_hk_stock_main_fin_data`
-分类：港股行情 ｜ 可测试：—
-
-  - `diluted_eps` (string)：稀释每股收益(元)
-  - `ttm_eps` (string)：TTM每股收益(元)
-  - `bvps` (string)：每股净资产(元)
-  - `ops_cash_per_share` (string)：每股经营现金流(元)
-  - `ops_rev_per_share` (string)：每股营业收入(元)
-  - `total_revenue` (string)：营业总收入(元)
-  - `revenue_yoy` (string)：营业总收入同比增长(%)
-  - `revenue_qoq` (string)：营业总收入滚动环比增长(%)
-  - `gross_profit` (string)：毛利润(元)
-  - `gp_yoy` (string)：毛利润同比增长(%)
-
-### 港股资产负债表 — `get_hk_stock_balance_sheet`
-分类：港股行情 ｜ 可测试：—
-
-  - `investment_property` (string)：投资物业
-  - `intangible_assets` (string)：无形资产
-  - `land_use_rights` (string)：土地使用权
-  - `construction_in_progress` (string)：在建工程
-  - `deferred_tax_assets` (string)：递延所得税资产
-  - `prepayments_other_assets` (string)：预付款项、按金及其他资产
-  - `investment_in_associates` (string)：于联营公司的投资
-  - `investment_in_joint_ventures` (string)：于合营公司的投资
-  - `fvtpl_financial_assets` (string)：指定以公允价值记账之金融资产
-  - `time_deposits` (string)：定期存款
-
-### 港股利润表 — `get_hk_stock_profit_statement`
-分类：港股行情 ｜ 可测试：—
-
-  - `report_type` (string)：报告类型
-  - `turnover` (string)：营业额
-  - `other_revenue` (string)：其他收入
-  - `total_revenue` (string)：总收入
-  - `cost_of_revenue` (string)：收入成本
-  - `gross_profit` (string)：毛利
-  - `other_income_loss_net` (string)：其他收益/(亏损)净额
-  - `sales_marketing_expenses` (string)：销售及市场推广开支
-  - `general_admin_expenses` (string)：一般及行政开支
-  - `operating_profit` (string)：经营盈利
-
-### 港股现金流表 — `get_hk_stock_cash_flow`
-分类：港股行情 ｜ 可测试：—
-
-  - `report_type` (string)：报告类型
-  - `profit_before_tax_subtotal` (string)：除税前溢利小计
-  - `interest_income` (string)：利息收入
-  - `interest_and_related_expenses` (string)：利息及相关开支
-  - `dividend_income` (string)：股息收入
-  - `share_of_associates_jv_profit_loss` (string)：分占联营公司及合营公司的(盈利)/亏损净额
-  - `impairment_loss` (string)：无形资产、土地使用权、使用权资产、投资物业以及物业、设备及器材的减值净额
-  - `fv_gain_loss` (string)：以公允价值计量且其变动计入损益的金融资产及其他金融工具的公允价值收益净额
-  - `gain_on_disposal_of_assets` (string)：减:出售资产之溢利
-  - `depreciation_amortization` (string)：加:折旧及摊销
-
 ### 获取股票列表 — `get_ch_stock`
 分类：个股数据 ｜ 可测试：✅
 
@@ -1316,8 +271,41 @@
   - `belong_hsgt` (number)：是否属于沪深股通 1 属于  0  不属于
   - `is_st` (number)：是否是ST股票 1 属于  0  不属于
   - `code` (string)：股票代码
+  - `today_dr` (integer)：今日是否除权除息（1 是 / 0 否）
+
+### 每日ST股信息 — `get_ch_stock_st_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `reason` (string)：加ST/加*ST
+  - `change_date` (string)：变更为ST股时间
+  - `code` (string)：个股代码
 
 ### 订阅实时行情通道 — `subscribe_ch_stock_real`
+分类：个股数据 ｜ 可测试：—
+
+  - `time` (string)：数据时间，格式 yyyy-MM-dd HH:mm:ss
+  - `code` (string)：
+  - `close` (number)：当前价（元）
+  - `last_close` (number)：上个交易日收盘价（元）
+  - `open` (number)：开盘价（元）
+  - `high` (number)：最高价（元）
+  - `low` (number)：最低价（元）
+  - `volume` (integer)：成交量（手）
+  - `amount` (number)：成交额（元）
+  - `buy_five` (array<number>)：买五档价格
+  - `buy_five_vol` (array<integer>)：买五档量
+  - `sell_five` (array<number>)：卖五档价格
+  - `sell_five_vol` (array<integer>)：卖五档量
+  - `turnover` (number)：换手率（%）
+  - `volume_ratio` (number)：量比
+  - `bid_ask_ratio` (number)：委比（%）
+  - `market_cap` (number)：总市值（元）
+  - `float_cap` (number)：流通市值（元）
+  - `dynamic_pe` (number)：动态市盈率
+  - `static_pe` (number)：静态市盈率
+  - `pb` (number)：市净率
+
+### 订阅北证个股实时行情 — `subscribe_ch_bj_stock_real`
 分类：个股数据 ｜ 可测试：—
 
   - `time` (string)：数据时间，格式 yyyy-MM-dd HH:mm:ss
@@ -1329,10 +317,10 @@
   - `amount` (number)：成交额（元）
   - `volume` (number)：成交量（手）
   - `pre_volume` (number)：前成交量（手）
-  - `buy_five` (list)：买五档价格
-  - `buy_five_vol` (list)：买五档量
-  - `sell_five` (list)：卖五档价格
-  - `sell_five_vol` (list)：卖五档量
+  - `buy_five` (array<number>)：买五档价格
+  - `buy_five_vol` (array<number>)：买五档量
+  - `sell_five` (array<number>)：卖五档价格
+  - `sell_five_vol` (array<number>)：卖五档量
   - `turnover` (number)：换手率（%）
   - `volume_ratio` (number)：量比
   - `bid_ask_ratio` (number)：委比（%）
@@ -1341,23 +329,24 @@
   - `dynamic_pe` (number)：动态市盈率
   - `static_pe` (number)：静态市盈率
   - `pb` (number)：市净率
+  - `sell_file_vol` (array<number>)：
 
 ### 获取所有个股实时行情 — `get_ch_stock_real`
 分类：个股数据 ｜ 可测试：✅
 
   - `time` (string)：数据时间，格式 yyyy-MM-dd HH:mm:ss
+  - `code` (string)：
   - `close` (number)：当前价（元）
+  - `last_close` (number)：上个交易日收盘价（元）
   - `open` (number)：开盘价（元）
   - `high` (number)：最高价（元）
   - `low` (number)：最低价（元）
-  - `last_close` (number)：上个交易日收盘价（元）
+  - `volume` (integer)：成交量（手）
   - `amount` (number)：成交额（元）
-  - `volume` (number)：成交量（手）
-  - `pre_volume` (number)：前成交量（手）
-  - `buy_five` (list)：买五档价格
-  - `buy_five_vol` (list)：买五档量
-  - `sell_five` (list)：卖五档价格
-  - `sell_five_vol` (list)：卖五档量
+  - `buy_five` (array<number>)：买五档价格
+  - `buy_five_vol` (array<integer>)：买五档量
+  - `sell_five` (array<number>)：卖五档价格
+  - `sell_five_vol` (array<integer>)：卖五档量
   - `turnover` (number)：换手率（%）
   - `volume_ratio` (number)：量比
   - `bid_ask_ratio` (number)：委比（%）
@@ -1370,24 +359,24 @@
 ### 获取单只个股实时行情 — `get_ch_one_stock_real`
 分类：个股数据 ｜ 可测试：✅
 
-  - `time` (string)：数据时间
-  - `close` (number)：当前价（元）
-  - `open` (number)：开盘价（元）
-  - `high` (number)：最高价（元）
-  - `low` (number)：最低价（元）
-  - `last_close` (number)：上个交易日收盘价（元）
-  - `amount` (number)：成交额（元）
-  - `volume` (number)：成交量（手）
-  - `pre_volume` (number)：前成交量（手）
-  - `buy_five` (list)：买五档价格
-  - `buy_five_vol` (list)：买五档量
-  - `sell_five` (list)：卖五档价格
-  - `sell_five_vol` (list)：卖五档量
-  - `turnover` (number)：换手率（%）
+  - `time` (string)：时间
+  - `code` (string)：
+  - `close` (number)：现价
+  - `last_close` (number)：昨日收盘价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `low` (number)：今日最低价
+  - `volume` (integer)：成交量(手)
+  - `amount` (number)：成交额（万元）
+  - `buy_five` (array<number>)：买五档价格
+  - `buy_five_vol` (array<integer>)：买五档量
+  - `sell_five` (array<number>)：卖五档价格
+  - `sell_five_vol` (array<integer>)：卖五档量
+  - `turnover` (number)：换手率
   - `volume_ratio` (number)：量比
-  - `bid_ask_ratio` (number)：委比（%）
-  - `market_cap` (number)：总市值（元）
-  - `float_cap` (number)：流通市值（元）
+  - `bid_ask_ratio` (number)：委比
+  - `market_cap` (number)：总市值
+  - `float_cap` (number)：流通市值
   - `dynamic_pe` (number)：动态市盈率
   - `static_pe` (number)：静态市盈率
   - `pb` (number)：市净率
@@ -1396,229 +385,25 @@
   - `l2_vol_rise_speed` (number)：成交量涨速
   - `l2_total_buy_vol` (number)：买入委托总量
   - `l2_total_sell_vol` (number)：卖出委托总量
-  - `l2_buy_cancel` (number)：撤销的买入委托总量
-  - `l2_sell_cancel` (number)：撤销的卖出委托总量
+  - `l2_buy_cancel` (number)：撤销买入委托量
+  - `l2_sell_cancel` (number)：撤销卖出委托量
   - `l2_deal_tick_num` (integer)：成交笔数
-  - `l2_order_tick_num` (integer)：委托笔数
+  - `l2_order_tick_num` (integer)：
 
 ### 个股实时分钟K线 — `get_ch_stock_minute_real`
 分类：个股数据 ｜ 可测试：—
 
-  - `date_time` (string)：日期时间
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `close` (number)：收盘价
-  - `amount` (number)：成交额（元）
-  - `volume` (number)：成交量（手）
-
-### 个股实时逐笔成交 — `get_ch_stock_transaction_real`
-分类：个股数据 ｜ 可测试：—
-
-  - `time` (string)：成交时间
-  - `price` (number)：成交价格
-  - `volume` (number)：成交量（手）
-  - `buy_or_sell` (integer)：买卖方向：0=买盘，1=卖盘
-
-### 前复权日线 — `get_ch_stock_front_day_history`
-分类：个股数据 ｜ 可测试：✅
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
+  - `code` (string)：个股代码
+  - `minutes` (string)：查询的分钟数
   - `date` (string)：日期
-  - `close` (number)：收盘价
-
-### 前复权周线 — `get_ch_stock_front_week_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
-  - `close` (number)：收盘价
-
-### 前复权月线 — `get_ch_stock_front_month_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：月内交易天数
-  - `close` (number)：收盘价
-
-### 后复权日线 — `get_ch_stock_back_day_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `close` (number)：收盘价
-
-### 后复权周线 — `get_ch_stock_back_week_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
-  - `close` (number)：收盘价
-
-### 后复权月线 — `get_ch_stock_back_month_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：月内交易天数
-  - `close` (number)：收盘价
-
-### 历史分笔 — `get_ch_stock_transaction_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `price` (number)：价格
-  - `volume` (number)：成交量
-  - `buy_or_sell` (number)：买卖方向  0 买盘  1 卖盘
-  - `time` (string)：时间
-
-### 主力评分数据 — `get_ch_stock_primer_info`
-分类：个股数据 ｜ 可测试：—
-
-  - `score_change` (number)：评分较上一日变动
-  - `stock_rank` (number)：评分打败股票比例
-  - `score_msg` (string)：评分总结文字
-  - `tomorrow_up_percent` (number)：次日上涨概率
-  - `tomorrow_avg_zf` (number)：次日平均涨幅
-  - `tomorrow_cal_count` (number)：次日信息计算样本数量
-  - `next_five_up_percent` (number)：后5日上涨概率
-  - `next_five_avg_zf` (number)：后5日均涨幅
-  - `next_five_cal_count` (number)：后5日信息计算样本数量
-  - `score_history` (list)：评分历史数据
-
-### 个股资金流 — `get_ch_stock_fund_flow`
-分类：个股数据 ｜ 可测试：—
-
-  - `primer_amount_ratio` (number)：主力净流入占比
-  - `xl_order_net_amount` (number)：超大单净额(元)
-  - `xl_order_amount_ratio` (number)：超大单净额占比
-  - `big_order_net_amount` (number)：大单净额(元)
-  - `big_order_amount_ratio` (number)：大单净额占比
-  - `medium_order_net_amount` (number)：中单净额(元)
-  - `medium_order_amount_ratio` (number)：中单净额占比
-  - `small_order_net_amount` (number)：小单净额(元)
-  - `small_order_amount_ratio` (number)：小单净额占比
-  - `primer_net_amount` (number)：主力净流入(元)
-
-### 人气排名数据 — `get_ch_stock_attention_tank`
-分类：个股数据 ｜ 可测试：—
-
-  - `market_rank` (number)：全市场人气排名
-  - `classified_rank` (number)：行业内人气排名
-  - `date` (string)：日期
-
-### 股东人数历史 — `get_ch_stock_share_holder`
-分类：个股数据 ｜ 可测试：—
-
-  - `holder_count` (string)：股东人数(户)
-  - `date` (string)：日期
-
-### 大宗交易历史 — `get_ch_stock_block_trading`
-分类：个股数据 ｜ 可测试：—
-
-  - `price` (number)：成交价
-  - `amount` (number)：成交金额(万元)
-  - `date` (string)：日期
-
-### 增减持历史 — `get_ch_stock_inc_or_dec`
-分类：个股数据 ｜ 可测试：—
-
-  - `price` (number)：成交均价，如未披露价格，该值为0
-  - `count` (number)：增减持数量(股)，负数表示减持
-  - `date` (string)：日期
-
-### 等比前复权日线 — `get_ch_stock_front_ratio_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `close` (number)：收盘价
-
-### 等比前复权周线 — `get_ch_stock_front_ratio_week_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (number)：日期
-  - `trading_days` (string)：周内交易天数
-  - `close` (number)：收盘价
-
-### 等比前复权月线 — `get_ch_stock_front_ratio_month_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：月内交易天数
-  - `close` (number)：收盘价
-
-### 等比后复权日线 — `get_ch_stock_back_ratio_history`
-分类：个股数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `close` (number)：收盘价
+  - `data` (array)：分钟数据list，各个字段信息如下
 
 ### 历史分钟数据 — `get_ch_stock_minute_history`
 分类：个股数据 ｜ 可测试：✅
 
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `close` (number)：收盘价
-  - `amount` (number)：成交额
-  - `volume` (number)：成交量
-  - `date_time` (string)：日期时间
+  - `code` (string)：个股代码
+  - `data` (array<object>)：分钟数据list，各字段信息如下
+  - `date` (string)：查询的年月信息
 
 ### 个股分时图 — `get_ch_stock_time_line`
 分类：个股数据 ｜ 可测试：—
@@ -1652,18 +437,338 @@
   - `mat` (number)：已匹配数量。单位：股
   - `unmat` (number)：未匹配数量。数值为正，有买单成交不了，买盘剩余。数值为负，有卖单成交不了，卖盘有剩余。单位：股
 
+### 前复权日线 — `get_ch_stock_front_day_history`
+分类：个股数据 ｜ 可测试：✅
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 前复权周线 — `get_ch_stock_front_week_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (number)：周期内交易天数
+
+### 前复权月线 — `get_ch_stock_front_month_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (number)：周期内交易天数
+
+### 后复权日线 — `get_ch_stock_back_day_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 后复权周线 — `get_ch_stock_back_week_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (number)：周期内交易天数
+
+### 后复权月线 — `get_ch_stock_back_month_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (number)：周期内交易天数
+
+### 个股实时逐笔成交 — `get_ch_stock_transaction_real`
+分类：个股数据 ｜ 可测试：—
+
+  - `code` (string)：个股代码
+  - `date` (string)：日期
+  - `data` (array<object>)：分笔数据，各字段信息如下
+
+### 历史分笔 — `get_ch_stock_transaction_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `price` (number)：价格
+  - `volume` (number)：成交量
+  - `buy_or_sell` (integer)：买卖方向  0 买盘  1 卖盘
+
+### 十大股东 — `get_ch_stock_ten_holders`
+分类：个股数据 ｜ 可测试：—
+
+  - `report_name` (string)：报告期名称
+  - `holders` (array<object>)：十大股东列表
+  - `total_market_cap` (number)：十大股东期末持有总参考市值(亿元)
+  - `total_shares_held` (number)：十大股东持股总量(股)
+  - `total_ownership_percent` (number)：十大股东总持股比例
+
+### 十大流通股东 — `get_ch_stock_ten_circulating_holders`
+分类：个股数据 ｜ 可测试：—
+
+  - `report_name` (string)：报告期名称
+  - `holders` (array<object>)：十大股东列表
+  - `total_market_cap` (number)：十大股东期末持有总参考市值(亿元)
+  - `total_shares_held` (number)：十大股东持股总量(股)
+  - `total_ownership_percent` (number)：十大股东总持股比例
+
+### 股东人数历史 — `get_ch_stock_share_holder`
+分类：个股数据 ｜ 可测试：—
+
+  - `holder_count` (string)：股东人数(户)
+  - `date` (string)：日期
+
+### 个股除权除息历史 — `get_ch_stock_dividend_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `type` (integer)：类型 1 除权除息 2 扩/缩股 3 配股调整
+  - `allotment` (number)：配股数量
+  - `allo_price` (number)：配股价格
+  - `bonus` (number)：红利 (元)
+  - `share_bonus` (number)：送股数量
+
+### 年度高送转/分红 — `get_ch_year_high_stock_dividend`
+分类：个股数据 ｜ 可测试：—
+
+  - `code` (string)：股票代码
+  - `name` (string)：股票名称
+  - `cash_dividend` (number)：派现(每10股 元)
+  - `recorde_date` (string)：股权登记日
+  - `dps` (number)：每股收益(元)
+  - `reps` (number)：每股未分配利润(元)
+  - `crps` (number)：每股资本公积金(元)
+  - `tag_date` (string)：公告日期
+  - `report_type` (string)：公告类型
+  - `capitalization_issue` (number)：转增(每10股)
+  - `stock_dividend` (number)：送股(每10股)
+
+### 年度解禁数据 — `get_ch_year_stock_lock_up`
+分类：个股数据 ｜ 可测试：—
+
+  - `name` (string)：股票名称
+  - `expiration_date` (string)：解禁日期
+  - `expiration_count` (number)：解禁数量(万股)
+  - `expiration_float_rate` (number)：解禁占已流通A股比例(%)
+  - `expiration_total_rate` (number)：解禁占总股本比例(%)
+  - `expiration_amount` (number)：解禁市值(万元)
+  - `expiration_type` (string)：解禁类型
+  - `code` (string)：个股代码
+
+### 大宗交易历史 — `get_ch_stock_block_trading`
+分类：个股数据 ｜ 可测试：—
+
+  - `price` (number)：成交价
+  - `amount` (number)：成交金额(万元)
+  - `date` (string)：日期
+
+### 增减持历史 — `get_ch_stock_inc_or_dec`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `price` (number)：成交均价，如未披露价格，该值为0
+  - `count` (string)：增减持数量(股)，负数表示减持
+
+### 个股股本变化历史 — `get_ch_stock_share_capital`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `total_shares` (number)：总股本(股)
+  - `circulating_shares` (number)：流通股本(股)
+
+### 个股一致行动人信息 — `get_ch_stock_pacs`
+分类：个股数据 ｜ 可测试：—
+
+  - `stock_code` (string)：股票代码
+  - `dates` (array<string>)：日期列表
+
+### 个股公告 — `get_ch_stock_announce`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `data` (list)：日内发布的公告列表数据
+  - `ann_id` (string)：公告ID
+  - `title` (string)：公告标题
+  - `content` (string)：公告内容
+
+### 个股研报 — `get_ch_stock_research_report`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `reports` (array<object>)：当天发布的研报数据表
+
+### 历史暗盘资金 — `get_ch_stock_dark_rank_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `value` (array<object>)：个股列表
+
+### 个股资金流明细历史 — `get_ch_stock_fund_flow_detail_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `change_percent` (number)：涨跌幅(%)
+  - `turnover_amount` (number)：成交额(万元)
+  - `main_net_inflow` (number)：主力净流入金额(万元)
+  - `main_net_inflow_ratio` (number)：主力资金净流入比率(%)
+  - `super_large_buy_amount` (number)：超大单买入金额(万元)
+  - `super_large_buy_volume` (number)：超大单买入量(万股)
+  - `super_large_buy_avg_price` (number)：超大单买入均价(元)
+  - `super_large_sell_amount` (number)：超大单卖出金额(万元)
+  - `super_large_sell_volume` (number)：超大单卖出量(万股)
+  - `super_large_sell_avg_price` (number)：超大单卖出均价(元)
+  - `super_large_net_buy_amount` (number)：超大单净买入金额(万元)
+  - `large_buy_amount` (number)：大单买入金额(万元)
+  - `large_buy_volume` (number)：大单买入量(万股)
+  - `large_buy_avg_price` (number)：大单买入均价(元)
+  - `large_sell_amount` (number)：大单卖出金额(万元)
+  - `large_sell_volume` (number)：大单卖出量(万股)
+  - `large_sell_avg_price` (number)：大单卖出均价(元)
+  - `large_net_buy_amount` (number)：大单净买入金额(万元)
+  - `medium_buy_amount` (number)：中单买入金额(万元)
+  - `medium_buy_volume` (number)：中单买入量(万股)
+  - `medium_buy_avg_price` (number)：中单买入均价(元)
+  - `medium_sell_amount` (number)：中单卖出金额(万元)
+  - `medium_sell_volume` (number)：中单卖出量(万股)
+  - `medium_sell_avg_price` (number)：中单卖出均价(元)
+  - `medium_net_buy_amount` (number)：中单净买入金额(万元)
+  - `small_buy_amount` (number)：小单买入金额(万元)
+  - `small_buy_volume` (number)：小单买入量(万股)
+  - `small_buy_avg_price` (number)：小单买入均价(元)
+  - `small_sell_amount` (number)：小单卖出金额(万元)
+  - `small_sell_volume` (number)：小单卖出量(万股)
+  - `small_sell_avg_price` (number)：小单卖出均价(元)
+  - `small_net_buy_amount` (number)：小单净买入金额(万元)
+
+### 1日融资买入排行 — `get_ch_rz_buy_1_day`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `data` (array<object>)：融资买入列表
+
+### 5日融资买入排行 — `get_ch_rz_buy_5_day`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `data` (array<object>)：融资买入列表(含code/name/rz_amount/rz_balance)
+
+### 20日融资买入排行 — `get_ch_rz_buy_20_day`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `data` (array<object>)：融资买入列表(含code/name/rz_amount/rz_balance)
+
+### 获取个股实时筹码峰数据 — `get_ch_stock_chip_data`
+分类：个股数据 ｜ 可测试：—
+
+  - `close_profit` (number)：收盘获利比例。需要乘100变成百分比例
+  - `avg_cost` (number)：收盘平均成本
+  - `histogram` (object)：筹码峰价格，成交量等数据
+  - `summary` (object)：核心统计
+
+### 日内实时暗盘资金 — `get_ch_stock_dark_rank`
+分类：个股数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `value` (array<object>)：个股列表
+
+### 主力评分数据 — `get_ch_stock_primer_info`
+分类：个股数据 ｜ 可测试：—
+
+  - `total_score` (number)：综合评分
+  - `score_change` (number)：评分较上一日变动
+  - `stock_rank` (number)：评分打败股票比例
+  - `score_msg` (string)：评分总结文字
+  - `tomorrow_up_percent` (number)：次日上涨概率
+  - `tomorrow_avg_zf` (number)：次日平均涨幅
+  - `tomorrow_cal_count` (number)：次日信息计算样本数量
+  - `next_five_up_percent` (number)：后5日上涨概率
+  - `next_five_avg_zf` (number)：后5日均涨幅
+  - `next_five_cal_count` (number)：后5日信息计算样本数量
+  - `score_history` (array<object>)：评分历史数据
+  - `primer_history` (array<object>)：主力成本历史
+  - `focus` (array<object>)：市场关注数据
+
+### 人气排名数据 — `get_ch_stock_attention_tank`
+分类：个股数据 ｜ 可测试：—
+
+  - `market_rank` (number)：全市场人气排名
+  - `classified_rank` (number)：行业内人气排名
+  - `date` (string)：日期
+
+### 个股资金流 — `get_ch_stock_fund_flow`
+分类：个股数据 ｜ 可测试：—
+
+  - `primer_amount_ratio` (number)：主力净流入占比
+  - `xl_order_net_amount` (number)：超大单净额(元)
+  - `xl_order_amount_ratio` (number)：超大单净额占比
+  - `big_order_net_amount` (number)：大单净额(元)
+  - `big_order_amount_ratio` (number)：大单净额占比
+  - `medium_order_net_amount` (number)：中单净额(元)
+  - `medium_order_amount_ratio` (number)：中单净额占比
+  - `small_order_net_amount` (number)：小单净额(元)
+  - `small_order_amount_ratio` (number)：小单净额占比
+  - `primer_net_amount` (number)：主力净流入(元)
+
+### 不复权日线 — `get_ch_stock_none_day_history`
+分类：个股数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额（元）
+  - `date` (string)：日期
+  - `turnover` (number)：换手率（%）
+
 ### 获取概念板块列表 — `get_ch_concept`
 分类：板块数据 ｜ 可测试：✅
 
   - `name` (string)：板块名称
-  - `stocks` (list)：成分股股票代码列表
+  - `stocks` (array<string>)：成分股股票代码列表
   - `code` (string)：概念板块对应的代码
 
 ### 获取行业板块列表 — `get_ch_industry`
 分类：板块数据 ｜ 可测试：✅
 
   - `name` (string)：板块名称
-  - `stocks` (list)：成分股股票代码列表
+  - `stocks` (array<string>)：成分股股票代码列表
   - `code` (string)：行业板块代码
 
 ### 订阅概念板块实时行情通道 — `subscribe_ch_concept_real`
@@ -1749,6 +854,7 @@
 ### 概念板块日线 — `get_ch_concept_day_history`
 分类：板块数据 ｜ 可测试：✅
 
+  - `close` (number)：收盘价
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
@@ -1756,24 +862,23 @@
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
   - `date` (string)：日期
-  - `close` (number)：收盘价
 
 ### 概念板块周线 — `get_ch_concept_week_history`
 分类：板块数据 ｜ 可测试：—
 
+  - `date` (string)：日期
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
+  - `close` (number)：收盘价
   - `last_close` (number)：昨收价
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
-  - `close` (number)：收盘价
 
 ### 概念板块月线 — `get_ch_concept_month_history`
 分类：板块数据 ｜ 可测试：—
 
+  - `close` (number)：收盘价
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
@@ -1781,12 +886,12 @@
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
   - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
-  - `close` (number)：收盘价
+  - `trading_days` (number)：周期内交易天数
 
 ### 行业板块日线 — `get_ch_industry_day_history`
 分类：板块数据 ｜ 可测试：✅
 
+  - `close` (number)：收盘价
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
@@ -1794,11 +899,11 @@
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
   - `date` (string)：日期
-  - `close` (number)：收盘价
 
 ### 行业板块周线 — `get_ch_industry_week_history`
 分类：板块数据 ｜ 可测试：—
 
+  - `close` (number)：收盘价
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
@@ -1806,12 +911,12 @@
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
   - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
-  - `close` (number)：收盘价
+  - `trading_days` (number)：周期内交易天数
 
 ### 行业板块月线 — `get_ch_industry_month_history`
 分类：板块数据 ｜ 可测试：—
 
+  - `close` (number)：收盘价
   - `open` (number)：开盘价
   - `high` (number)：最高价
   - `low` (number)：最低价
@@ -1819,106 +924,471 @@
   - `volume` (number)：成交量(股)
   - `amount` (number)：成交额(万元)
   - `date` (string)：日期
-  - `trading_days` (number)：周内交易天数
+  - `trading_days` (number)：周期内交易天数
+
+### 获取A数据源概念板块列表 — `get_ch_sa_concept_list`
+分类：板块数据 ｜ 可测试：—
+
+  - `name` (string)：板块名称
+  - `code` (string)：概念板块对应的代码
+  - `stocks` (array<string>)：成分股代码列表
+
+### 获取A数据源概念板块实时行情 — `get_ch_sa_concept_real`
+分类：板块数据 ｜ 可测试：—
+
+  - `code` (string)：板块代码
+  - `name` (string)：板块名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `volume` (integer)：成交量（手）
+  - `amount` (number)：成交额（元）
+  - `date` (string)：行情日期
+  - `time` (string)：行情时间
+
+### 获取A数据源概念板块日K线 — `get_ch_sa_concept_day_k`
+分类：板块数据 ｜ 可测试：—
+
   - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
 
-### 获取融资融券余额 — `get_rzrq_balance`
-分类：市场数据 ｜ 可测试：—
+### 订阅A概念板块实时行情 — `subscribe_ch_sa_concept_real`
+分类：板块数据 ｜ 可测试：—
 
-  - `rz_balance` (number)：融资余额(万元)
-  - `rq_balance` (number)：融券余额(万元)
-  - `dae` (string)：日期
+  - `code` (string)：板块代码
+  - `name` (string)：板块名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `volume` (integer)：成交量（手）
+  - `amount` (number)：成交额（元）
+  - `date` (string)：行情日期
+  - `time` (string)：行情时间
+
+### 获取A数据源行业板块列表 — `get_ch_sa_industry_list`
+分类：板块数据 ｜ 可测试：—
+
+  - `name` (string)：板块名称
+  - `code` (string)：行业板块代码
+  - `stocks` (array<string>)：成分股代码列表
+
+### 获取A数据源行业板块实时行情 — `get_ch_sa_industry_real`
+分类：板块数据 ｜ 可测试：—
+
+  - `code` (string)：板块代码
+  - `name` (string)：板块名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `volume` (integer)：成交量（手）
+  - `amount` (number)：成交额（元）
+  - `date` (string)：行情日期
+  - `time` (string)：行情时间
+
+### 获取A数据源行业板块日K线 — `get_ch_sa_industry_day_k`
+分类：板块数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 订阅A行业板块实时行情 — `subscribe_ch_sa_industry_real`
+分类：板块数据 ｜ 可测试：—
+
+  - `code` (string)：板块代码
+  - `name` (string)：板块名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `volume` (integer)：成交量（手）
+  - `amount` (number)：成交额（元）
+  - `date` (string)：行情日期
+  - `time` (string)：行情时间
+
+### 订阅A概念板块实时资金流 — `subscribe_ch_sa_concept_money_flow`
+分类：板块数据 ｜ 可测试：—
+
+  - `code` (string)：板块代码
+  - `time` (string)：数据时间
+  - `mf_1d` (number)：当日主力净流入（元）
+  - `sb_buy` (number)：超大单主动买入累计额（元）
+  - `sb_sell` (number)：超大单主动卖出累计额（元）
+  - `b_buy` (number)：大单主动买入累计额（元）
+  - `b_sell` (number)：大单主动卖出累计额（元）
+  - `m_buy` (number)：中单主动买入累计额（元）
+  - `m_sell` (number)：中单主动卖出累计额（元）
+  - `s_buy` (number)：小单主动买入累计额（元）
+  - `s_sell` (number)：小单主动卖出累计额（元）
+  - `pct_1d` (number)：当日主力净流速（%）
+  - `pct_3d` (number)：近3日主力净流速（%）
+  - `pct_5d` (number)：近5日主力净流速（%）
+  - `pct_10d` (number)：近10日主力净流速（%）
+  - `pct_20d` (number)：近20日主力净流速（%）
+
+### 订阅A行业板块实时资金流 — `subscribe_ch_sa_industry_money_flow`
+分类：板块数据 ｜ 可测试：—
+
+  - `code` (string)：板块代码
+  - `time` (string)：数据时间
+  - `mf_1d` (number)：当日主力净流入（元）
+  - `sb_buy` (number)：超大单主动买入累计额（元）
+  - `sb_sell` (number)：超大单主动卖出累计额（元）
+  - `b_buy` (number)：大单主动买入累计额（元）
+  - `b_sell` (number)：大单主动卖出累计额（元）
+  - `m_buy` (number)：中单主动买入累计额（元）
+  - `m_sell` (number)：中单主动卖出累计额（元）
+  - `s_buy` (number)：小单主动买入累计额（元）
+  - `s_sell` (number)：小单主动卖出累计额（元）
+  - `pct_1d` (number)：当日主力净流速（%）
+  - `pct_3d` (number)：近3日主力净流速（%）
+  - `pct_5d` (number)：近5日主力净流速（%）
+  - `pct_10d` (number)：近10日主力净流速（%）
+  - `pct_20d` (number)：近20日主力净流速（%）
+
+### 指数日线 — `get_ch_market_day_history`
+分类：指数数据 ｜ 可测试：✅
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 指数周线 — `get_ch_market_week_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周期内交易天数
+
+### 指数月线 — `get_ch_market_month_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周期内交易天数
+
+### 沪深300成分股权重 — `get_ch_hs300_constituent_weight_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `stocks` (array<object>)：成分股列表
+
+### 上证50成分股权重 — `get_ch_sz50_constituent_weight_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `weight` (number)：权重数值
+  - `code` (string)：个股代码
+  - `date` (string)：日期
+  - `stocks` (array<object>)：成分股列表(含code/weight)
+
+### 中证500成分股权重 — `get_ch_zz500_constituent_weight_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `weight` (number)：权重数值
+  - `code` (string)：个股代码
+  - `date` (string)：日期
+  - `stocks` (array<object>)：成分股列表(含code/weight)
+
+### 中证1000成分股权重 — `get_ch_zz1000_constituent_weight_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `weight` (number)：权重数值
+  - `code` (string)：个股代码
+  - `date` (string)：日期
+  - `stocks` (array<object>)：成分股列表(含code/weight)
+
+### 涨跌停数量历史 — `get_ch_limit_up_down`
+分类：指数数据 ｜ 可测试：✅
+
+  - `limit_up` (number)：涨停数量
+  - `limit_down` (number)：跌停数量
+  - `touch_limit_up` (number)：触及涨停数量
+  - `limit_up_percent` (number)：涨停封板率
+  - `date` (string)：日期
+
+### 交易日涨跌分布时序数据 — `get_ch_zd_map_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `up_7_10` (integer)：涨幅7%~10%
+  - `up_2_5` (integer)：涨幅2%~5%
+  - `up_0_2` (integer)：涨幅0%~2%
+  - `flat` (integer)：平盘
+  - `down_0_2` (integer)：跌幅0%~2%
+  - `down_2_5` (integer)：跌幅2%~5%
+  - `down_5_7` (integer)：跌幅5%~7%
+  - `down_7_10` (integer)：跌幅7%~10%
+  - `up_over_10` (integer)：涨幅>10%
+  - `up_5_7` (integer)：涨幅5%~7%
+  - `down_over_10` (integer)：跌幅>10%
+
+### 涨停股历史数据 — `get_ch_zt_stock_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `stocks` (array<object>)：涨停股列表
+
+### 交易日涨停股信息 — `get_ch_lb_stock_history_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `today_lb_ratio` (number)：当日连板晋级率
+  - `stocks` (array<object>)：涨停个股列表
+
+### 龙虎榜数据 — `get_lhb_data`
+分类：指数数据 ｜ 可测试：✅
+
+  - `name` (string)：个股名称
+  - `code` (string)：个股代码
+  - `lhb_net_amount` (number)：龙虎榜净买额(元)
+  - `lhb_buy_amount` (number)：龙虎榜买入额(元)
+  - `lhb_sell_amount` (number)：龙虎榜卖出额(元)
+  - `lhb_deal_amount` (number)：龙虎榜成交额(元)
+  - `amount` (number)：今日总成交额
+  - `net_amount_ratio` (number)：净买额占成交额比例
+  - `deal_amount_ratio` (number)：龙虎榜成交金额占总成交额比例
+  - `reason` (string)：上榜原因
+  - `buy_seat` (array<object>)：买入席位信息
+  - `sell_seat` (array<object>)：卖出席位信息
+
+### 交易日涨跌停时序数据 — `get_ch_limit_up_down_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `rise` (number)：涨停数量
+  - `fall` (number)：跌停数量
+  - `zhaban` (number)：炸板数量
+  - `nonword` (number)：非一字涨停数量
+  - `tradetime` (string)：时间
 
 ### 上交所每日统计信息 — `get_sh_market_daily_info`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
-  - `a_stock` (dict)：上证A股
-  - `b_stock` (dict)：上证B股
-  - `kcb_stock` (dict)：科创板
-  - `market` (dict)：上交所总体
+  - `a_stock` (dict)：上证A股信息字典，各字段信息如下
+  - `b_stock` (dict)：上证B股信息字典，字段信息同a_stock
+  - `kcb_stock` (dict)：科创板信息字典，字典信息同a_stock
+  - `market` (dict)：上海证券交易所总体字典，字典信息同a_stock
   - `date` (string)：日期
-  - `total_value` (number)：总市值(亿元)
-  - `trade_vol` (number)：成交量(亿股)
-  - `avg_pe` (number)：平均市盈率(倍)
-  - `total_to_rate` (number)：换手率(%)
-  - `nego_to_rate` (number)：流通换手率(%)
-  - `trade_amt` (number)：成交金额(亿元)
-  - `nego_value` (number)：流通市值(亿元)
-  - `list_num` (number)：股票数
 
 ### 上交所每周统计信息 — `get_sh_market_week_info`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
-  - `a_stock` (dict)：上证A股
-  - `b_stock` (dict)：上证B股
-  - `kcb_stock` (dict)：科创板
-  - `market` (dict)：上交所总体
-  - `begin_date` (string)：周起始日期
-  - `end_date` (string)：周结束日期
-  - `low_vol` (number)：最低成交量(亿股)
-  - `low_vol_date` (string)：最低成交量日期
-  - `low_amt` (number)：最低成交金额(亿元)
-  - `low_amt_date` (number)：最低成交金额日期
-  - `avg_pe_rate` (number)：平均市盈率(倍)
-  - `trade_amt` (number)：成交金额(亿元)
-  - `list_num` (number)：股票数量
-  - `high_amt` (number)：最高成交金额(亿元)
-  - `high_amt_date` (string)：最高成交金额日期
-  - `high_vol` (number)：最高成交量(亿股)
-  - `high_vol_date` (string)：最高成交量日期
-  - `total_value` (number)：市价总值(亿元)
-  - `trade_vol` (number)：成交量(亿股)
-  - `total_to_rate` (number)：换手率(%)
-  - `nego_value` (number)：流通市值(亿元)
-  - `trade_days` (number)：交易天数
-  - `to_rate` (number)：流通换手率(%)
+  - `begin_date` (string)：周期开始日期
+  - `end_date` (string)：周期结束日期
+  - `query_date` (string)：查询日期
 
 ### 上交所每月统计信息 — `get_sh_market_month_info`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
-  - `a_stock` (dict)：上证A股
-  - `b_stock` (dict)：上证B股
-  - `kcb_stock` (dict)：科创板
-  - `market` (dict)：上交所总体
-  - `query_date` (string)：查询日期
-  - `low_vol` (number)：最低成交量(亿股)
-  - `low_vol_date` (string)：最低成交量日期
-  - `low_amt` (number)：最低成交金额(亿元)
-  - `low_amt_date` (string)：最低成交金额日期
-  - `avg_pe_rate` (number)：平均市盈率(倍)
-  - `trade_amt` (number)：成交金额(亿元)
-  - `list_num` (number)：股票数量
-  - `high_amt` (number)：最高成交金额(亿元)
-  - `high_amt_date` (number)：最高成交金额日期
-  - `high_vol` (number)：最高成交量(亿股)
-  - `high_vol_date` (string)：最高成交量日期
-  - `total_value` (number)：市价总值(亿元)
-  - `trade_vol` (number)：成交量(亿股)
-  - `total_to_rate` (number)：换手率(%)
-  - `nego_value` (number)：流通市值(亿元)
-  - `trade_days` (number)：交易天数
-  - `to_rate` (number)：流通换手率(%)
+  - `a_stock` (dict)：上证A股信息字典，各字段信息如下
+  - `b_stock` (dict)：上证B股信息字典，字段信息同a_stock
+  - `kcb_stock` (dict)：科创板信息字典，字典信息同a_stock
+  - `market` (dict)：上海证券交易所总体字典，字典信息同a_stock
+  - `date` ()：日期
+  - `query_date` (string)：
+
+### 交易日全天成交额数据 — `get_ch_market_amount_curve_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `amount` (number)：成交额
+
+### 全市场PE/PB 日数据历史 — `get_ch_market_pe_pb_day_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `pe` (number)：市场市盈率(不包含亏损股)
+  - `pe_loss` (number)：市场市盈率(包含亏损股)
+  - `pb` (number)：市场市净率
+
+### 全市场PE/PB 月数据历史 — `get_ch_market_pe_pb_month_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `pe` (number)：市场市盈率(不包含亏损股)
+  - `pe_loss` (number)：市场市盈率(包含亏损股)
+  - `pb` (number)：市场市净率
+
+### 市场每个交易日涨跌平数量 — `get_ch_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 上证A股每个交易日涨跌平数量 — `get_ch_sh_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 深圳A股每个交易日涨跌平数量 — `get_ch_sz_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 创业板每个交易日涨跌平数量 — `get_ch_cyb_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 科创板每个交易日涨跌平数量 — `get_ch_kcb_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 北证每个交易日涨跌平数量 — `get_ch_bj_day_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 市场每个交易周涨跌平数量 — `get_ch_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (integer)：上涨数量
+  - `xd` (integer)：下跌数量
+  - `pp` (integer)：平盘数量
+
+### 上证A股每个交易周涨跌平数量 — `get_ch_sh_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨
+  - `xd` (number)：下跌
+  - `pp` (number)：平盘
+
+### 深圳A股每个交易周涨跌平数量 — `get_ch_sz_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 创业板每个交易周涨跌平数量 — `get_ch_cyb_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 科创板每个交易周涨跌平数量 — `get_ch_kcb_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 北证每个交易周涨跌平数量 — `get_ch_bj_week_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 市场每个交易月涨跌平数量 — `get_ch_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 上证A股每个交易月涨跌平数量 — `get_ch_sh_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 深圳A股每个交易月涨跌平数量 — `get_ch_sz_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 创业板每个交易月涨跌平数量 — `get_ch_cyb_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 科创板每个交易月涨跌平数量 — `get_ch_kcb_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
+
+### 北证每个交易月涨跌平数量 — `get_ch_bj_month_zd_count_history`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `sz` (number)：上涨数量
+  - `xd` (number)：下跌数量
+  - `pp` (number)：平盘数量
 
 ### 订阅指数实时行情通道 — `subscribe_ch_market_real`
-分类：市场数据 ｜ 可测试：—
-
-  - `code` (string)：指数代码
-  - `name` (string)：指数名称
-  - `last_close` (number)：昨日收盘价
-  - `open` (number)：今日开盘价
-  - `high` (number)：今日最高价
-  - `close` (number)：现价
-  - `low` (number)：最低价
-  - `volume` (number)：成交量（手）
-  - `amount` (number)：成交额（万元）
-  - `change` (number)：涨跌幅（%）
-  - `date` (string)：日期
-  - `time` (string)：时间
-  - `up_count` (number)：上涨数量
-  - `down_count` (number)：下跌数量
-
-### 获取指数实时行情 — `get_ch_market_real`
-分类：市场数据 ｜ 可测试：✅
+分类：指数数据 ｜ 可测试：—
 
   - `code` (string)：指数代码
   - `name` (string)：指数名称
@@ -1935,129 +1405,36 @@
   - `up_count` (integer)：上涨数量
   - `down_count` (integer)：下跌数量
 
-### 涨跌停数量历史 — `get_ch_limit_up_down`
-分类：市场数据 ｜ 可测试：✅
+### 获取指数实时行情 — `get_ch_market_real`
+分类：指数数据 ｜ 可测试：✅
 
-  - `limit_up` (number)：涨停数量
-  - `limit_down` (number)：跌停数量
-  - `touch_limit_up` (number)：触及涨停数量
-  - `touch_limit_down` (number)：触及跌停数量
-  - `limit_up_percent` (number)：涨停封板率
-  - `limit_down_percent` (number)：跌停封板率
+  - `code` (string)：指数代码
+  - `name` (string)：指数名称
+  - `last_close` (number)：昨日收盘价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `close` (number)：现价
+  - `low` (number)：最低价
+  - `volume` (number)：成交量（手）
+  - `amount` (number)：成交额（万元）
+  - `change` (number)：涨跌幅（%）
   - `date` (string)：日期
+  - `time` (string)：时间
+  - `up_count` (integer)：上涨数量
+  - `down_count` (integer)：下跌数量
 
-### 指数日线 — `get_ch_market_day_history`
-分类：市场数据 ｜ 可测试：✅
+### 市场实时涨跌停数量 — `get_ch_today_limit_up_down`
+分类：指数数据 ｜ 可测试：—
 
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (string)：日期
-  - `close` (number)：收盘价
-
-### 指数周线 — `get_ch_market_week_history`
-分类：市场数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (number)：日期
-  - `trading_days` (string)：周内交易天数
-  - `close` (number)：收盘价
-
-### 指数月线 — `get_ch_market_month_history`
-分类：市场数据 ｜ 可测试：—
-
-  - `open` (number)：开盘价
-  - `high` (number)：最高价
-  - `low` (number)：最低价
-  - `last_close` (number)：昨收价
-  - `volume` (number)：成交量(股)
-  - `amount` (number)：成交额(万元)
-  - `date` (number)：日期
-  - `trading_days` (string)：周内交易天数
-  - `close` (number)：收盘价
-
-### 龙虎榜数据 — `get_lhb_data`
-分类：市场数据 ｜ 可测试：✅
-
-  - `name` (string)：个股名称
-  - `code` (string)：个股代码
-  - `lhb_net_amount` (number)：龙虎榜净买额(元)
-  - `lhb_buy_amount` (number)：龙虎榜买入额(元)
-  - `lhb_sell_amount` (number)：龙虎榜卖出额(元)
-  - `lhb_deal_amount` (number)：龙虎榜成交额(元)
-  - `amount` (number)：今日总成交额
-  - `net_amount_ratio` (number)：净买额占成交额比例
-  - `deal_amount_ratio` (number)：龙虎榜成交金额占总成交额比例
-  - `reason` (string)：上榜原因
-  - `buy_seat` (list)：买入席位信息
-  - `sell_seat` (list)：卖出席位信息
-
-### 市场资金流历史 — `get_ch_market_fund_flow`
-分类：市场数据 ｜ 可测试：✅
-
-  - `xl_order_net_amount` (number)：超大单净额(元)
-  - `big_order_net_amount` (number)：大单净额(元)
-  - `medium_order_net_amount` (number)：中单净额(元)
-  - `small_order_net_amount` (number)：小单净额(元)
-  - `primer_amount_ratio` (number)：主力净流入占比
-  - `xl_order_amount_ratio` (number)：超大单净额占比
-  - `big_order_amount_ratio` (number)：大单净额占比
-  - `medium_order_amount_ratio` (number)：中单净额占比
-  - `small_order_amount_ratio` (number)：小单净额占比
-  - `primer_net_amount` (number)：主机净额
-
-### 全市场买卖对比 — `get_ch_all_market_bear_compare`
-分类：市场数据 ｜ 可测试：✅
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
-
-### 上证买卖对比 — `get_ch_sh_market_bear_compare`
-分类：市场数据 ｜ 可测试：—
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
-
-### 深证买卖对比 — `get_ch_sz_market_bear_compare`
-分类：市场数据 ｜ 可测试：—
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
-
-### 创业板买卖对比 — `get_ch_cyb_market_bear_compare`
-分类：市场数据 ｜ 可测试：—
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
-
-### 科创板买卖对比 — `get_ch_kcb_market_bear_compare`
-分类：市场数据 ｜ 可测试：—
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
-
-### 北证买卖对比 — `get_ch_bj_market_bear_compare`
-分类：市场数据 ｜ 可测试：—
-
-  - `tradetime` (string)：时间
-  - `bid` (number)：买一金额
-  - `ask` (number)：卖一金额
+  - `date` (string)：日期 (YYYY-MM-DD)
+  - `rise` (integer)：涨停家数
+  - `fall` (integer)：跌停家数
+  - `zhaban` (integer)：炸板数
+  - `nonword` (integer)：非一字板涨停数
+  - `tradetime` (string)：时间点
 
 ### 市场实时涨跌分布时序数据 — `get_ch_market_zd_map`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
   - `time` (string)：时间
   - `up_over_10` (number)：涨幅>10%
@@ -2072,35 +1449,583 @@
   - `down_7_10` (number)：跌幅7%~10%
   - `down_over_10` (number)：跌幅>10%
 
-### 市场实时涨跌停数量 — `get_ch_today_limit_up_down`
-分类：市场数据 ｜ 可测试：—
+### 涨停股实时信息 — `get_ch_today_zt_stock`
+分类：指数数据 ｜ 可测试：—
 
-  - `date` (string)：日期 (YYYY-MM-DD)
-  - `rise` (number)：涨停家数
-  - `fall` (number)：跌停家数
-  - `zhaban` (number)：炸板数
-  - `nonword` (number)：非一字板涨停数
-  - `tradetime` (string)：时间点
+  - `date` (string)：日期
+  - `stocks` (array<object>)：涨停股列表
 
 ### 市场实时涨停股列表 — `get_ch_today_lb_stock`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
   - `update_time` (string)：时间
-  - `yes_lb_ratio` (number)：昨日连板晋级率
-  - `today_lb_ratio` (number)：今日连板晋级率
-  - `stocks` (list)：涨停股列表
+  - `yes_lb_ratio` (integer)：昨日连板晋级率
+  - `today_lb_ratio` (integer)：今日连板晋级率
+  - `stocks` (array<object>)：涨停股列表
 
 ### 市场全天实时成交额 — `get_ch_market_amount_curve`
-分类：市场数据 ｜ 可测试：—
+分类：指数数据 ｜ 可测试：—
 
-  - `today` (string)：当日成交额数据
-  - `yesterday` (string)：昨日全天成交额数据
+  - `today` (array<object>)：当日成交额数据
+  - `yesterday` (array<object>)：昨日全天成交额数据
+
+### 获取融资融券余额 — `get_rzrq_balance`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `rz_balance` (number)：融资余额(万元)
+  - `rq_balance` (number)：融券余额(万元)
+
+### 全市场买卖对比 — `get_ch_all_market_bear_compare`
+分类：指数数据 ｜ 可测试：✅
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 上证买卖对比 — `get_ch_sh_market_bear_compare`
+分类：指数数据 ｜ 可测试：—
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 深证买卖对比 — `get_ch_sz_market_bear_compare`
+分类：指数数据 ｜ 可测试：—
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 创业板买卖对比 — `get_ch_cyb_market_bear_compare`
+分类：指数数据 ｜ 可测试：—
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 科创板买卖对比 — `get_ch_kcb_market_bear_compare`
+分类：指数数据 ｜ 可测试：—
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 北证买卖对比 — `get_ch_bj_market_bear_compare`
+分类：指数数据 ｜ 可测试：—
+
+  - `tradetime` (string)：时间
+  - `bid` (number)：买一金额
+  - `ask` (number)：卖一金额
+
+### 市场资金流历史 — `get_ch_market_fund_flow`
+分类：指数数据 ｜ 可测试：✅
+
+  - `xl_order_net_amount` (number)：超大单净额(元)
+  - `big_order_net_amount` (number)：大单净额(元)
+  - `medium_order_net_amount` (number)：中单净额(元)
+  - `small_order_net_amount` (number)：小单净额(元)
+  - `primer_amount_ratio` (number)：主力净流入占比
+  - `xl_order_amount_ratio` (number)：超大单净额占比
+  - `big_order_amount_ratio` (number)：大单净额占比
+  - `medium_order_amount_ratio` (number)：中单净额占比
+  - `small_order_amount_ratio` (number)：小单净额占比
+  - `primer_net_amount` (number)：主机净额
+
+### A股交易日历 — `get_ch_calendar`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：日期 YYYY-MM-DD
+  - `is_open` (number)：是否交易日：1=开市，0=休市
+
+### 南向资金（港股通） — `get_south_bound`
+分类：指数数据 ｜ 可测试：—
+
+  - `date` (string)：数据日期 YYYY-MM-DD
+  - `update_time` (string)：快照更新时间 HH:MM:SS
+  - `total` (object)：南向合计
+  - `channels` (object)：分通道数据
+  - `minline` (object)：分时序列
+
+### 订阅Level2实时数据通道 — `subscribe_ch_l2_data_real`
+分类：Level2数据 ｜ 可测试：—
+
+  - `action_amount` (number)：当日竞价成交金额（万元）
+  - `pre_action_amount` (number)：昨日竞价成交金额（万元）
+  - `l2_vol_rise_speed` (number)：成交量涨速
+  - `l2_total_buy_vol` (number)：买入委托总量
+  - `l2_total_sell_vol` (number)：卖出委托总量
+  - `l2_buy_cancel` (number)：撤销的买入委托总量
+  - `l2_sell_cancel` (number)：撤销的卖出委托总量
+  - `l2_deal_tick_num` (integer)：成交笔数
+  - `l2_order_tick_num` (integer)：委托笔数
+  - `inst_aggressive_buy_amount` (number)：主力主动净买额（万元）
+  - `inst_net_amount` (number)：主力净流入金额（万元）
+  - `zt_price` (string)：
+  - `dt_price` (string)：
+
+### 获取Level2实时数据 — `get_ch_l2_data_cur_real`
+分类：Level2数据 ｜ 可测试：—
+
+  - `action_amount` (number)：当日竞价成交金额（万元）
+  - `pre_action_amount` (number)：昨日竞价成交金额（万元）
+  - `l2_vol_rise_speed` (number)：成交量涨速
+  - `l2_total_buy_vol` (number)：买入委托总量
+  - `l2_total_sell_vol` (number)：卖出委托总量
+  - `l2_buy_cancel` (number)：撤销的买入委托总量
+  - `l2_sell_cancel` (number)：撤销的卖出委托总量
+  - `l2_deal_tick_num` (integer)：成交笔数
+  - `l2_order_tick_num` (integer)：委托笔数
+  - `inst_aggressive_buy_amount` (number)：主力主动净买额（万元）
+  - `inst_net_amount` (number)：主力净流入金额（万元）
+  - `zt_price` (string)：
+  - `dt_price` (string)：
+
+### 订阅大单数据(DDE)通道 — `subscribe_ch_ddx_data_real`
+分类：Level2数据 ｜ 可测试：—
+
+  - `ddx` (number)：当日DDX（大单动向）
+  - `ddy` (number)：当日DDY（涨跌动因）
+  - `ddz` (number)：当日DDZ（大单差分）
+  - `ddx_positive_in_five` (number)：5日内DDX为正的天数
+  - `ddx_positive_in_ten` (number)：10日内DDX为正的天数
+  - `ddx_inc_days` (number)：DDX连续递增天数
+  - `ddx_positive_continue_days` (number)：DDX连续为正的天数
+  - `bbd_amount` (number)：大单净额（万元）
+  - `sell_odd` (integer)：卖出单数
+  - `buy_odd` (integer)：买入单数
+  - `odd_ratio` (number)：单数比（卖出单数/买入单数）
+  - `big_odd_ratio` (number)：大单单差（大单买入占比 - 大单卖出占比）
+  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
+  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
+  - `medium_odd_ratio` (number)：中单单差（中单买入占比 - 中单卖出占比）
+  - `small_odd_ratio` (number)：小单单差（小单买入占比 - 小单卖出占比）
+  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
+  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
+  - `xl_odd_ratio` (number)：超大单单差（超大单买入占比 - 超大单卖出占比）
+  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
+  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
+
+### 获取大单数据(DDE) — `get_ch_ddx_data_cur_real`
+分类：Level2数据 ｜ 可测试：—
+
+  - `ddx` (number)：当日DDX（大单动向）
+  - `ddy` (number)：当日DDY（涨跌动因）
+  - `ddz` (number)：当日DDZ（大单差分）
+  - `ddx_positive_in_five` (number)：5日内DDX为正的天数
+  - `ddx_positive_in_ten` (number)：10日内DDX为正的天数
+  - `ddx_inc_days` (number)：DDX连续递增天数
+  - `ddx_positive_continue_days` (number)：DDX连续为正的天数
+  - `bbd_amount` (number)：大单净额（万元）
+  - `sell_odd` (integer)：卖出单数
+  - `buy_odd` (integer)：买入单数
+  - `odd_ratio` (number)：单数比（卖出单数/买入单数）
+  - `big_odd_ratio` (number)：大单单差（大单买入占比 - 大单卖出占比）
+  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
+  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
+  - `medium_odd_ratio` (number)：中单单差（中单买入占比 - 中单卖出占比）
+  - `small_odd_ratio` (number)：小单单差（小单买入占比 - 小单卖出占比）
+  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
+  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
+  - `xl_odd_ratio` (number)：超大单单差（超大单买入占比 - 超大单卖出占比）
+  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
+  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
+
+### 获取个股历史大单历史数据 — `get_ch_stock_ddx_history`
+分类：Level2数据 ｜ 可测试：—
+
+  - `ddx` (number)：当天ddx
+  - `ddy` (number)：当天ddy
+  - `ddz` (number)：当天ddz
+  - `ddx_positive_in_five` (number)：5日内 DDX 为正的天数
+  - `ddx_positive_in_ten` (number)：10日内 DDX 为正的天数
+  - `ddx_positive_continue_days` (number)：ddx 连续为正的天数
+  - `ddx_inc_days` (number)：ddx 连续递增天数
+  - `bbd_amount` (number)：大单净额(万元)
+  - `sell_odd` (integer)：卖出单数
+  - `buy_odd` (integer)：买入单数
+  - `odd_ratio` (number)：单数比  卖出单数/买入单数
+  - `xl_odd_ratio` (number)：超大单单差   超大单买入占比 - 超大单卖出占比
+  - `xl_odd_buy_ratio` (number)：超大单买入金额占总成交额比例
+  - `xl_odd_sell_ratio` (number)：超大单卖出金额占总成交额比例
+  - `big_odd_ratio` (number)：大单单差   大单买入占比 - 大单卖出占比
+  - `big_odd_buy_ratio` (number)：大单买入金额占总成交额比例
+  - `big_odd_sell_ratio` (number)：大单卖出金额占总成交额比例
+  - `medium_odd_ratio` (number)：中单单差   中单买入占比 - 中单卖出占比
+  - `small_odd_ratio` (number)：小单单差   小单买入占比 - 小单卖出占比
+  - `small_odd_buy_ratio` (number)：小单买入金额占总成交额比例
+  - `small_odd_sell_ratio` (number)：小单卖出金额占总成交额比例
+
+### 个股DDE实时数据 — `get_ch_stock_ea_dde`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：个股代码
+  - `name` (string)：个股名称
+  - `today_ddx` (number)：当天ddx 数值
+  - `today_ddy` (number)：当天ddy 数值
+  - `today_ddz` (number)：当天ddz 数据
+  - `five_ddx` (number)：近五日ddx
+  - `five_ddy` (number)：近五日ddy
+  - `ten_ddx` (number)：近十日ddx
+  - `ten_ddy` (number)：近十日ddy
+  - `red_in_five` (number)：近五日ddx 为正的天数
+  - `red_in_ten` (number)：近十日ddx 为正的天数
+  - `red_continue` (number)：近期ddx 连续为正的天数
+
+### 全量逐笔成交明细 — `subscribe_ch_l2_transaction_all`
+分类：Level2数据 ｜ 可测试：—
+
+  - `id` (string)：成交编号
+  - `time` (string)：时间
+  - `price` (number)：成交价
+  - `vol` (number)：成交量
+  - `side` (string)：成交方向。B 主动买，S 主动卖，M 中性
+  - `buy_order_id` (number)：买方委托号
+  - `sell_order_id` (number)：卖方委托号
+
+### 全量十档行情 — `subscribe_ch_l2_depth_all`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：个股代码
+  - `name` (string)：个股名称
+  - `time` (string)：时间
+  - `date` (string)：日期
+  - `prev_close` (number)：昨收价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `price` (number)：当前价
+  - `volume` (number)：成交量。单位：股
+  - `amount` (number)：成交额。单位元
+  - `bids` (array<object>)：买十档信息{'level': 档位, 'price': 价格, 'volume': 挂单量}
+  - `asks` (array<object>)：卖十档信息{'level': 档位, 'price': 价格, 'volume': 挂单量}
+
+### 个股千档数据 — `get_ch_stock_thousand_level_order`
+分类：Level2数据 ｜ 可测试：—
+
+  - `buy` (object)：买方数据
+  - `sell` (object)：卖方数据
+
+### 订阅个股千档行情 — `subscribe_ch_stock_thousand_level`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：个股代码
+  - `depth` (object)：服务端报告的总档位深度
+  - `bids` (array<object>)：买方各档位明细
+  - `asks` (array<object>)：卖方各档位明细
+
+### 个股实时大单成交明细 — `get_ch_stock_big_order`
+分类：Level2数据 ｜ 可测试：—
+
+  - `ticktime` (string)：时间
+  - `price` (number)：成交价
+  - `volume` (number)：成交量。单位：股
+  - `amount` (number)：成交额。单位：元
+  - `kind` (string)：成交类型。U 主动买入，D 主动卖出，E 中性
+
+### 个股l2分价成交明细 — `get_ch_stock_price_summarize`
+分类：Level2数据 ｜ 可测试：—
+
+  - `price` (string)：成交价格
+  - `vol` (string)：成交量(股)
+  - `zb` (number)：该价位成交量占总成交量比例
+  - `jml` (number)：主动买入占比
+  - `b_vol` (string)：主动买量(股)
+  - `s_vol` (string)：主动卖量(股)
+
+### 个股l2分价成交明细历史 — `get_ch_stock_price_summarize_history`
+分类：Level2数据 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `val` (array<number>)：分家数据列表
+
+### 个股实时资金流数据 — `get_ch_stock_l2_fund_flow_sa`
+分类：Level2数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `super_big_net_amt` (number)：超大单净额。单位：元
+  - `big_net_amt` (number)：大单净额。单位：元
+  - `medium_net_amt` (number)：中单净额。单位：元
+  - `small_net_amt` (number)：小单净额。单位：元
+  - `price` (number)：当前价
+  - `change_pct` (number)：涨跌幅
+
+### 个股实时资金流通道 — `subscribe_ch_l2_stock_money_flow_all`
+分类：Level2数据 ｜ 可测试：—
+
+  - `symbol` (string)：带交易所前缀代码
+  - `code` (string)：6位股票代码
+  - `time` (string)：数据快照时间
+  - `prev_close` (number)：昨收价（元）
+  - `price` (number)：现价/最新价（元）
+  - `open` (number)：今开价（元）
+  - `high` (number)：当日最高价（元）
+  - `low` (number)：当日最低价（元）
+  - `volume` (number)：成交量（股）
+  - `amount` (number)：成交额（元）
+  - `sb_buy` (number)：超大单主动买入累计额（元）
+  - `sb_sell` (number)：超大单主动卖出累计额（元）
+  - `b_buy` (number)：大单主动买入累计额（元）
+  - `b_sell` (number)：大单主动卖出累计额（元）
+  - `m_buy` (number)：中单主动买入累计额（元）
+  - `m_sell` (number)：中单主动卖出累计额（元）
+  - `s_buy` (number)：小单主动买入累计额（元）
+  - `s_sell` (number)：小单主动卖出累计额（元）
+  - `ddjl_1d` (number)：当日大单净量（%）
+  - `ddjl_3d` (number)：近3日累计大单净量（%）
+  - `ddjl_5d` (number)：近5日累计大单净量（%）
+  - `ddjl_10d` (number)：近10日累计大单净量（%）
+  - `ddjl_20d` (number)：近20日累计大单净量（%）
+  - `mf_1d` (number)：当日主力净流入（元）
+  - `mf_3d` (number)：近3日累计主力净流入（元）
+  - `mf_5d` (number)：近5日累计主力净流入（元）
+  - `mf_10d` (number)：近10日累计主力净流入（元）
+  - `mf_20d` (number)：近20日累计主力净流入（元）
+
+### 获取所有个股实时资金流列表 — `get_ch_all_stock_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `symbol` (string)：股票符号
+  - `code` (string)：股票代码
+  - `time` (string)：
+  - `prev_close` (number)：
+  - `price` (number)：最新价
+  - `open` (number)：
+  - `high` (number)：
+  - `low` (number)：
+  - `volume` (integer)：
+  - `amount` (number)：
+  - `sb_buy` (number)：
+  - `sb_sell` (number)：
+  - `b_buy` (number)：
+  - `b_sell` (number)：
+  - `m_buy` (number)：
+  - `m_sell` (number)：
+  - `s_buy` (number)：
+  - `s_sell` (number)：
+  - `ddjl_1d` (number)：大单净流入（1日）
+  - `ddjl_3d` (number)：大单净流入（3日）
+  - `ddjl_5d` (number)：大单净流入（5日）
+  - `ddjl_10d` (number)：大单净流入（10日）
+  - `ddjl_20d` (number)：大单净流入（20日）
+  - `mf_1d` (number)：主力资金流向（1日）
+  - `mf_3d` (number)：主力资金流向（3日）
+  - `mf_5d` (number)：主力资金流向（5日）
+  - `mf_10d` (number)：主力资金流向（10日）
+  - `mf_20d` (number)：主力资金流向（20日）
+
+### 市场实时资金流数据 — `get_ch_all_market_l2_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `minline` (array<object>)：当日分时累计净流入序列，每分钟一条（09:30~15:00）
+  - `close_detail` (object)：买卖额明细
+
+### 上证指数实时资金流数据 — `get_ch_sh_market_l2_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `date` (string)：日期
+  - `super_big_net_amt` (number)：超大单净流入金额。单位：元
+  - `big_net_amt` (number)：大单净流入金额。单位：元
+  - `medium_net_amt` (number)：中单净流入金额。单位：元
+  - `small_net_amt` (number)：小单净流入金额。单位：元
+  - `super_big_in` (number)：超大单买入金额。单位：元
+  - `super_big_out` (number)：超大单卖出金额。单位：元
+  - `big_in` (number)：大单买入金额。单位：元
+  - `big_out` (number)：大单卖出金额。单位：元
+  - `medium_in` (number)：中单买入金额。单位：元
+  - `medium_out` (number)：中单卖出金额。单位：元
+  - `small_in` (number)：小单买入金额。单位：元
+  - `small_out` (number)：小单卖出金额。单位：元
+
+### 深圳市场实时资金流数据 — `get_ch_sz_market_l2_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `date` (string)：日期
+  - `super_big_net_amt` (number)：超大单净流入金额。单位：元
+  - `big_net_amt` (number)：大单净流入金额。单位：元
+  - `medium_net_amt` (number)：中单净流入金额。单位：元
+  - `small_net_amt` (number)：小单净流入金额。单位：元
+  - `super_big_in` (number)：超大单买入金额。单位：元
+  - `super_big_out` (number)：超大单卖出金额。单位：元
+  - `big_in` (number)：大单买入金额。单位：元
+  - `big_out` (number)：大单卖出金额。单位：元
+  - `medium_in` (number)：中单买入金额。单位：元
+  - `medium_out` (number)：中单卖出金额。单位：元
+  - `small_in` (number)：小单买入金额。单位：元
+  - `small_out` (number)：小单卖出金额。单位：元
+
+### 创业板实时资金流数据 — `get_ch_cyb_market_l2_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `date` (string)：日期
+  - `super_big_net_amt` (number)：超大单净流入金额。单位：元
+  - `big_net_amt` (number)：大单净流入金额。单位：元
+  - `medium_net_amt` (number)：中单净流入金额。单位：元
+  - `small_net_amt` (number)：小单净流入金额。单位：元
+  - `super_big_in` (number)：超大单买入金额。单位：元
+  - `super_big_out` (number)：超大单卖出金额。单位：元
+  - `big_in` (number)：大单买入金额。单位：元
+  - `big_out` (number)：大单卖出金额。单位：元
+  - `medium_in` (number)：中单买入金额。单位：元
+  - `medium_out` (number)：中单卖出金额。单位：元
+  - `small_in` (number)：小单买入金额。单位：元
+  - `small_out` (number)：小单卖出金额。单位：元
+
+### 科创板实时资金流数据 — `get_ch_kcb_market_l2_fund_flow`
+分类：Level2数据 ｜ 可测试：—
+
+  - `time` (string)：时间
+  - `date` (string)：日期
+  - `super_big_net_amt` (number)：超大单净流入金额。单位：元
+  - `big_net_amt` (number)：大单净流入金额。单位：元
+  - `medium_net_amt` (number)：中单净流入金额。单位：元
+  - `small_net_amt` (number)：小单净流入金额。单位：元
+  - `super_big_in` (number)：超大单买入金额。单位：元
+  - `super_big_out` (number)：超大单卖出金额。单位：元
+  - `big_in` (number)：大单买入金额。单位：元
+  - `big_out` (number)：大单卖出金额。单位：元
+  - `medium_in` (number)：中单买入金额。单位：元
+  - `medium_out` (number)：中单卖出金额。单位：元
+  - `small_in` (number)：小单买入金额。单位：元
+  - `small_out` (number)：小单卖出金额。单位：元
+
+### 逐笔还原通道 — `subscribe_ch_stock_l2_trans`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：6 位个股代码
+  - `id` (number)：成交序号
+  - `time` (string)：成交时间 HH:MM:SS
+  - `price` (number)：成交价（元）
+  - `vol` (number)：成交量（股）
+  - `side` (number)：0=主动买 1=主动卖
+  - `buy_order_no` (number)：买方委托号
+  - `sell_order_no` (number)：卖方委托号
+  - `buy_price` (number)：买方委托价
+  - `sell_price` (number)：卖方委托价
+  - `buy_vol` (number)：买方委托量（股）
+  - `sell_vol` (number)：卖方委托量（股）
+
+### 逐笔还原回放通道 — `subscribe_ch_stock_l2_replay_trans`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：6 位个股代码
+  - `id` (number)：成交序号
+  - `time` (string)：成交时间 HH:MM:SS
+  - `price` (number)：成交价（元）
+  - `vol` (number)：成交量（股）
+  - `side` (number)：0=主动买 1=主动卖
+  - `buy_order_no` (number)：买方委托号
+  - `sell_order_no` (number)：卖方委托号
+  - `buy_price` (number)：买方委托价
+  - `sell_price` (number)：卖方委托价
+  - `buy_vol` (number)：买方委托量（股）
+  - `sell_vol` (number)：卖方委托量（股）
+
+### 逐笔委托通道 — `subscribe_ch_stock_l2_order_ex`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：6 位个股代码
+  - `id` (number)：委托序号
+  - `tag` (number)：1=卖委托 2=买委托 3=卖撤 4=买撤
+  - `time` (string)：委托时间 HH:MM:SS.mmm
+  - `price` (number)：委托价（元）
+  - `vol` (number)：委托量（股）
+
+### 逐笔委托回放通道 — `subscribe_ch_stock_l2_replay_order`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：6 位个股代码
+  - `id` (number)：委托序号
+  - `tag` (number)：1=卖委托 2=买委托 3=卖撤 4=买撤
+  - `time` (string)：委托时间 HH:MM:SS.mmm
+  - `price` (number)：委托价（元）
+  - `vol` (number)：委托量（股）
+
+### 竞价匹配通道 — `subscribe_ch_stock_l2_auction`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：代码
+  - `time` (string)：快照时间
+  - `match_price` (number)：匹配价
+  - `match_vol` (number)：匹配量（股）
+  - `avg_buy_price` (number)：匹配均买价
+  - `avg_sell_price` (number)：匹配均卖价
+  - `unmatched` (number)：未匹配量（股）
+  - `buy_minus_match` (number)：均买价 − 匹配价
+  - `sell_minus_match` (number)：均卖价 − 匹配价
+  - `buy_offset_pct` (number)：均买价/匹配价−1（%）
+  - `sell_offset_pct` (number)：均卖价/匹配价−1（%）
+  - `auction_pct` (number)：匹配价/昨收−1（%）
+  - `avg_buy_pct` (number)：均买价/昨收−1（%）
+  - `avg_sell_pct` (number)：均卖价/昨收−1（%）
+  - `sell_levels` (array)：卖侧档位
+  - `buy_levels` (array)：买侧档位
+  - `chart` (array)：折线
+
+### 竞价匹配回放通道 — `subscribe_ch_stock_l2_replay_auction`
+分类：Level2数据 ｜ 可测试：—
+
+  - `code` (string)：代码
+  - `time` (string)：快照时间
+  - `match_price` (number)：匹配价
+  - `match_vol` (number)：匹配量（股）
+  - `avg_buy_price` (number)：匹配均买价
+  - `avg_sell_price` (number)：匹配均卖价
+  - `unmatched` (number)：未匹配量（股）
+  - `buy_minus_match` (number)：均买价 − 匹配价
+  - `sell_minus_match` (number)：均卖价 − 匹配价
+  - `buy_offset_pct` (number)：均买价/匹配价−1（%）
+  - `sell_offset_pct` (number)：均卖价/匹配价−1（%）
+  - `auction_pct` (number)：匹配价/昨收−1（%）
+  - `avg_buy_pct` (number)：均买价/昨收−1（%）
+  - `avg_sell_pct` (number)：均卖价/昨收−1（%）
+  - `sell_levels` (array)：卖侧档位
+  - `buy_levels` (array)：买侧档位
+  - `chart` (array)：折线
+
+### 订阅个股逐笔还原（按代码） — `ch_sub_trans_ex`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 订阅个股逐笔委托（按代码） — `ch_sub_order_ex`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 订阅个股竞价匹配（按代码） — `ch_sub_auction_ex`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 订阅个股千档（按代码） — `ch_stock_sub_thousand_level`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 回放个股逐笔还原（按代码） — `replay_ch_stock_tran`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 回放个股逐笔委托（按代码） — `replay_ch_stock_order`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
+
+### 回放个股竞价匹配（按代码） — `replay_ch_stock_auction`
+分类：Level2数据 ｜ 可测试：—
+
+  - `result` (array)：订阅注册结果，成功返回空列表
 
 ### 利润表 — `get_ch_stock_income_statement`
 分类：财务数据 ｜ 可测试：—
 
   - `net_profit_adjusted` (number)：扣除非经常性损益后的净利润
-  - `tag_time` (number)：报告期
+  - `tag_time` (string)：报告期
   - `net_profit_minority` (number)：少数股东损益
   - `basic_eps` (number)：基本每股收益
   - `me` (number)：综合收益总额
@@ -2108,7 +2033,7 @@
   - `operating_revenue` (number)：营业收入
   - `comprehensive_income` (number)：归属于母公司综合收益
   - `operating_costs` (number)：营业成本
-  - `announce_time` (number)：营业税金及附加
+  - `announce_time` (string)：营业税金及附加
   - `sales_expenses` (number)：sales_expenses
   - `management_expenses` (number)：管理费用
   - `financial_expenses` (number)：财务费用
@@ -2149,6 +2074,8 @@
   - `other_business_income` (number)：其他业务收入
   - `business_management_expenses` (number)：业务及管理费
   - `other_business_costs` (number)：其他业务成本
+  - `operating_expenses` (number)：
+  - `non_operating_expenses` (number)：
 
 ### 现金流表 — `get_ch_stock_cash_flow_statement`
 分类：财务数据 ｜ 可测试：—
@@ -2500,7 +2427,7 @@
   - `pre_net_profit` (number)：上年同期净利润(万元)
   - `code` (string)：个股代码
 
-### 财务核心指标(数据源SI) — `get_ch_si_stock_fin_key_indicators`
+### 财务核心指标(数据源C) — `get_ch_si_stock_fin_key_indicators`
 分类：财务数据 ｜ 可测试：—
 
   - `report_period` (string)：报告期, YYYY-MM-DD
@@ -2647,7 +2574,7 @@
   - `triexprt_tongbi` (number)：triexprt 同比
   - `upps_tongbi` (number)：upps 同比
 
-### 利润表(数据源SI) — `get_ch_si_stock_fin_income_statements`
+### 利润表(数据源C) — `get_ch_si_stock_fin_income_statements`
 分类：财务数据 ｜ 可测试：—
 
   - `report_period` (string)：报告期, YYYY-MM-DD
@@ -2812,7 +2739,7 @@
   - `unreinveloss_tongbi` (number)：unreinveloss 同比
   - `valuechgloss_tongbi` (number)：valuechgloss 同比
 
-### 资产负债表(数据源SI) — `get_ch_si_stock_fin_balance_sheet`
+### 资产负债表(数据源C) — `get_ch_si_stock_fin_balance_sheet`
 分类：财务数据 ｜ 可测试：—
 
   - `report_period` (string)：报告期, YYYY-MM-DD
@@ -3093,7 +3020,7 @@
   - `unseg_tongbi` (number)：unseg 同比
   - `warliabrese_tongbi` (number)：warliabrese 同比
 
-### 现金流表(数据源SI) — `get_ch_si_stock_fin_cash_flow`
+### 现金流表(数据源C) — `get_ch_si_stock_fin_cash_flow`
 分类：财务数据 ｜ 可测试：—
 
   - `report_period` (string)：报告期, YYYY-MM-DD
@@ -3226,7 +3153,7 @@
   - `tradepaymnetr_tongbi` (number)：tradepaymnetr 同比
   - `withinvgetcash_tongbi` (number)：withinvgetcash 同比
 
-### 个股财务核心指标(数据源Ea) — `get_ch_ea_stock_fin_key_indicators`
+### 个股财务核心指标(数据源B) — `get_ch_ea_stock_fin_key_indicators`
 分类：财务数据 ｜ 可测试：—
 
   - `basic_eps` (number)：基本每股收益(元) BASIC_EPS
@@ -3264,7 +3191,7 @@
   - `tag_date` (string)：报告日期
   - `report_type` (string)：报告类型
 
-### 个股资产负债表(数据源Ea) — `get_ch_ea_stock_fin_balance_sheet`
+### 个股资产负债表(数据源B) — `get_ch_ea_stock_fin_balance_sheet`
 分类：财务数据 ｜ 可测试：—
 
   - `secucode` (string)：股票代码(带市场)
@@ -3280,8 +3207,52 @@
   - `total_equity` (number)：股东权益合计(元)
   - `current_ratio` (number)：流动比率(%)
   - `debt_asset_ratio` (number)：资产负债率(%)
+  - `fixed_assets` (number)：
+  - `tag_date` (string)：
+  - `cash_and_cb_deposits` (number)：
+  - `interbank_deposits` (number)：
+  - `precious_metals` (number)：
+  - `funds_lent` (number)：
+  - `derivative_assets` (number)：
+  - `reverse_repo_assets` (number)：
+  - `loans_and_advances` (number)：
+  - `trading_assets` (number)：
+  - `debt_investments` (number)：
+  - `other_debt_investments` (number)：
+  - `other_equity_investments` (number)：
+  - `investment_property` (number)：
+  - `right_of_use_assets` (number)：
+  - `intangible_assets` (number)：
+  - `goodwill` (number)：
+  - `deferred_tax_assets` (number)：
+  - `other_assets` (number)：
+  - `cb_borrowings` (number)：
+  - `interbank_funds` (number)：
+  - `funds_borrowed` (number)：
+  - `trading_liabilities` (number)：
+  - `derivative_liabilities` (number)：
+  - `repo_liabilities` (number)：
+  - `customer_deposits` (number)：
+  - `employee_payable` (number)：
+  - `taxes_payable` (number)：
+  - `provisions` (number)：
+  - `bonds_payable` (number)：
+  - `lease_liabilities` (number)：
+  - `other_liabilities` (number)：
+  - `share_capital` (number)：
+  - `other_equity_instruments` (number)：
+  - `preferred_shares` (number)：
+  - `perpetual_bonds` (number)：
+  - `capital_reserve` (number)：
+  - `other_comprehensive_income` (number)：
+  - `surplus_reserve` (number)：
+  - `general_risk_reserve` (number)：
+  - `retained_earnings` (number)：
+  - `parent_company_equity` (number)：
+  - `total_liab_and_equity` (number)：
+  - `report_name` (string)：
 
-### 个股利润表(数据源Ea) — `get_ch_ea_stock_fin_income_statements`
+### 个股利润表(数据源B) — `get_ch_ea_stock_fin_income_statements`
 分类：财务数据 ｜ 可测试：—
 
   - `secucode` (string)：股票代码(带市场)
@@ -3299,7 +3270,7 @@
   - `parent_netprofit` (number)：归母净利润(元)
   - `deduct_parent_netprofit` (number)：扣非归母净利润(元)
 
-### 个股现金流量表(数据源Ea) — `get_ch_ea_stock_fin_cash_flow`
+### 个股现金流量表(数据源B) — `get_ch_ea_stock_fin_cash_flow`
 分类：财务数据 ｜ 可测试：—
 
   - `secucode` (string)：股票代码(带市场)
@@ -3311,23 +3282,84 @@
   - `construct_long_asset` (number)：购建固定资产支付(元)
   - `netcash_finance` (number)：筹资活动现金流净额(元)
   - `cce_add` (number)：现金净增加额(元)
+  - `pay_staff_cash` (number)：
+
+### 重点资讯新闻 — `get_core_new`
+分类：新闻资讯 ｜ 可测试：✅
+
+  - `key` ()：values
+  - `date` (string)：查询日期
+  - `data` ()：当日新闻列表
+  - `title` (string)：标题
+  - `content` (string)：正文
+  - `new_id` (string)：
+
+### 国内主要新闻 — `get_domestic_financial_news`
+分类：新闻资讯 ｜ 可测试：✅
+
+  - `key` ()：values
+  - `date` (string)：查询日期
+  - `data` ()：当日新闻列表
+  - `title` (string)：标题
+  - `content` (string)：正文
+  - `new_id` (string)：
+
+### 国际主要新闻 — `get_global_financial_news`
+分类：新闻资讯 ｜ 可测试：✅
+
+  - `key` ()：values
+  - `date` (string)：查询日期
+  - `data` ()：当日新闻列表
+  - `title` (string)：标题
+  - `content` (string)：正文
+  - `new_id` (string)：
+
+### 时评类新闻 — `get_options_news`
+分类：新闻资讯 ｜ 可测试：✅
+
+  - `key` ()：values
+  - `date` (string)：查询日期
+  - `data` ()：当日新闻列表
+  - `title` (string)：标题
+  - `content` (string)：正文
+  - `new_id` (string)：
+
+### 个股新闻 — `get_ch_stock_month_news`
+分类：新闻资讯 ｜ 可测试：—
+
+  - `title` (string)：标题
+  - `date` (string)：查询日期
+  - `content` (string)：正文
+  - `new_id` (string)：
+
+### 财经快讯(数据源sn) — `get_ch_sn_kx`
+分类：新闻资讯 ｜ 可测试：—
+
+  - `date` (string)：日期 YYYY-MM-DD
+  - `data` (array<object>)：
+
+### 财经快讯(数据源A) — `get_ch_sa_kx`
+分类：新闻资讯 ｜ 可测试：—
+
+  - `date` (string)：日期
+  - `data` (array<object>)：
 
 ### 订阅可转债实时行情通道 — `subscribe_ch_kzz_stock_real`
 分类：可转债 ｜ 可测试：—
 
   - `time` (string)：数据时间
+  - `code` (string)：
   - `close` (number)：当前价
   - `last_close` (number)：昨日收盘价
   - `open` (number)：今日开盘价
   - `high` (number)：今日最高价
   - `low` (number)：今日最低价
-  - `pre_volume` (number)：前成交量
-  - `volume` (number)：成交量
+  - `volume` (integer)：成交量
   - `amount` (number)：成交额（元）
-  - `buy_five` (list)：买五档价
-  - `buy_five_vol` (list)：买五档量
-  - `sell_five` (list)：卖五档价
-  - `sell_five_vol` (list)：卖五档量
+  - `buy_five` (array<number>)：买五档价
+  - `buy_five_vol` (array<integer>)：买五档量
+  - `sell_five` (array<number>)：卖五档价
+  - `sell_five_vol` (array<integer>)：卖五档量
   - `turnover` (number)：换手率（%）
   - `volume_ratio` (number)：量比
   - `bid_ask_ratio` (number)：委比（%）
@@ -3342,18 +3374,18 @@
 分类：可转债 ｜ 可测试：—
 
   - `time` (string)：数据时间
+  - `code` (string)：
   - `close` (number)：当前价
   - `last_close` (number)：昨日收盘价
   - `open` (number)：今日开盘价
   - `high` (number)：今日最高价
   - `low` (number)：今日最低价
-  - `pre_volume` (number)：前成交量
-  - `volume` (number)：成交量
+  - `volume` (integer)：成交量
   - `amount` (number)：成交额（元）
-  - `buy_five` (list)：买五档价
-  - `buy_five_vol` (list)：买五档量
-  - `sell_five` (list)：卖五档价
-  - `sell_five_vol` (list)：卖五档量
+  - `buy_five` (array<number>)：买五档价
+  - `buy_five_vol` (array<integer>)：买五档量
+  - `sell_five` (array<number>)：卖五档价
+  - `sell_five_vol` (array<integer>)：卖五档量
   - `turnover` (number)：换手率（%）
   - `volume_ratio` (number)：量比
   - `bid_ask_ratio` (number)：委比（%）
@@ -3369,23 +3401,550 @@
 
   - `code` (string)：可转债代码
   - `name` (string)：可转债名称
-  - `underlying_stock` (string)：正股代码
-  - `price` (number)：可转债现价（元）
-  - `underlying_stock_price` (number)：正股价（元）
-  - `convert_price` (number)：最新转股价（元）
-  - `convert_value` (number)：转股价值（元）
-  - `conversion_premium` (number)：转股溢价率（%）
-  - `convert_rate` (number)：转股价值
   - `outstanding_volume` (number)：未转股余额（万元）
-  - `cur_rate` (number)：当期利率（%）
   - `time_to_market` (string)：上市日期
-  - `end_date` (string)：到期日期
-  - `end_price` (number)：到期赎回价（元）
-  - `convert_date` (string)：转股起始日
+  - `underlying_stock` (string)：正股代码
+  - `convert_price` (number)：最新转股价（元）
+  - `cur_rate` (number)：当期利率（%）
   - `put_back_price` (number)：回售价（元）
+  - `convert_date` (string)：转股起始日
+  - `end_price` (number)：到期赎回价（元）
+  - `end_date` (string)：到期日期
+  - `convert_rate` (number)：转股价值
+  - `score` (string)：评分
+  - `convert_code` (string)：转股代码
+  - `underlying_stock_price` (number)：正股价（元）
+  - `price` (number)：可转债现价（元）
+  - `conversion_premium` (number)：转股溢价率（%）
+  - `convert_value` (number)：转股价值（元）
+  - `force_redeem_price` (number)：强赎触发价（元）
+  - `main_score` (string)：主力评分
+  - `real_value` (number)：
+  - `expire_yield` (number)：
   - `redeem_date` (string)：赎回日期
   - `redeem_price` (number)：赎回价格（元）
-  - `force_redeem_price` (number)：强赎触发价（元）
-  - `score` (number)：评分
-  - `main_score` (number)：主力评分
-  - `convert_code` (string)：转股代码
+  - `put_price` (number)：
+  - `put_date` (string)：
+
+### 获取ETF基金列表 — `get_ch_etf_stock_list`
+分类：ETF ｜ 可测试：—
+
+  - `code` (string)：代码
+  - `name` (string)：名称
+  - `shares_inside` (number)：场内份额（万份）
+  - `shares_inside_date` (string)：场内份额的截至日期
+  - `scale_inside` (number)：场内规模（元）
+  - `scale_inside_date` (string)：场内规模截止日期
+  - `establish_date` (string)：基金成立日期
+  - `fee_rate` (string)：运作费率
+  - `track_index` (string)：跟踪指数名称
+  - `track_index_symbol` (string)：跟踪指数代码
+
+### 获取ETF实时行情 — `get_ch_etf_real`
+分类：ETF ｜ 可测试：—
+
+  - `code` (string)：代码
+  - `name` (string)：名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `bid_p1` (number)：买一价
+  - `ask_p1` (number)：卖一价
+  - `volume` (integer)：成交量（份）
+  - `amount` (number)：成交额（元）
+  - `bid1_v` (integer)：买1量
+  - `bid1_p` (number)：买1价
+  - `bid2_v` (integer)：买2量
+  - `bid2_p` (number)：买2价
+  - `bid3_v` (integer)：买3量
+  - `bid3_p` (number)：买3价
+  - `bid4_v` (integer)：买4量
+  - `bid4_p` (number)：买4价
+  - `bid5_v` (integer)：买5量
+  - `bid5_p` (number)：买5价
+  - `ask1_v` (integer)：卖1量
+  - `ask1_p` (number)：卖1价
+  - `ask2_v` (integer)：卖2量
+  - `ask2_p` (number)：卖2价
+  - `ask3_v` (integer)：卖3量
+  - `ask3_p` (number)：卖3价
+  - `ask4_v` (integer)：卖4量
+  - `ask4_p` (number)：卖4价
+  - `ask5_v` (integer)：卖5量
+  - `ask5_p` (number)：卖5价
+  - `date` (string)：日期
+  - `time` (string)：时间
+  - `status` (string)：交易状态
+  - `after_status` (string)：
+  - `after_volume` (integer)：
+  - `after_amount` (number)：
+
+### 获取ETF日K线 — `get_ch_etf_day_k`
+分类：ETF ｜ 可测试：—
+
+  - `close` (number)：收盘价
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 订阅ETF实时行情 — `subscribe_ch_etf_real`
+分类：ETF ｜ 可测试：—
+
+  - `code` (string)：代码
+  - `name` (string)：名称
+  - `open` (number)：今开
+  - `last_close` (number)：昨收
+  - `price` (number)：现价/最新价
+  - `high` (number)：当日最高
+  - `low` (number)：当日最低
+  - `bid_p1` (number)：买一价
+  - `ask_p1` (number)：卖一价
+  - `volume` (integer)：成交量（份）
+  - `amount` (number)：成交额（元）
+  - `bid1_v` (integer)：买1量
+  - `bid1_p` (number)：买1价
+  - `bid2_v` (integer)：买2量
+  - `bid2_p` (number)：买2价
+  - `bid3_v` (integer)：买3量
+  - `bid3_p` (number)：买3价
+  - `bid4_v` (integer)：买4量
+  - `bid4_p` (number)：买4价
+  - `bid5_v` (integer)：买5量
+  - `bid5_p` (number)：买5价
+  - `ask1_v` (integer)：卖1量
+  - `ask1_p` (number)：卖1价
+  - `ask2_v` (integer)：卖2量
+  - `ask2_p` (number)：卖2价
+  - `ask3_v` (integer)：卖3量
+  - `ask3_p` (number)：卖3价
+  - `ask4_v` (integer)：卖4量
+  - `ask4_p` (number)：卖4价
+  - `ask5_v` (integer)：卖5量
+  - `ask5_p` (number)：卖5价
+  - `date` (string)：日期
+  - `time` (string)：时间
+  - `status` (string)：交易状态
+  - `after_status` (string)：
+  - `after_volume` (integer)：
+  - `after_amount` (number)：
+
+### 中国年度GDP同比增长率 — `get_ch_gdp_yearly_growth`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一次公布的年度GDP增速
+  - `consensus` (string)：市场预测的年度GDP增速（通常无预期）
+  - `actual` (string)：当期实际公布的年度GDP增速（如"5"表示5%）
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（通常无修正）
+  - `date` (string)：数据对应的统计周期
+
+### 中国季度GDP同比增长率 — `get_ch_gdp_quarter_rate`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一次公布的季度GDP同比增速
+  - `consensus` (string)：市场预测的季度GDP同比增速（空表示无预期）
+  - `actual` (string)：当期实际公布的季度GDP同比增速（如"5"表示5%）
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（通常无修正）
+  - `date` (string)：数据对应的统计周期
+
+### 中国季度GDP环比增长率 — `get_ch_gdp_qoq_rate`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一次公布的季度GDP环比增速
+  - `consensus` (string)：市场预测的季度GDP环比增速（通常无预期）
+  - `actual` (string)：当期实际公布的季度GDP环比增速（如"1.3"表示1.3%）
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（通常无修正）
+  - `date` (string)：数据对应的统计周期
+
+### 中国GDP 季度数据 — `get_ch_gdp_quarter_value`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一季度GDP总量，单位：亿
+  - `date` (string)：数据对应的统计周期
+  - `consensus` (string)：市场预测的季度GDP总量（空值表示无预期）
+  - `actual` (string)：当期实际公布的季度GDP总量（如"334193"表示334193亿元）
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（通常无修正）
+
+### 中国GDP年度值 — `get_ch_gdp_year_value`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一季度GDP总量，单位：亿
+  - `date` (string)：数据对应的统计周期
+  - `consensus` (string)：市场预测的季度GDP总量（空值表示无预期）
+  - `actual` (string)：当期实际公布的季度GDP总量（如"334193"表示334193亿元）
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（通常无修正）
+
+### 汇丰制造业PMI终值  — `get_hsbc_pmi_final`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一次公布的汇丰制造业PMI终值
+  - `date` (string)：数据对应的统计周期
+  - `consensus` (string)：市场预测的汇丰制造业PMI终值（空表示无预期）
+  - `actual` (string)：当期实际公布的终值
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（空表示未修正）
+
+### 汇丰制造业PMI初值 — `get_hsbc_pmi_preliminary`
+分类：宏观数据 ｜ 可测试：—
+
+  - `previous` (string)：上一次公布的汇丰制造业PMI初值
+  - `date` (string)：数据对应的统计周期
+  - `consensus` (string)：市场预测的汇丰制造业PMI初值（空表示无预期）
+  - `actual` (string)：当期实际公布的初值
+  - `pub_time` (string)：数据发布时间
+  - `revised` (string)：对前值的修正值（空表示未修正）
+
+### 中国全社会用电量同比 — `get_ch_electricity_use_history`
+分类：宏观数据 ｜ 可测试：—
+
+  - `tag_date` (string)：发布日期
+  - `attache_date` (string)：数据所属月份
+  - `val` (string)：数值
+  - `pre_val` (string)：前值
+  - `except_val` (string)：预期值
+
+### A股个股1分钟历史数据 — `a_stock_minute1_history`
+分类：特色数据 ｜ 可测试：—
+
+  - （该接口无结构化返回字段定义）
+
+### 订阅港股实时行情通道 — `subscribe_hk_stock_real`
+分类：港股行情 ｜ 可测试：—
+
+  - `code` (string)：代码（指数如 HSI.QQZS，个股如 02942.HK）
+  - `latest` (number)：最新价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `low` (number)：今日最低价
+  - `volume` (number)：成交量(手)
+  - `turnover` (number)：成交额
+  - `prev_close` (number)：昨收
+
+### 获取港股实时行情 — `get_hk_stock_real`
+分类：港股行情 ｜ 可测试：—
+
+  - `code` (string)：代码（指数如 HSI.QQZS，个股如 02942.HK）
+  - `latest` (number)：最新价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `low` (number)：今日最低价
+  - `volume` (number)：成交量(手)
+  - `turnover` (number)：成交额
+  - `prev_close` (number)：昨收
+
+### 订阅港股指数实时行情通道 — `subscribe_hk_market_real`
+分类：港股行情 ｜ 可测试：—
+
+  - `code` (string)：代码（指数如 HSI.QQZS，个股如 02942.HK）
+  - `latest` (number)：最新价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `low` (number)：今日最低价
+  - `volume` (number)：成交量
+  - `turnover` (number)：成交额
+  - `prev_close` (number)：昨收
+
+### 获取港股指数实时行情 — `get_hk_market_real`
+分类：港股行情 ｜ 可测试：—
+
+  - `code` (string)：代码（指数如 HSI.QQZS，个股如 02942.HK）
+  - `latest` (number)：最新价
+  - `open` (number)：今日开盘价
+  - `high` (number)：今日最高价
+  - `low` (number)：今日最低价
+  - `volume` (number)：成交量
+  - `turnover` (number)：成交额
+  - `prev_close` (number)：昨收
+
+### 港股股票列表 — `get_hk_stock`
+分类：港股行情 ｜ 可测试：—
+
+  - `name` (string)：
+  - `code` (string)：个股代码
+  - `total_shares` (number)：总股本(股)
+  - `time_to_market` (string)：上市日期
+
+### 港股个股历史日线 — `get_hk_stock_day_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 港股个股历史周线 — `get_hk_stock_week_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周内交易天数
+
+### 港股个股历史月线 — `get_hk_stock_month_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周内交易天数
+
+### 港股指数历史日线 — `get_hk_market_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+
+### 港股指数历史周线 — `get_hk_market_week_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周内交易天数
+
+### 港股指数历史月线 — `get_hk_market_month_history`
+分类：港股行情 ｜ 可测试：—
+
+  - `close` (number)：
+  - `open` (number)：开盘价
+  - `high` (number)：最高价
+  - `low` (number)：最低价
+  - `last_close` (number)：昨收价
+  - `volume` (number)：成交量(股)
+  - `amount` (number)：成交额(万元)
+  - `date` (string)：日期
+  - `trading_days` (integer)：周内交易天数
+
+### 港股主要财务指标 — `get_hk_stock_main_fin_data`
+分类：港股行情 ｜ 可测试：—
+
+  - `basic_eps` (number)：
+  - `diluted_eps` (number)：稀释每股收益(元)
+  - `ttm_eps` (number)：TTM每股收益(元)
+  - `bvps` (number)：每股净资产(元)
+  - `ops_cash_per_share` (number)：每股经营现金流(元)
+  - `ops_rev_per_share` (number)：每股营业收入(元)
+  - `total_revenue` (number)：营业总收入(元)
+  - `revenue_yoy` (number)：营业总收入同比增长(%)
+  - `revenue_qoq` (number)：营业总收入滚动环比增长(%)
+  - `gross_profit` (number)：毛利润(元)
+  - `gp_yoy` (number)：毛利润同比增长(%)
+  - `gp_qoq` (number)：
+  - `net_profit` (number)：
+  - `np_yoy` (number)：
+  - `np_qoq` (number)：
+  - `tax_to_profit` (number)：
+  - `ops_cf_to_rev` (number)：
+  - `avg_roe` (number)：
+  - `ann_roe` (number)：
+  - `roa` (number)：
+  - `gross_margin` (number)：
+  - `net_margin` (number)：
+  - `ann_roi` (number)：
+  - `ar_turnover` (number)：
+  - `inv_turnover` (number)：
+  - `ca_turnover` (number)：
+  - `ta_turnover` (number)：
+  - `current_ratio` (number)：
+  - `curr_liab_ratio` (number)：
+  - `debt_ratio` (number)：
+  - `equity_multi` (number)：
+  - `equity_ratio` (number)：
+  - `tag_date` (string)：
+  - `report_type` (string)：
+
+### 港股资产负债表 — `get_hk_stock_balance_sheet`
+分类：港股行情 ｜ 可测试：—
+
+  - `property_plant_equipment` (number)：
+  - `investment_property` (number)：投资物业
+  - `intangible_assets` (number)：无形资产
+  - `land_use_rights` (number)：土地使用权
+  - `construction_in_progress` (number)：在建工程
+  - `deferred_tax_assets` (number)：递延所得税资产
+  - `prepayments_other_assets` (number)：预付款项、按金及其他资产
+  - `investment_in_associates` (number)：于联营公司的投资
+  - `investment_in_joint_ventures` (number)：于合营公司的投资
+  - `fvtpl_financial_assets` (number)：指定以公允价值记账之金融资产
+  - `time_deposits` (number)：定期存款
+  - `other_financial_assets` (number)：
+  - `non_current_assets_total` (number)：
+  - `inventory` (number)：
+  - `accounts_receivable` (number)：
+  - `current_prepayments_other` (number)：
+  - `restricted_cash` (number)：
+  - `cash_cash_equivalents` (number)：
+  - `current_time_deposits` (number)：
+  - `current_fvtpl_financial_assets` (number)：
+  - `current_other_financial_assets` (number)：
+  - `current_assets_total` (number)：
+  - `total_assets` (number)：
+  - `accounts_payable` (number)：
+  - `notes_payable` (number)：
+  - `taxes_payable` (number)：
+  - `lease_liabilities` (number)：
+  - `deferred_revenue` (number)：
+  - `other_payables_accruals` (number)：
+  - `current_borrowings` (number)：
+  - `other_financial_liabilities` (number)：
+  - `current_liabilities_total` (number)：
+  - `non_current_borrowings` (number)：
+  - `deferred_tax_liabilities` (number)：
+  - `non_current_lease_liabilities` (number)：
+  - `non_current_deferred_revenue` (number)：
+  - `long_term_payables` (number)：
+  - `non_current_notes_payable` (number)：
+  - `non_current_other_financial_liabilities` (number)：
+  - `non_current_liabilities_total` (number)：
+  - `total_liabilities` (number)：
+  - `non_controlling_interests` (number)：
+  - `net_assets` (number)：
+  - `share_premium` (number)：
+  - `retained_earnings` (number)：
+  - `other_reserves` (number)：
+  - `treasury_shares` (number)：
+  - `equity_attributable_owners` (number)：
+  - `total_equity` (number)：
+  - `total_equity_non_current_liabilities` (number)：
+
+### 港股利润表 — `get_hk_stock_profit_statement`
+分类：港股行情 ｜ 可测试：—
+
+  - `report_date` (string)：
+  - `report_type` (string)：报告类型
+  - `turnover` (number)：营业额
+  - `other_revenue` (number)：其他收入
+  - `total_revenue` (number)：总收入
+  - `cost_of_revenue` (number)：收入成本
+  - `gross_profit` (number)：毛利
+  - `other_income_loss_net` (number)：其他收益/(亏损)净额
+  - `sales_marketing_expenses` (number)：销售及市场推广开支
+  - `general_admin_expenses` (number)：一般及行政开支
+  - `operating_profit` (number)：经营盈利
+  - `interest_income` (number)：
+  - `finance_costs` (number)：
+  - `share_of_associates_jv_profit_loss` (number)：
+  - `investment_income_loss_net` (number)：
+  - `profit_before_tax` (number)：
+  - `income_tax_expense` (number)：
+  - `profit_after_tax_continuing` (number)：
+  - `profit_after_tax` (number)：
+  - `non_controlling_interests` (number)：
+  - `profit_attributable_owners` (number)：
+  - `basic_eps` (number)：
+  - `diluted_eps` (number)：
+  - `other_comprehensive_income` (number)：
+  - `total_comprehensive_income` (number)：
+  - `comprehensive_income_nci` (number)：
+  - `comprehensive_income_owners` (number)：
+  - `currency` (string)：
+
+### 港股现金流表 — `get_hk_stock_cash_flow`
+分类：港股行情 ｜ 可测试：—
+
+  - `report_date` (string)：
+  - `report_type` (string)：报告类型
+  - `profit_before_tax_subtotal` (number)：除税前溢利小计
+  - `interest_income` (number)：利息收入
+  - `interest_and_related_expenses` (number)：利息及相关开支
+  - `dividend_income` (number)：股息收入
+  - `share_of_associates_jv_profit_loss` (number)：分占联营公司及合营公司的(盈利)/亏损净额
+  - `impairment_loss` (number)：无形资产、土地使用权、使用权资产、投资物业以及物业、设备及器材的减值净额
+  - `fv_gain_loss` (number)：以公允价值计量且其变动计入损益的金融资产及其他金融工具的公允价值收益净额
+  - `gain_on_disposal_of_assets` (number)：减:出售资产之溢利
+  - `depreciation_amortization` (number)：加:折旧及摊销
+  - `exchange_loss_gain` (number)：
+  - `operating_adjustment_other` (number)：
+  - `operating_profit_before_wc` (number)：
+  - `inventory_change` (number)：
+  - `accounts_receivable_change` (number)：
+  - `accounts_payable_change` (number)：
+  - `other_tax_liabilities_change` (number)：
+  - `prepayments_other_assets_change` (number)：
+  - `other_payables_accruals_change` (number)：
+  - `deferred_revenue_change` (number)：
+  - `cash_from_operating_activities` (number)：
+  - `income_tax_paid` (number)：
+  - `net_cash_from_operating_activities` (number)：
+  - `interest_received_investing` (number)：
+  - `dividends_received_investing` (number)：
+  - `deposits_change` (number)：
+  - `disposal_of_ppe` (number)：
+  - `purchase_of_intangible_assets` (number)：
+  - `disposal_of_subsidiaries` (number)：
+  - `acquisition_of_subsidiaries` (number)：
+  - `cash_from_investment_recovery` (number)：
+  - `cash_paid_for_investment` (number)：
+  - `investing_other_items` (number)：
+  - `net_cash_used_in_investing_activities` (number)：
+  - `cash_before_financing` (number)：
+  - `new_borrowings` (number)：
+  - `repayment_of_borrowings` (number)：
+  - `interest_paid_financing` (number)：
+  - `dividends_paid_financing` (number)：
+  - `issue_of_shares` (number)：
+  - `share_repurchase` (number)：
+  - `repayment_of_notes_payable` (number)：
+  - `proceeds_from_notes_payable` (number)：
+  - `lease_principal_payments` (number)：
+  - `purchase_minority_interest` (number)：
+  - `share_options_tax_payment` (number)：
+  - `net_cash_used_in_financing_activities` (number)：
+  - `net_increase_decrease_cash` (number)：
+  - `opening_cash_equivalents` (number)：
+
+### 获取美股指数实时行情 — `get_us_market_real`
+分类：美股行情 ｜ 可测试：—
+
+  - （该接口无结构化返回字段定义）
+
+### 获取美股个股实时行情 — `get_us_stock_real`
+分类：美股行情 ｜ 可测试：—
+
+  - （该接口无结构化返回字段定义）
+
+### 订阅美股指数实时行情通道 — `subscribe_us_market_real`
+分类：美股行情 ｜ 可测试：—
+
+  - （该接口无结构化返回字段定义）
+
+### 订阅美股个股实时行情通道 — `subscribe_us_stock_real`
+分类：美股行情 ｜ 可测试：—
+
+  - （该接口无结构化返回字段定义）
+

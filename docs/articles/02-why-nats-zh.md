@@ -50,7 +50,7 @@ PandaStock 的数据通道分两层：
 客户端 → NATS subject "ChOneStockReal" → 服务端 → 响应
 ```
 
-一次请求，一次响应。适合单只股票查询、K 线拉取、资讯获取。176 个服务端
+一次请求，一次响应。适合单只股票查询、K 线拉取、资讯获取。210 个服务端
 接口都是这个模式。
 
 ### 发布/订阅（推送）
@@ -112,9 +112,8 @@ MCP 工具的调用模式天然是请求/响应（Agent 问 → 工具答）。�
 
 ## 试试
 
-- 仓库（国内直连）：https://gitee.com/nutou123/pandastocksdk
-- GitHub 镜像：https://github.com/D-Asce/pandastocksdk
-- 接口清单：`INTERFACES.md`（176 服务端接口，22 开放）
+- 仓库：https://github.com/D-Asce/pandastocksdk
+- 接口清单：`INTERFACES.md`（210 服务端接口，22 开放）
 - 测试账号：`pandastock` / `pandastock`
 
 ---

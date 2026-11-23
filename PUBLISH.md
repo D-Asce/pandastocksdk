@@ -3,6 +3,9 @@
 > 诊断结论：产品层已完备（MCP server / PyPI / Pages / SKILL.md），但**发现层为空** —— 官方 MCP 注册表、Smithery、mcp.so 均未收录，GitHub topics 为空。
 > 本文件是可直接执行的上架步骤。所有命令在仓库根目录执行。
 
+> ⚠️ **2026-11-23 口径更新**：服务端接口目录已从 176 个扩展到 **210 个**（schema `pandastock.api.v3`，`generated_at=2026-11-22`，v3.5.0 新增 6 个 Level2 通道并扩展港股/美股）。下方历史记录中出现的 176/22 为当时提交时的口径，仅作存档；**新的提交、描述与收录更新一律使用 210 个接口 / 182 request / 27 subscribe / 1 data / 22 个开放接口**。
+
+
 **核查时间：2026-09-26**，当时状态：
 
 | 渠道 | 状态 | 证据 |
@@ -181,7 +184,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 | 渠道 | 提交入口 | 需要内容 |
 |---|---|---|
 | Glama | https://glama.ai/mcp 中的 Submit | 仓库已有 `glama.json`，填 repo URL 即可；也会从 GitHub topics 自动索引 |
-| SeekTool.ai | 已收录；反链已恢复到 README 文末「已收录渠道」区块（`b7c924f`） | 更新描述为「176 个接口，22 个免注册可试」 |
+| SeekTool.ai | 已收录；反链已恢复到 README 文末「已收录渠道」区块（`b7c924f`） | 更新描述为「210 个接口，22 个免注册可试」 |
 | ToolPilot.ai | 同上 | 同上 |
 | 中文广场：DataWhale MCP 列表 / 魔搭 ModelScope MCP / 阿里云百炼 | 各自 GitHub issue 或表单 | 中文描述 + 免注册测试账号是加分项 |
 | 中文自动收录站 | mcphello.com / mcpapp.net / followmcp.com / jindage.com / mcpradars.com / mcp.aibase.com | 多为 GitHub 每日自动同步，**设完 topics 后逐个核实是否已收录**，缺的再手动提 |
@@ -191,7 +194,7 @@ Smithery 支持从 GitHub 仓库自动索引：
 
 > 提交描述统一口径（**不要再出现 166**）：
 >
-> > pandaData：A 股实时数据 MCP Server。NATS 推送行情 / Level2 / DDX 大单 / 资金流 / AI 选股。服务端 176 个接口，22 个开放接口，**提供免注册公共测试账号**，`pip install pandastock-mcp` 即用。
+> > pandaData：A 股实时数据 MCP Server。NATS 推送行情 / Level2 / DDX 大单 / 资金流 / AI 选股。服务端 210 个接口，22 个开放接口，**提供免注册公共测试账号**，`pip install pandastock-mcp` 即用。
 
 ### 4e. 2026-09-27 执行记录（本轮新增）
 
